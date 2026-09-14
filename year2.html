@@ -8,6 +8,7 @@
     <title>Year 2 - SmartLearn Online</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -184,6 +185,42 @@
                 padding: 18px;
             }
         }
+        /* BACK BUTTON */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    text-decoration: none;
+
+    background: white;
+    color: #6c63ff;
+
+    padding: 13px 22px;
+    border-radius: 14px;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    border: 2px solid #e0e7ff;
+
+    box-shadow: 0 6px 18px rgba(108, 99, 255, 0.12);
+
+    margin-bottom: 25px;
+
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+    color: white;
+
+    border-color: transparent;
+
+    transform: translateX(-5px);
+
+    box-shadow: 0 10px 25px rgba(108, 99, 255, 0.25);
+}
     </style>
 </head>
 
@@ -205,6 +242,9 @@
 
     <!-- MAIN CONTENT -->
     <main class="container">
+         <a href="year.html" class="back-btn">
+        ← Back to Year 1 - Year 6
+    </a>
 
         <section class="intro-card">
 
@@ -220,65 +260,13 @@
         <!-- TOPIC BUTTONS -->
         <section class="topic-grid">
 
-            <!-- UNIT 1 -->
-            <button class="topic-card" onclick="openTopic(1)">
-                <div class="topic-icon">🎉</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 1</div>
-                    <h3>Hooray! We Are Back</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 2 -->
-            <button class="topic-card" onclick="openTopic(2)">
-                <div class="topic-icon">🤝</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 2</div>
-                    <h3>Do the Right Thing</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 3 -->
-            <button class="topic-card" onclick="openTopic(3)">
-                <div class="topic-icon">📍</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 3</div>
-                    <h3>Where Am I?</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 4 -->
-            <button class="topic-card" onclick="openTopic(4)">
-                <div class="topic-icon">📖</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 4</div>
-                    <h3>Read Me a Story</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
             <!-- UNIT 5 -->
-            <button class="topic-card" onclick="openTopic(5)">
+      <button class="topic-card" onclick="window.location.href='unit5y2.html'">
                 <div class="topic-icon">⭐</div>
 
                 <div class="topic-info">
                     <div class="unit">Unit 5</div>
-                    <h3>I Am Special</h3>
+                    <h3>Free Time</h3>
                 </div>
 
                 <div class="arrow">→</div>
@@ -291,7 +279,7 @@
 
                 <div class="topic-info">
                     <div class="unit">Unit 6</div>
-                    <h3>Delicious Food</h3>
+                    <h3>The old House</h3>
                 </div>
 
                 <div class="arrow">→</div>
@@ -304,7 +292,7 @@
 
                 <div class="topic-info">
                     <div class="unit">Unit 7</div>
-                    <h3>Hobbies</h3>
+                    <h3>Get Dressed</h3>
                 </div>
 
                 <div class="arrow">→</div>
@@ -317,7 +305,7 @@
 
                 <div class="topic-info">
                     <div class="unit">Unit 8</div>
-                    <h3>Growing Plants</h3>
+                    <h3>The Robot</h3>
                 </div>
 
                 <div class="arrow">→</div>
@@ -330,124 +318,7 @@
 
                 <div class="topic-info">
                     <div class="unit">Unit 9</div>
-                    <h3>When I Grow Up</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 10 -->
-            <button class="topic-card" onclick="openTopic(10)">
-                <div class="topic-icon">💝</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 10</div>
-                    <h3>Caring and Sharing</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 11 -->
-            <button class="topic-card" onclick="openTopic(11)">
-                <div class="topic-icon">👕</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 11</div>
-                    <h3>Looking Good</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 12 -->
-            <button class="topic-card" onclick="openTopic(12)">
-                <div class="topic-icon">🐄</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 12</div>
-                    <h3>On the Farm</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 13 -->
-            <button class="topic-card" onclick="openTopic(13)">
-                <div class="topic-icon">❤️</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 13</div>
-                    <h3>Good Deeds</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 14 -->
-            <button class="topic-card" onclick="openTopic(14)">
-                <div class="topic-icon">💧</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 14</div>
-                    <h3>Precious Drops</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 15 -->
-            <button class="topic-card" onclick="openTopic(15)">
-                <div class="topic-icon">🐠</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 15</div>
-                    <h3>Save the Sea Creatures</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 16 -->
-            <button class="topic-card" onclick="openTopic(16)">
-                <div class="topic-icon">♻️</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 16</div>
-                    <h3>Reuse, Recycle</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 17 -->
-            <button class="topic-card" onclick="openTopic(17)">
-                <div class="topic-icon">🐉</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 17</div>
-                    <h3>Myths</h3>
-                </div>
-
-                <div class="arrow">→</div>
-            </button>
-
-
-            <!-- UNIT 18 -->
-            <button class="topic-card" onclick="openTopic(18)">
-                <div class="topic-icon">😊</div>
-
-                <div class="topic-info">
-                    <div class="unit">Unit 18</div>
-                    <h3>Feeling Happy, Feeling Sad</h3>
+                    <h3>At The Beach</h3>
                 </div>
 
                 <div class="arrow">→</div>
