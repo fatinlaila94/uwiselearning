@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartLearn Games</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f7fb;
+            color: #25253a;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 35px 7%;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .back-btn {
+            margin-bottom: 25px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            background: #6c63ff;
+            color: white;
+            cursor: pointer;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .games {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .game-card {
+            background: white;
+            padding: 35px 20px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .game-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .game-card h3 {
+            margin: 10px 0;
+        }
+
+        .game-card p {
+            color: #666;
+        }
+
+        @media (max-width: 700px) {
+            .games {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎮 SmartLearn Games</h1>
+    <p id="yearTitle">Choose Your Game</p>
+</header>
+
+<div class="container">
+
+    <button class="back-btn" onclick="goBack()">
+        ← Back to Years
+    </button>
+
+    <h2>Select a Game</h2>
+
+    <div class="games">
+
+        <div class="game-card" onclick="openScramble()">
+            <div class="game-icon">🔤</div>
+            <h3>Word Scramble</h3>
+            <p>Unscramble the letters</p>
+        </div>
+
+        <div class="game-card" onclick="openMatching()">
+            <div class="game-icon">🧩</div>
+            <h3>Word Matching</h3>
+            <p>Match the word with the picture</p>
+        </div>
+
+        <div class="game-card" onclick="openQuiz()">
+            <div class="game-icon">📝</div>
+            <h3>English Quiz</h3>
+            <p>Test your English knowledge</p>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const urlParams = new URLSearchParams(window.location.search);
+
+const year = urlParams.get("year") || "1";
+
+document.getElementById("yearTitle").textContent =
+    "Year " + year + " Games";
+
+
+function openScramble() {
+    window.location.href = "scramble.html?year=" + year;
+}
+
+
+function openMatching() {
+    window.location.href = "wordmatching.html?year=" + year;
+}
+
+
+function openQuiz() {
+    window.location.href = "english1.html?year=" + year;
+}
+
+
+function goBack() {
+    window.location.href = "year.html";
+}
+
+</script>
+
+</body>
+
+</html>

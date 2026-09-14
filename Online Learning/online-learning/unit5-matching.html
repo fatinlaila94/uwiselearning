@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Word Matching - SmartLearn</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f7fb;
+            color: #25253a;
+        }
+
+        header {
+            background: linear-gradient(135deg, #06024d, #7c3aed);
+            color: rgb(226, 226, 226);
+            padding: 30px 7%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .game-card {
+            background: rgb(172, 214, 233);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+     .words {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 25px;
+}
+
+.words > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.words button {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.words img {
+    width: 120px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #eef0ff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #dddfff;
+        }
+
+        .selected {
+            background: #c7d2fe;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: #03011f;
+            color: white;
+            margin-bottom: 20px;
+        }
+.game-image {
+    width: 700px !important;
+    height: 350px !important;
+    object-fit: cover;
+    border-radius: 18px;
+    margin: 0px auto 20px;
+    display: block;
+}
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎯 Word Matching Game</h1>
+    <p>Free Time — Learn, Play & Make Every Moment Meaningful!
+Use your free time wisely and remember Allah in all you do. 🤍</p>
+</header>
+
+<div class="container">
+
+    <button class="back-btn" onclick="goBack()">
+        ← Back
+    </button>
+
+    <div class="game-card">
+
+        <h2>Match the Words</h2>
+<img src="image/Assalamuaalaikum%20(2)%20(1).png" alt="Salam" class="game-image">
+
+        <p>Click an English word, then click its correct meaning.</p>
+
+        <div class="words">
+
+            <div>
+                <button onclick="selectWord(this, 'swimming')">Swimming</button>
+                <button onclick="selectWord(this, 'reading')">Reading</button>
+                <button onclick="selectWord(this, 'play')">Play</button>
+                <button onclick="selectWord(this, 'hours')">Hours</button>
+                <button onclick="selectWord(this, 'monday')">Monday</button>
+            </div>
+
+            <div>
+                <button onclick="selectMeaning(this, 'swimming')">
+    <img src="image/swimming.jpg"
+         alt="Swimming"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+                <button onclick="selectMeaning(this, 'play')">
+    <img src="image/play.jpg"
+         alt="Play"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+               <button onclick="selectMeaning(this, 'monday')">
+    <img src="image/monday.jpg"
+         alt="Monday"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+              <button onclick="selectMeaning(this, 'hours')">
+    <img src="image/hours.jpg"
+         alt="Hours"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+                <button onclick="selectMeaning(this, 'reading')">
+    <img src="image/reading.jpg"
+         alt="Reading"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+
+            </div>
+
+        </div>
+
+        <p id="result"></p>
+
+    </div>
+
+</div>
+
+<script>
+
+let selectedWord = null;
+let score = 0;
+
+function selectWord(button, word) {
+
+    selectedWord = word;
+
+    document.querySelectorAll(".words button").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+}
+
+function selectMeaning(button, meaning) {
+
+    if (selectedWord === null) {
+        return;
+    }
+
+    if (selectedWord === meaning) {
+
+        score++;
+
+        button.disabled = true;
+
+        document.getElementById("result").textContent =
+            "✅ Correct! Score: " + score + "/5";
+
+        selectedWord = null;
+if (score === 5) {
+        document.getElementById("result").textContent =
+            "🏆 Well done! You matched all 5 words!";
+    }
+    } else {
+
+        document.getElementById("result").textContent =
+            "❌ Wrong match. Try again!";
+    }
+}
+
+function goBack() {
+    window.location.href = "unit5y2.html";
+}
+
+</script>
+
+</body>
+</html>

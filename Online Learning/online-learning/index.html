@@ -1,0 +1,129 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartLearn Online</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>SmartLearn Online</h1>
+        <p>Learn • Play • Grow</p>
+    </header>
+
+    <main>
+
+        <h2>Welcome to SmartLearn! 🎓</h2>
+
+        <p id="studentEmail"></p>
+
+        <p>
+            Learn from home with fun lessons,
+            simple games and interactive activities.
+        </p>
+
+        <br>
+
+        <button onclick="startLearning()">
+            Start Learning 📚
+        </button>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+    </main>
+
+    <footer>
+        <p>© 2026 SmartLearn Online</p>
+    </footer>
+
+
+    <script>
+
+        // =========================
+        // SUPABASE
+        // =========================
+
+        const SUPABASE_URL = "https://exaohyhqllzylcfyqtge.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+
+        const supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+
+        // =========================
+        // CHECK LOGIN
+        // =========================
+
+        async function checkUser() {
+
+            const { data, error } =
+                await supabaseClient.auth.getUser();
+
+            if (error || !data.user) {
+
+                // Kalau belum login,
+                // pergi ke login page
+                window.location.href = "login.html";
+
+                return;
+            }
+
+            // Paparkan email student
+            document.getElementById("studentEmail").innerText =
+                "Logged in as: " + data.user.email;
+        }
+
+
+        // =========================
+        // LOGOUT
+        // =========================
+
+        async function logout() {
+
+            const { error } =
+                await supabaseClient.auth.signOut();
+
+            if (error) {
+
+                console.error(error);
+                return;
+            }
+
+            // Balik ke login
+            window.location.href = "login.html";
+        }
+
+
+        // =========================
+        // START LEARNING
+        // =========================
+
+   function startLearning() {
+
+    window.location.href = "dashboard.html";
+
+}
+
+
+        // Check user bila page dibuka
+        checkUser();
+
+    </script>
+
+</body>
+</html>
+```

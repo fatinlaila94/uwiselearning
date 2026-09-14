@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Unit 5 Games - SmartLearn</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background:
+            radial-gradient(circle at top left, #ddd6fe 0%, transparent 30%),
+            radial-gradient(circle at bottom right, #e0e7ff 0%, transparent 30%),
+            linear-gradient(135deg, #f8f7ff, #eef2ff, #f8fafc);
+        min-height: 100vh;
+        color: #1e293b;
+    }
+
+    /* =========================
+       CONTAINER
+    ========================= */
+
+    .container {
+        max-width: 1150px;
+        margin: auto;
+        padding: 45px 25px 70px;
+    }
+
+    /* =========================
+       BACK BUTTON
+    ========================= */
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+
+        text-decoration: none;
+
+        background: rgba(255,255,255,0.85);
+        color: #6c63ff;
+
+        padding: 13px 22px;
+        border-radius: 14px;
+
+        font-size: 15px;
+        font-weight: bold;
+
+        border: 2px solid #e0e7ff;
+
+        box-shadow: 0 6px 18px rgba(108, 99, 255, 0.12);
+
+        margin-bottom: 35px;
+
+        transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+        background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+        color: white;
+        border-color: transparent;
+        transform: translateX(-5px);
+
+        box-shadow: 0 10px 25px rgba(108, 99, 255, 0.25);
+    }
+
+    /* =========================
+       HERO HEADER
+    ========================= */
+
+    .hero {
+        position: relative;
+        overflow: hidden;
+
+        background: linear-gradient(
+            135deg,
+            #6c63ff,
+            #7c5ce8,
+            #8b5cf6
+        );
+
+        color: white;
+
+        border-radius: 30px;
+
+        padding: 55px 30px;
+
+        text-align: center;
+
+        box-shadow:
+            0 20px 45px rgba(108, 99, 255, 0.25);
+
+        margin-bottom: 45px;
+    }
+
+    /* decorative circles */
+
+    .hero::before {
+        content: "";
+        position: absolute;
+
+        width: 220px;
+        height: 220px;
+
+        background: rgba(255,255,255,0.10);
+
+        border-radius: 50%;
+
+        top: -100px;
+        left: -70px;
+    }
+
+    .hero::after {
+        content: "";
+        position: absolute;
+
+        width: 180px;
+        height: 180px;
+
+        background: rgba(255,255,255,0.08);
+
+        border-radius: 50%;
+
+        bottom: -90px;
+        right: -50px;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-icon {
+        font-size: 58px;
+        margin-bottom: 12px;
+    }
+
+    .hero h1 {
+        margin: 0;
+
+        font-size: 44px;
+
+        letter-spacing: -1px;
+    }
+
+    .hero p {
+        margin: 14px 0;
+
+        font-size: 18px;
+
+        color: #ede9fe;
+    }
+
+    .unit-name {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        background: rgba(255,255,255,0.16);
+
+        border: 1px solid rgba(255,255,255,0.25);
+
+        padding: 11px 20px;
+
+        border-radius: 30px;
+
+        font-size: 15px;
+        font-weight: bold;
+
+        margin-top: 10px;
+
+        backdrop-filter: blur(8px);
+    }
+
+    /* =========================
+       SECTION TITLE
+    ========================= */
+
+    .section-heading {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .section-heading h2 {
+        margin: 0 0 8px;
+
+        font-size: 28px;
+
+        color: #334155;
+    }
+
+    .section-heading p {
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 15px;
+    }
+
+    /* =========================
+       GAME GRID
+    ========================= */
+
+    .games {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 28px;
+    }
+
+    /* =========================
+       GAME CARD
+    ========================= */
+
+    .game-card {
+        position: relative;
+
+        background: rgba(255,255,255,0.92);
+
+        padding: 35px 30px;
+
+        border-radius: 24px;
+
+        text-align: center;
+
+        border: 1px solid rgba(226,232,240,0.8);
+
+        box-shadow:
+            0 12px 35px rgba(15,23,42,0.07);
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease,
+            border-color 0.3s ease;
+
+        overflow: hidden;
+    }
+
+    .game-card::before {
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 5px;
+
+        background: linear-gradient(
+            90deg,
+            #6c63ff,
+            #8b5cf6
+        );
+    }
+
+    .game-card:hover {
+        transform: translateY(-8px);
+
+        box-shadow:
+            0 20px 45px rgba(108,99,255,0.16);
+
+        border-color: #ddd6fe;
+    }
+
+    /* =========================
+       GAME ICON
+    ========================= */
+
+    .game-icon {
+        width: 85px;
+        height: 85px;
+
+        margin: 0 auto 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 24px;
+
+        background: linear-gradient(
+            135deg,
+            #eef2ff,
+            #f3e8ff
+        );
+
+        font-size: 48px;
+
+        box-shadow:
+            inset 0 0 0 1px rgba(139,92,246,0.08);
+    }
+
+    /* =========================
+       CARD TEXT
+    ========================= */
+
+    .game-card h2 {
+        margin: 10px 0 10px;
+
+        font-size: 23px;
+
+        color: #334155;
+    }
+
+    .game-card p {
+        color: #64748b;
+
+        line-height: 1.6;
+
+        min-height: 52px;
+
+        margin-bottom: 20px;
+    }
+
+    /* =========================
+       PLAY BUTTON
+    ========================= */
+
+    .play-btn {
+        border: none;
+
+        background: linear-gradient(
+            135deg,
+            #6c63ff,
+            #8b5cf6
+        );
+
+        color: white;
+
+        padding: 13px 28px;
+
+        border-radius: 13px;
+
+        font-size: 15px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 8px 18px rgba(108,99,255,0.22);
+
+        transition: all 0.25s ease;
+    }
+
+    .play-btn:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 12px 24px rgba(108,99,255,0.30);
+    }
+
+    .play-btn:active {
+        transform: scale(0.97);
+    }
+
+    /* =========================
+       BADGE
+    ========================= */
+
+    .game-badge {
+        position: absolute;
+
+        top: 18px;
+        right: 18px;
+
+        background: #f3e8ff;
+
+        color: #7c3aed;
+
+        font-size: 11px;
+
+        font-weight: bold;
+
+        padding: 6px 10px;
+
+        border-radius: 20px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer-note {
+        text-align: center;
+
+        margin-top: 40px;
+
+        color: #94a3b8;
+
+        font-size: 14px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 800px) {
+
+        .container {
+            padding: 30px 18px 50px;
+        }
+
+        .hero {
+            padding: 40px 20px;
+            border-radius: 24px;
+        }
+
+        .hero h1 {
+            font-size: 32px;
+        }
+
+        .hero p {
+            font-size: 16px;
+        }
+
+        .games {
+            grid-template-columns: 1fr;
+        }
+
+        .game-card {
+            padding: 30px 22px;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container">
+
+```
+<!-- BACK -->
+<a href="year2.html" class="back-btn">
+    ← Back to Year 2
+</a>
+
+
+<!-- HERO -->
+<div class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-icon">
+            🎮
+        </div>
+
+        <h1>Unit 5 Games</h1>
+
+        <p>
+            🌟 Learn, Play & Grow with Purpose!
+        </p>
+
+        <div class="unit-name">
+            ⭐ Unit 5 — Free Time
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SECTION TITLE -->
+
+<div class="section-heading">
+
+    <h2>Choose Your Game 🎯</h2>
+
+    <p>
+        Pick a game and have fun while learning!
+    </p>
+
+</div>
+
+
+<!-- GAMES -->
+
+<div class="games">
+
+
+    <!-- QUIZ -->
+
+    <div class="game-card">
+
+        <div class="game-badge">
+            THINK
+        </div>
+
+        <div class="game-icon">
+            🧠
+        </div>
+
+        <h2>
+            Quiz
+        </h2>
+
+        <p>
+            Test your knowledge with fun
+            Free Time questions.
+        </p>
+
+        <button
+            class="play-btn"
+            onclick="openQuiz()">
+
+            Play Quiz →
+            
+        </button>
+
+    </div>
+
+
+    <!-- SCRAMBLE -->
+
+    <div class="game-card">
+
+        <div class="game-badge">
+            WORDS
+        </div>
+
+        <div class="game-icon">
+            🔤
+        </div>
+
+        <h2>
+            Scramble Words
+        </h2>
+
+        <p>
+            Unscramble the letters and
+            discover the correct word.
+        </p>
+
+        <button
+            class="play-btn"
+            onclick="openScramble()">
+
+            Play Game →
+
+        </button>
+
+    </div>
+
+
+    <!-- MATCHING -->
+
+    <div class="game-card">
+
+        <div class="game-badge">
+            MATCH
+        </div>
+
+        <div class="game-icon">
+            🧩
+        </div>
+
+        <h2>
+            Matching
+        </h2>
+
+        <p>
+            Match each word with
+            the correct picture.
+        </p>
+
+        <button
+            class="play-btn"
+            onclick="openMatching()">
+
+            Play Game →
+
+        </button>
+
+    </div>
+
+
+    <!-- MEMORY FLIP -->
+
+    <div class="game-card">
+
+        <div class="game-badge">
+            NEW
+        </div>
+
+        <div class="game-icon">
+            🃏
+        </div>
+
+        <h2>
+            Memory Flip
+        </h2>
+
+        <p>
+            Flip the cards, remember the
+            activities and find all the pairs.
+        </p>
+
+        <button
+            class="play-btn"
+            onclick="openMemory()">
+
+            Play Game →
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<div class="footer-note">
+
+    ✨ Every moment is a chance to learn something new.
+
+</div>
+```
+
+</div>
+
+<script>
+
+    function openQuiz() {
+        window.location.href = "unit5-quiz.html";
+    }
+
+    function openScramble() {
+        window.location.href = "unit5-scramble.html";
+    }
+
+    function openMatching() {
+        window.location.href = "unit5-matching.html";
+    }
+
+    function openMemory() {
+        window.location.href = "unit5-memory.html";
+    }
+
+</script>
+
+</body>
+</html>

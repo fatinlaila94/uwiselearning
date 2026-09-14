@@ -1,0 +1,355 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Year 2 - SmartLearn Online</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f3ff, #eef2ff, #f8fafc);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            color: white;
+            padding: 35px 20px 45px;
+            text-align: center;
+            border-radius: 0 0 35px 35px;
+            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.20);
+        }
+
+        .header .small-title {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        /* MAIN */
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: -20px auto 50px;
+        }
+
+        .intro-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+            text-align: center;
+        }
+
+        .intro-card h2 {
+            color: #4f46e5;
+            margin-bottom: 8px;
+        }
+
+        .intro-card p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* TOPIC GRID */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .topic-card {
+            width: 100%;
+            border: none;
+            background: white;
+            border-radius: 20px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.07);
+            transition: all 0.25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(#6c63ff, #8b5cf6);
+        }
+
+        .topic-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(108, 99, 255, 0.18);
+        }
+
+        .topic-icon {
+            min-width: 58px;
+            width: 58px;
+            height: 58px;
+            border-radius: 16px;
+            background: #f0edff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .topic-info {
+            flex: 1;
+        }
+
+        .topic-info .unit {
+            font-size: 12px;
+            font-weight: bold;
+            color: #8b5cf6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .topic-info h3 {
+            font-size: 17px;
+            color: #1f2937;
+            line-height: 1.3;
+        }
+
+        .arrow {
+            font-size: 22px;
+            color: #8b5cf6;
+            font-weight: bold;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+            padding: 10px 20px 30px;
+        }
+
+        /* TABLET */
+        @media (max-width: 850px) {
+            .topic-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .container {
+                width: 92%;
+            }
+
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topic-card {
+                padding: 18px;
+            }
+        }
+        /* BACK BUTTON */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    text-decoration: none;
+
+    background: white;
+    color: #6c63ff;
+
+    padding: 13px 22px;
+    border-radius: 14px;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    border: 2px solid #e0e7ff;
+
+    box-shadow: 0 6px 18px rgba(108, 99, 255, 0.12);
+
+    margin-bottom: 25px;
+
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+    color: white;
+
+    border-color: transparent;
+
+    transform: translateX(-5px);
+
+    box-shadow: 0 10px 25px rgba(108, 99, 255, 0.25);
+}
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <div class="small-title">
+            SMARTLEARN ONLINE
+        </div>
+
+        <h1>📚 Year 2</h1>
+
+        <p>Explore, learn and have fun with English!</p>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+         <a href="year.html" class="back-btn">
+        ← Back to Year 1 - Year 6
+    </a>
+
+        <section class="intro-card">
+
+            <h2>Choose a Topic</h2>
+
+            <p>
+                Select a unit below and start your learning adventure.
+            </p>
+
+        </section>
+
+
+        <!-- TOPIC BUTTONS -->
+        <section class="topic-grid">
+
+            <!-- UNIT 5 -->
+      <button class="topic-card" onclick="window.location.href='unit5y2.html'">
+                <div class="topic-icon">⭐</div>
+
+                <div class="topic-info">
+                    <div class="unit">Unit 5</div>
+                    <h3>Free Time</h3>
+                </div>
+
+                <div class="arrow">→</div>
+            </button>
+
+
+            <!-- UNIT 6 -->
+            <button class="topic-card" onclick="openTopic(6)">
+                <div class="topic-icon">🍎</div>
+
+                <div class="topic-info">
+                    <div class="unit">Unit 6</div>
+                    <h3>The old House</h3>
+                </div>
+
+                <div class="arrow">→</div>
+            </button>
+
+
+            <!-- UNIT 7 -->
+            <button class="topic-card" onclick="openTopic(7)">
+                <div class="topic-icon">🎨</div>
+
+                <div class="topic-info">
+                    <div class="unit">Unit 7</div>
+                    <h3>Get Dressed</h3>
+                </div>
+
+                <div class="arrow">→</div>
+            </button>
+
+
+            <!-- UNIT 8 -->
+            <button class="topic-card" onclick="openTopic(8)">
+                <div class="topic-icon">🌱</div>
+
+                <div class="topic-info">
+                    <div class="unit">Unit 8</div>
+                    <h3>The Robot</h3>
+                </div>
+
+                <div class="arrow">→</div>
+            </button>
+
+
+            <!-- UNIT 9 -->
+            <button class="topic-card" onclick="openTopic(9)">
+                <div class="topic-icon">🚀</div>
+
+                <div class="topic-info">
+                    <div class="unit">Unit 9</div>
+                    <h3>At The Beach</h3>
+                </div>
+
+                <div class="arrow">→</div>
+            </button>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        © 2026 SmartLearn Online
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        function openTopic(unitNumber) {
+
+            alert(
+                "Unit " + unitNumber +
+                " is ready! 🚀\n\n" +
+                "We will build this lesson next."
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>
+```

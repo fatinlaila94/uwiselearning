@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - SmartLearn</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f7fb;
+            color: #25253a;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 30px 7%;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .back-btn {
+            background: #6c63ff;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+        .plans {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .plan {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            text-align: center;
+            transition: 0.25s;
+        }
+
+        .plan:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .plan h3 {
+            font-size: 22px;
+        }
+
+        .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #6c63ff;
+            margin: 20px 0;
+        }
+
+        .plan p {
+            color: #777;
+            line-height: 1.6;
+        }
+
+        .choose-btn {
+            margin-top: 15px;
+            background: #6c63ff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .choose-btn:hover {
+            background: #574fd6;
+        }
+
+        @media (max-width: 800px) {
+            .plans {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>💳 Subscription</h1>
+    <p>Choose the plan that suits your learning</p>
+</header>
+
+<div class="container">
+
+    <button class="back-btn" onclick="goBack()">← Back to Dashboard</button>
+
+    <h2>Choose Your Plan</h2>
+
+    <div class="plans">
+
+        <div class="plan">
+            <h3>🌱 Basic</h3>
+
+            <div class="price">
+                RM19
+            </div>
+
+            <p>✓ Access to selected lessons</p>
+            <p>✓ Basic quizzes</p>
+            <p>✓ Learning progress</p>
+
+            <button class="choose-btn" onclick="choosePlan('Basic')">
+                Choose Plan
+            </button>
+        </div>
+
+        <div class="plan">
+            <h3>🚀 Standard</h3>
+
+            <div class="price">
+                RM39
+            </div>
+
+            <p>✓ All lessons</p>
+            <p>✓ All quizzes & games</p>
+            <p>✓ Track your marks</p>
+
+            <button class="choose-btn" onclick="choosePlan('Standard')">
+                Choose Plan
+            </button>
+        </div>
+
+        <div class="plan">
+            <h3>👑 Premium</h3>
+
+            <div class="price">
+                RM59
+            </div>
+
+            <p>✓ All learning content</p>
+            <p>✓ All games & quizzes</p>
+            <p>✓ Premium learning materials</p>
+
+            <button class="choose-btn" onclick="choosePlan('Premium')">
+                Choose Plan
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function goBack() {
+        window.location.href = "dashboard.html";
+    }
+
+    function choosePlan(plan) {
+        alert("You selected the " + plan + " plan.");
+    }
+</script>
+
+</body>
+</html>

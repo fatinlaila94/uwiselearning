@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Word Matching - SmartLearn</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f5f7fb;
+            color: #25253a;
+        }
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 30px 7%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .game-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+
+       .words {
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.words > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #eef0ff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #dddfff;
+        }
+
+        .selected {
+            background: #c7d2fe;
+        }
+
+        #result {
+            margin-top: 25px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            background: #6c63ff;
+            color: white;
+            margin-bottom: 20px;
+        }
+.game-image {
+    width: 700px !important;
+    height: 350px !important;
+    object-fit: cover;
+    border-radius: 18px;
+    margin: 15px auto 20px;
+    display: block;
+}
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>🎯 Word Matching Game</h1>
+    <p>Delicious food.Match according to the category.</p>
+</header>
+
+<div class="container">
+
+    <button class="back-btn" onclick="goBack()">
+        ← Back
+    </button>
+
+    <div class="game-card">
+
+        <h2>Match the Words</h2>
+<img src="image/Assalamuaalaikum%20(2)%20(1).png" alt="Salam" class="game-image">
+
+        <p>Click an English word, then click its correct meaning.</p>
+
+        <div class="words">
+
+            <div>
+                <button onclick="selectWord(this, 'hot drinks')">Hot Drinks</button>
+                <button onclick="selectWord(this, 'dessert')">Dessert</button>
+                <button onclick="selectWord(this, 'cold drinks')">Cold Drinks</button>
+                <button onclick="selectWord(this, 'rice')">Rice</button>
+                <button onclick="selectWord(this, 'noodles')">Noodles</button>
+            </div>
+
+            <div>
+                <button onclick="selectMeaning(this, 'hot drinks')">
+    <img src="image/coffee.jpg"
+         alt="Coffee"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+                <button onclick="selectMeaning(this, 'dessert')">
+    <img src="image/cake.jpg"
+         alt="Cake"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+                <button onclick="selectMeaning(this, 'cold drinks')">
+    <img src="image/orange-juice.jpg"
+         alt="Orange Juice"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+              <button onclick="selectMeaning(this, 'rice')">
+    <img src="image/chicken-rice.jpg"
+         alt="Chicken Rice"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+               <button onclick="selectMeaning(this, 'noodles')">
+    <img src="image/Mee-Goreng.jpg"
+         alt="Mee Mee-Goreng"
+         style="width:120px; height:100px; object-fit:cover;">
+</button>
+            </div>
+
+        </div>
+
+        <p id="result"></p>
+
+    </div>
+
+</div>
+
+<script>
+
+let selectedWord = null;
+let score = 0;
+
+function selectWord(button, word) {
+
+    selectedWord = word;
+
+    document.querySelectorAll(".words button").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+
+    button.classList.add("selected");
+}
+
+function selectMeaning(button, meaning) {
+
+    if (selectedWord === null) {
+        return;
+    }
+
+    if (selectedWord === meaning) {
+
+        score++;
+
+        button.disabled = true;
+
+        document.getElementById("result").textContent =
+            "✅ Correct! Score: " + score + "/5";
+
+        selectedWord = null;
+if (score === 5) {
+        document.getElementById("result").textContent =
+            "🏆 Well done! You matched all 5 words!";
+    }
+    } else {
+
+        document.getElementById("result").textContent =
+            "❌ Wrong match. Try again!";
+    }
+}
+
+function goBack() {
+    window.location.href = "game.html";
+}
+
+</script>
+
+</body>
+</html>

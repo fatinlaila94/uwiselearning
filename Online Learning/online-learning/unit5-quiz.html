@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Unit 5 Quiz - Free Time</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: #6c63ff;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            color: #6c63ff;
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 17px;
+        }
+
+        .quiz-box {
+            background: white;
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress {
+            text-align: right;
+            color: #6c63ff;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .answers {
+            display: grid;
+            gap: 15px;
+        }
+
+        .answer-btn {
+            width: 100%;
+            border: 2px solid #e2e8f0;
+            background: white;
+            padding: 16px 20px;
+            border-radius: 14px;
+            text-align: left;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .answer-btn:hover {
+            border-color: #6c63ff;
+            background: #f5f3ff;
+        }
+
+        .answer-btn.correct {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #166534;
+        }
+
+        .answer-btn.wrong {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #991b1b;
+        }
+
+        .feedback {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .feedback.correct-box {
+            background: #f0fdf4;
+            border-left: 5px solid #22c55e;
+        }
+
+        .feedback.wrong-box {
+            background: #fef2f2;
+            border-left: 5px solid #ef4444;
+        }
+
+        .feedback h3 {
+            margin-top: 0;
+        }
+
+        .explanation {
+            margin-top: 10px;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        .next-btn {
+            display: none;
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .next-btn:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 70px;
+            margin-bottom: 15px;
+        }
+
+        .result h2 {
+            color: #6c63ff;
+            font-size: 32px;
+        }
+
+        .score {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .restart-btn {
+            border: none;
+            padding: 14px 30px;
+            border-radius: 12px;
+            background: #6c63ff;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-box {
+                padding: 25px 18px;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .question {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="./unit5y2.html" class="back-btn">← Back to Unit 5 Games</a>
+
+    <div class="header">
+        <h1>🧠 Unit 5 Quiz</h1>
+        <p>Super Minds Year 2 — Free Time</p>
+    </div>
+
+    <div class="quiz-box">
+
+        <!-- QUIZ AREA -->
+        <div id="quizArea">
+
+            <div class="progress" id="progress">
+                Question 1 of 10
+            </div>
+
+            <div class="question" id="question">
+                Question goes here
+            </div>
+
+            <div class="answers" id="answers">
+                <!-- Answers will appear here -->
+            </div>
+
+            <div class="feedback" id="feedback">
+
+                <h3 id="feedbackTitle"></h3>
+
+                <div class="explanation" id="explanation"></div>
+
+            </div>
+
+            <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+                Next Question →
+            </button>
+
+        </div>
+
+
+        <!-- RESULT AREA -->
+        <div class="result" id="result">
+
+            <div class="result-icon">🏆</div>
+
+            <h2>Quiz Completed!</h2>
+
+            <div class="score" id="finalScore">
+                Your Score: 0 / 10
+            </div>
+
+            <p>Great job! Keep learning and playing! 🚀</p>
+
+            <button class="restart-btn" onclick="restartQuiz()">
+                Try Again
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+    {
+        question: "What do you do in your free time?",
+        answers: [
+            "I play basketball.",
+            "I am basketball.",
+            "I basketball play.",
+            "I do basketball."
+        ],
+        correct: 0,
+        explanation: "We say “I play basketball” when talking about the activity."
+    },
+
+    {
+        question: "Do you like swimming?",
+        answers: [
+            "Yes, I do.",
+            "Yes, I am.",
+            "Yes, I like.",
+            "Yes, I can."
+        ],
+        correct: 0,
+        explanation: "For questions starting with “Do you…?”, we answer “Yes, I do” or “No, I don’t.”"
+    },
+
+    {
+        question: "Which activity uses a bicycle?",
+        answers: [
+            "Go swimming",
+            "Ride a bike",
+            "Watch TV",
+            "Play basketball"
+        ],
+        correct: 1,
+        explanation: "We use a bicycle when we ride a bike."
+    },
+
+    {
+        question: "Which activity can you do in a swimming pool?",
+        answers: [
+            "Go swimming",
+            "Ride a bike",
+            "Watch TV",
+            "Play computer games"
+        ],
+        correct: 0,
+        explanation: "We go swimming in a swimming pool."
+    },
+
+    {
+        question: "What do you use to play computer games?",
+        answers: [
+            "A computer",
+            "A bicycle",
+            "A basketball",
+            "A swimming pool"
+        ],
+        correct: 0,
+        explanation: "We use a computer to play computer games."
+    },
+
+    {
+        question: "Which activity is a sport?",
+        answers: [
+            "Watch TV",
+            "Play basketball",
+            "Read a book",
+            "Listen to music"
+        ],
+        correct: 1,
+        explanation: "Basketball is a sport."
+    },
+
+    {
+        question: "I practise ______.",
+        answers: [
+            "taekwondo",
+            "a bike",
+            "TV",
+            "swimming pool"
+        ],
+        correct: 0,
+        explanation: "We say “practise taekwondo.”"
+    },
+
+    {
+        question: "Do you play computer games?",
+        answers: [
+            "No, I don't.",
+            "No, I amn't.",
+            "No, I can't.",
+            "No, I not."
+        ],
+        correct: 0,
+        explanation: "The correct negative answer to “Do you…?” is “No, I don't.”"
+    },
+
+    {
+        question: "Which sentence is correct?",
+        answers: [
+            "I ride a bike.",
+            "I ride bike a.",
+            "I a bike ride.",
+            "I riding a bike."
+        ],
+        correct: 0,
+        explanation: "The correct sentence is “I ride a bike.”"
+    },
+
+    {
+        question: "Which activity can you do at home?",
+        answers: [
+            "Play computer games",
+            "Swim in the sea",
+            "Ride a bike on the road",
+            "Play basketball at school"
+        ],
+        correct: 0,
+        explanation: "You can play computer games at home."
+    }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+
+function loadQuestion() {
+
+    answered = false;
+
+    const questionData = questions[currentQuestion];
+
+    document.getElementById("progress").textContent =
+        "Question " + (currentQuestion + 1) + " of " + questions.length;
+
+    document.getElementById("question").textContent =
+        questionData.question;
+
+    const answersContainer =
+        document.getElementById("answers");
+
+    answersContainer.innerHTML = "";
+
+    questionData.answers.forEach((answer, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "answer-btn";
+
+        button.innerHTML =
+            "<strong>" +
+            String.fromCharCode(65 + index) +
+            ".</strong> " +
+            answer;
+
+        button.onclick = function() {
+            checkAnswer(index, button);
+        };
+
+        answersContainer.appendChild(button);
+
+    });
+
+
+    document.getElementById("feedback").style.display = "none";
+
+    document.getElementById("nextBtn").style.display = "none";
+}
+
+
+function checkAnswer(selectedIndex, selectedButton) {
+
+    if (answered) {
+        return;
+    }
+
+    answered = true;
+
+    const questionData = questions[currentQuestion];
+
+    const allButtons =
+        document.querySelectorAll(".answer-btn");
+
+
+    allButtons.forEach(button => {
+        button.disabled = true;
+    });
+
+
+    if (selectedIndex === questionData.correct) {
+
+        score++;
+
+        selectedButton.classList.add("correct");
+
+        document.getElementById("feedback").className =
+            "feedback correct-box";
+
+        document.getElementById("feedbackTitle").textContent =
+            "✅ Correct!";
+
+    } else {
+
+        selectedButton.classList.add("wrong");
+
+        allButtons[questionData.correct].classList.add("correct");
+
+        document.getElementById("feedback").className =
+            "feedback wrong-box";
+
+        document.getElementById("feedbackTitle").textContent =
+            "❌ Try again!";
+
+    }
+
+
+    document.getElementById("explanation").textContent =
+        questionData.explanation;
+
+    document.getElementById("feedback").style.display =
+        "block";
+
+
+    document.getElementById("nextBtn").style.display =
+        "block";
+
+
+    if (currentQuestion === questions.length - 1) {
+
+        document.getElementById("nextBtn").textContent =
+            "See My Score 🏆";
+
+    }
+
+}
+
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+
+        loadQuestion();
+
+    } else {
+
+        showResult();
+
+    }
+
+}
+
+
+function showResult() {
+
+    document.getElementById("quizArea").style.display =
+        "none";
+
+    document.getElementById("result").style.display =
+        "block";
+
+    document.getElementById("finalScore").textContent =
+        "Your Score: " + score + " / " + questions.length;
+
+}
+
+
+function restartQuiz() {
+
+    currentQuestion = 0;
+
+    score = 0;
+
+    document.getElementById("quizArea").style.display =
+        "block";
+
+    document.getElementById("result").style.display =
+        "none";
+
+    loadQuestion();
+
+}
+
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
