@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit 8 - The Robot | SmartLearn</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #f5f7fb;
+    --card: rgba(255,255,255,0.9);
+    --text: #182033;
+    --muted: #707789;
+    --primary: #5367e8;
+    --primary-light: #edf0ff;
+    --secondary: #8c78ed;
+    --border: rgba(30,40,80,0.08);
+    --shadow: 0 20px 55px rgba(35,45,90,0.09);
+    --radius: 26px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(circle at 8% 5%, rgba(83,103,232,0.13), transparent 27%),
+        radial-gradient(circle at 92% 15%, rgba(140,120,237,0.11), transparent 25%),
+        var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(18px);
+    background: rgba(245,247,251,0.82);
+    border-bottom: 1px solid var(--border);
+}
+
+.nav {
+    max-width: 1180px;
+    height: 72px;
+    margin: auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.back-btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    padding: 10px 17px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.25s ease;
+    box-shadow: 0 6px 18px rgba(20,25,50,0.05);
+}
+
+.back-btn:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 12px 25px rgba(20,25,50,0.1);
+}
+
+.brand {
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+
+.brand span {
+    color: var(--primary);
+}
+
+.unit-label {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 800;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    max-width: 1180px;
+    margin: auto;
+    padding: 65px 24px 35px;
+}
+
+.hero-card {
+    min-height: 450px;
+    border-radius: 36px;
+    padding: 58px;
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f0f2ff 55%,
+            #f5f0ff 100%
+        );
+
+    border: 1px solid rgba(83,103,232,0.09);
+    box-shadow: var(--shadow);
+
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+}
+
+.hero-card::before {
+    content: "";
+    position: absolute;
+    width: 330px;
+    height: 330px;
+    border-radius: 50%;
+    background: rgba(83,103,232,0.07);
+    right: -120px;
+    top: -100px;
+}
+
+.hero-card::after {
+    content: "";
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(140,120,237,0.08);
+    left: 45%;
+    bottom: -110px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    display: inline-flex;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: rgba(83,103,232,0.1);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(52px, 7vw, 84px);
+    line-height: 0.92;
+    letter-spacing: -5px;
+    margin-bottom: 22px;
+}
+
+.hero h1 span {
+    color: var(--primary);
+}
+
+.hero-subtitle {
+    max-width: 540px;
+    color: var(--muted);
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.hero-tag {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+/* =========================
+   ROBOT VISUAL
+========================= */
+
+.robot-area {
+    position: relative;
+    z-index: 2;
+    height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.robot {
+    width: 190px;
+    height: 250px;
+    position: relative;
+}
+
+.robot-head {
+    width: 150px;
+    height: 105px;
+    border-radius: 28px;
+    background: linear-gradient(145deg, #dfe3f2, #aeb5ce);
+    border: 5px solid #8d95af;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    box-shadow: 0 20px 35px rgba(40,45,80,0.16);
+}
+
+.robot-face {
+    width: 105px;
+    height: 55px;
+    border-radius: 16px;
+    background: #252b43;
+    position: absolute;
+    top: 20px;
+    left: 18px;
+}
+
+.eye {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: #9daaff;
+    position: absolute;
+    top: 20px;
+}
+
+.eye.left {
+    left: 25px;
+}
+
+.eye.right {
+    right: 25px;
+}
+
+.robot-mouth {
+    width: 28px;
+    height: 5px;
+    border-radius: 10px;
+    background: #9daaff;
+    position: absolute;
+    bottom: 10px;
+    left: 38px;
+}
+
+.robot-antenna {
+    width: 5px;
+    height: 30px;
+    background: #8d95af;
+    position: absolute;
+    top: -28px;
+    left: 92px;
+}
+
+.robot-ball {
+    width: 13px;
+    height: 13px;
+    background: var(--primary);
+    border-radius: 50%;
+    position: absolute;
+    top: -36px;
+    left: 88px;
+}
+
+.robot-body {
+    width: 125px;
+    height: 125px;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #cbd1e3, #949cb8);
+    border: 5px solid #7e87a4;
+    position: absolute;
+    top: 112px;
+    left: 32px;
+}
+
+.robot-screen {
+    width: 65px;
+    height: 43px;
+    border-radius: 10px;
+    background: #252b43;
+    position: absolute;
+    top: 25px;
+    left: 26px;
+}
+
+.screen-line {
+    width: 35px;
+    height: 4px;
+    border-radius: 5px;
+    background: #9daaff;
+    margin: 19px auto;
+}
+
+.robot-arm {
+    width: 22px;
+    height: 75px;
+    border-radius: 15px;
+    background: #9fa7bf;
+    position: absolute;
+    top: 128px;
+}
+
+.robot-arm.left {
+    left: 2px;
+    transform: rotate(10deg);
+}
+
+.robot-arm.right {
+    right: 2px;
+    transform: rotate(-10deg);
+}
+
+.robot-leg {
+    width: 28px;
+    height: 65px;
+    border-radius: 12px;
+    background: #858ea9;
+    position: absolute;
+    top: 225px;
+}
+
+.robot-leg.left {
+    left: 55px;
+}
+
+.robot-leg.right {
+    right: 55px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container {
+    max-width: 1180px;
+    margin: auto;
+    padding: 20px 24px 80px;
+}
+
+section {
+    margin-top: 65px;
+}
+
+.section-heading {
+    margin-bottom: 25px;
+}
+
+.section-number {
+    font-size: 12px;
+    color: var(--primary);
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.section-heading h2 {
+    font-size: clamp(30px, 4vw, 43px);
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+}
+
+.section-heading p {
+    max-width: 580px;
+    color: var(--muted);
+    margin-top: 9px;
+}
+
+/* =========================
+   ROBOT VOCABULARY
+========================= */
+
+.vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.vocab-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(30,35,80,0.05);
+    transition: 0.3s ease;
+}
+
+.vocab-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(30,35,80,0.1);
+}
+
+.vocab-icon {
+    height: 110px;
+    border-radius: 19px;
+    background: linear-gradient(145deg,#eef0ff,#f8f7ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 55px;
+    margin-bottom: 17px;
+}
+
+.vocab-card h3 {
+    font-size: 19px;
+    margin-bottom: 2px;
+}
+
+.pronunciation {
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.meaning {
+    color: var(--muted);
+    font-size: 13px;
+    margin: 7px 0 12px;
+}
+
+.example {
+    padding: 11px 12px;
+    background: #f7f8fc;
+    border-radius: 12px;
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* =========================
+   ROBOT PARTS
+========================= */
+
+.parts-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 35px;
+    box-shadow: var(--shadow);
+}
+
+.parts-layout {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 35px;
+    align-items: center;
+}
+
+.big-robot {
+    min-height: 340px;
+    border-radius: 24px;
+    background: linear-gradient(145deg,#f0f2ff,#faf8ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.part-list {
+    display: grid;
+    gap: 12px;
+}
+
+.part-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px;
+    border-radius: 17px;
+    background: #f8f8fb;
+    border: 1px solid var(--border);
+}
+
+.part-number {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+}
+
+.part-item strong {
+    display: block;
+}
+
+.part-item span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================
+   GRAMMAR
+========================= */
+
+.grammar-card {
+    background: white;
+    border-radius: 30px;
+    border: 1px solid var(--border);
+    padding: 38px;
+    box-shadow: var(--shadow);
+}
+
+.grammar-highlight {
+    padding: 28px;
+    border-radius: 21px;
+    background: linear-gradient(135deg,#eef0ff,#faf9ff);
+    border: 1px solid rgba(83,103,232,0.12);
+    text-align: center;
+    margin: 25px 0;
+}
+
+.grammar-highlight small {
+    display: block;
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.grammar-highlight strong {
+    font-size: clamp(21px,4vw,31px);
+}
+
+.grammar-highlight strong span {
+    color: var(--primary);
+}
+
+.example-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 15px;
+}
+
+.example-box {
+    padding: 20px;
+    border-radius: 18px;
+    background: #f8f8fb;
+    border: 1px solid var(--border);
+}
+
+.example-box strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.example-box p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================
+   CAN / CAN'T
+========================= */
+
+.ability-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.ability-card {
+    padding: 32px;
+    border-radius: 28px;
+    background: white;
+    border: 1px solid var(--border);
+    box-shadow: 0 15px 40px rgba(30,35,80,0.06);
+}
+
+.ability-card.can {
+    background: linear-gradient(145deg,#eef0ff,#ffffff);
+}
+
+.ability-card.cannot {
+    background: linear-gradient(145deg,#f5f5f8,#ffffff);
+}
+
+.ability-label {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.ability-card h3 {
+    font-size: 34px;
+    margin: 4px 0 10px;
+}
+
+.ability-card p {
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.ability-example {
+    background: rgba(255,255,255,0.8);
+    border-radius: 15px;
+    padding: 14px 16px;
+    font-weight: 700;
+}
+
+/* =========================
+   USEFUL ENGLISH
+========================= */
+
+.conversation {
+    max-width: 850px;
+    margin: auto;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 35px;
+    box-shadow: var(--shadow);
+}
+
+.bubble {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    align-items: flex-start;
+}
+
+.bubble.right {
+    justify-content: flex-end;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--primary-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bubble-text {
+    max-width: 70%;
+    background: #f5f6f9;
+    border-radius: 17px;
+    padding: 13px 17px;
+    font-size: 14px;
+}
+
+.bubble.right .bubble-text {
+    background: var(--primary);
+    color: white;
+}
+
+/* =========================
+   COMMON MISTAKES
+========================= */
+
+.mistake-box {
+    padding: 32px;
+    border-radius: 28px;
+    background: #fff9f2;
+    border: 1px solid rgba(220,140,50,0.14);
+}
+
+.mistake {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 18px;
+}
+
+.wrong,
+.correct {
+    padding: 16px;
+    border-radius: 15px;
+    font-size: 14px;
+}
+
+.wrong {
+    background: #fff0f0;
+    color: #a54848;
+}
+
+.correct {
+    background: #eefaf2;
+    color: #287148;
+}
+
+.wrong span,
+.correct span {
+    display: block;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary-card {
+    border-radius: 32px;
+    padding: 40px;
+    background: linear-gradient(135deg,#22263d,#4d527f);
+    color: white;
+    box-shadow: 0 25px 60px rgba(35,35,70,0.18);
+}
+
+.summary-card h2 {
+    font-size: 36px;
+    margin-bottom: 25px;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 15px;
+}
+
+.summary-item {
+    padding: 20px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.summary-item strong {
+    display: block;
+    color: #c8ccff;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+}
+
+.summary-item p {
+    font-size: 14px;
+}
+
+footer {
+    text-align: center;
+    color: var(--muted);
+    padding: 35px 20px 55px;
+    font-size: 13px;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: 0.7s ease;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 950px) {
+
+    .hero-card,
+    .parts-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .robot-area {
+        display: none;
+    }
+
+    .vocab-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .example-grid,
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .nav {
+        height: 64px;
+        padding: 0 15px;
+    }
+
+    .brand {
+        display: none;
+    }
+
+    .hero {
+        padding: 30px 15px 15px;
+    }
+
+    .hero-card {
+        padding: 35px 25px;
+        min-height: 410px;
+        border-radius: 28px;
+    }
+
+    .hero h1 {
+        font-size: 55px;
+        letter-spacing: -3px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    .container {
+        padding: 10px 15px 55px;
+    }
+
+    section {
+        margin-top: 50px;
+    }
+
+    .vocab-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .vocab-card {
+        padding: 14px;
+        border-radius: 20px;
+    }
+
+    .vocab-icon {
+        height: 80px;
+        font-size: 42px;
+    }
+
+    .vocab-card h3 {
+        font-size: 16px;
+    }
+
+    .ability-grid,
+    .mistake {
+        grid-template-columns: 1fr;
+    }
+
+    .parts-card,
+    .grammar-card,
+    .conversation,
+    .summary-card {
+        padding: 25px;
+        border-radius: 25px;
+    }
+
+    .bubble-text {
+        max-width: 78%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<header class="topbar">
+
+    <nav class="nav">
+
+        <button class="back-btn" onclick="goBack()">
+            ← Back
+        </button>
+
+        <div class="brand">
+            Smart<span>Learn</span>
+        </div>
+
+        <div class="unit-label">
+            UNIT 8
+        </div>
+
+    </nav>
+
+</header>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<header class="hero">
+
+    <div class="hero-card">
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                ✦ Super Minds · Unit 8
+            </div>
+
+            <h1>
+                The<br>
+                <span>Robot.</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Explore the world of robots and learn how
+                to describe what they have, what they can do,
+                and how they move.
+            </p>
+
+            <div class="hero-tags">
+                <div class="hero-tag">🤖 Robots</div>
+                <div class="hero-tag">🧩 Parts</div>
+                <div class="hero-tag">⚡ Abilities</div>
+                <div class="hero-tag">💬 English</div>
+            </div>
+
+        </div>
+
+
+        <div class="robot-area">
+
+            <div class="robot">
+
+                <div class="robot-antenna"></div>
+                <div class="robot-ball"></div>
+
+                <div class="robot-head">
+
+                    <div class="robot-face">
+                        <div class="eye left"></div>
+                        <div class="eye right"></div>
+                        <div class="robot-mouth"></div>
+                    </div>
+
+                </div>
+
+                <div class="robot-arm left"></div>
+                <div class="robot-arm right"></div>
+
+                <div class="robot-body">
+
+                    <div class="robot-screen">
+                        <div class="screen-line"></div>
+                    </div>
+
+                </div>
+
+                <div class="robot-leg left"></div>
+                <div class="robot-leg right"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+
+<!-- =========================
+     VOCABULARY
+========================= -->
+
+<section class="reveal">
+
+    <div class="section-heading">
+
+        <div class="section-number">
+            01 · Vocabulary
+        </div>
+
+        <h2>
+            Meet the robot.
+        </h2>
+
+        <p>
+            Learn useful words for talking about robots,
+            their parts and the things around them.
+        </p>
+
+    </div>
+
+
+    <div class="vocab-grid">
+
+        <article class="vocab-card">
+
+            <div class="vocab-icon">🤖</div>
+
+            <h3>Robot</h3>
+
+            <div class="pronunciation">
+                /ˈrəʊbɒt/
+            </div>
+
+            <div class="meaning">
+                robot
+            </div>
+
+            <div class="example">
+                “This is a robot.”
+            </div>
+
+        </article>
+
+
+        <article class="vocab-card">
+
+            <div class="vocab-icon">👁️</div>
+
+            <h3>Eye</h3>
+
+            <div class="pronunciation">
+                /aɪ/
+            </div>
+
+            <div class="meaning">
+                mata
+            </div>
+
+            <div class="example">
+                “The robot has two eyes.”
+            </div>
+
+        </article>
+
+
+        <article class="vocab-card">
+
+            <div class="vocab-icon">🦾</div>
+
+            <h3>Arm</h3>
+
+            <div class="pronunciation">
+                /ɑːm/
+            </div>
+
+            <div class="meaning">
+                lengan
+            </div>
+
+            <div class="example">
+                “The robot has two arms.”
+            </div>
+
+        </article>
+
+
+        <article class="vocab-card">
+
+            <div class="vocab-icon">🦿</div>
+
+            <h3>Leg</h3>
+
+            <div class="pronunciation">
+                /leɡ/
+            </div>
+
+            <div class="meaning">
+                kaki
+            </div>
+
+            <div class="example">
+                “The robot has two legs.”
+            </div>
+
+        </article>
+
+
+        <article class="vocab-card">
+
+            <div class="vocab-icon">🙂</div>
+
+            <h3>Head</h3>
+
+            <div class="pronunciation">
+                /hed/
+            </div>
+
+            <div class="meaning">
+                kepala
+            </div>
+
+            <div class="example">
+                “Its head is round.”
+            </div>
+
+        </article>
+
+
+        <article class="vocab-card">
+
+            <div class="vocab-icon">✋</div>
+
+            <h3>Hand</h3>
+
+            <div class="pronunciation">
+                /hænd/
+            </div>
+
+            <div class="meaning">
+                tangan
+            </div>
+
+            <div class="example">
+                “The robot has two hands.”
+            </div>
+
+        </article>
+
+
+        <article class="vocab-card">
+
+            <div class="vocab-icon">🦶</div>
+
+            <h3>Foot</h3>
+
+            <div class="pronunciation">
+                /fʊt/
+            </div>
+
+            <div class="meaning">
+                tapak kaki
+            </div>
+
+            <div class="example">
+                “Look at its feet.”
+            </div>
+
+        </article>
+
+
+        <article class="vocab-card">
+
+            <div class="vocab-icon">⚙️</div>
+
+            <h3>Wheel</h3>
+
+            <div class="pronunciation">
+                /wiːl/
+            </div>
+
+            <div class="meaning">
+                roda
+            </div>
+
+            <div class="example">
+                “The robot has wheels.”
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     PARTS
+========================= -->
+
+<section class="reveal">
+
+    <div class="section-heading">
+
+        <div class="section-number">
+            02 · Robot Anatomy
+        </div>
+
+        <h2>
+            Inside the robot.
+        </h2>
+
+        <p>
+            We can describe a robot by talking about
+            the different parts of its body.
+        </p>
+
+    </div>
+
+
+    <div class="parts-card">
+
+        <div class="parts-layout">
+
+            <div class="big-robot">
+
+                <div class="robot">
+
+                    <div class="robot-antenna"></div>
+                    <div class="robot-ball"></div>
+
+                    <div class="robot-head">
+
+                        <div class="robot-face">
+                            <div class="eye left"></div>
+                            <div class="eye right"></div>
+                            <div class="robot-mouth"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="robot-arm left"></div>
+                    <div class="robot-arm right"></div>
+
+                    <div class="robot-body">
+
+                        <div class="robot-screen">
+                            <div class="screen-line"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="robot-leg left"></div>
+                    <div class="robot-leg right"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="part-list">
+
+                <div class="part-item">
+
+                    <div class="part-number">01</div>
+
+                    <div>
+                        <strong>Head</strong>
+                        <span>The part above the body.</span>
+                    </div>
+
+                </div>
+
+
+                <div class="part-item">
+
+                    <div class="part-number">02</div>
+
+                    <div>
+                        <strong>Eyes</strong>
+                        <span>They help the robot see.</span>
+                    </div>
+
+                </div>
+
+
+                <div class="part-item">
+
+                    <div class="part-number">03</div>
+
+                    <div>
+                        <strong>Arms & hands</strong>
+                        <span>They can move and hold things.</span>
+                    </div>
+
+                </div>
+
+
+                <div class="part-item">
+
+                    <div class="part-number">04</div>
+
+                    <div>
+                        <strong>Legs & feet</strong>
+                        <span>They help the robot move.</span>
+                    </div>
+
+                </div>
+
+
+                <div class="part-item">
+
+                    <div class="part-number">05</div>
+
+                    <div>
+                        <strong>Body</strong>
+                        <span>The main part of the robot.</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     GRAMMAR
+========================= -->
+
+<section class="reveal">
+
+    <div class="section-heading">
+
+        <div class="section-number">
+            03 · Language Focus
+        </div>
+
+        <h2>
+            What does it have?
+        </h2>
+
+        <p>
+            Use <strong>has</strong> and <strong>have</strong>
+            to talk about parts and things someone or something owns.
+        </p>
+
+    </div>
+
+
+    <div class="grammar-card">
+
+        <div class="grammar-highlight">
+
+            <small>
+                Sentence Pattern
+            </small>
+
+            <strong>
+                It <span>has</span> + noun.
+            </strong>
+
+        </div>
+
+
+        <div class="example-grid">
+
+            <div class="example-box">
+
+                <strong>
+                    It has two eyes.
+                </strong>
+
+                <p>
+                    Ia mempunyai dua mata.
+                </p>
+
+            </div>
+
+
+            <div class="example-box">
+
+                <strong>
+                    It has two arms.
+                </strong>
+
+                <p>
+                    Ia mempunyai dua lengan.
+                </p>
+
+            </div>
+
+
+            <div class="example-box">
+
+                <strong>
+                    It has four wheels.
+                </strong>
+
+                <p>
+                    Ia mempunyai empat roda.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ABILITIES
+========================= -->
+
+<section class="reveal">
+
+    <div class="section-heading">
+
+        <div class="section-number">
+            04 · Abilities
+        </div>
+
+        <h2>
+            What can a robot do?
+        </h2>
+
+        <p>
+            Use <strong>can</strong> to talk about things
+            a robot or a person is able to do.
+        </p>
+
+    </div>
+
+
+    <div class="ability-grid">
+
+        <div class="ability-card can">
+
+            <div class="ability-label">
+                Ability
+            </div>
+
+            <h3>CAN</h3>
+
+            <p>
+                Use <strong>can</strong> before a verb
+                when something is able to do an action.
+            </p>
+
+            <div class="ability-example">
+                🤖 The robot can walk.
+            </div>
+
+        </div>
+
+
+        <div class="ability-card cannot">
+
+            <div class="ability-label">
+                Negative
+            </div>
+
+            <h3>CAN'T</h3>
+
+            <p>
+                Use <strong>can't</strong> when something
+                is not able to do an action.
+            </p>
+
+            <div class="ability-example">
+                🤖 The robot can't fly.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     USEFUL ENGLISH
+========================= -->
+
+<section class="reveal">
+
+    <div class="section-heading">
+
+        <div class="section-number">
+            05 · Useful English
+        </div>
+
+        <h2>
+            Talk about the robot.
+        </h2>
+
+        <p>
+            Simple questions and answers help you
+            describe a robot naturally.
+        </p>
+
+    </div>
+
+
+    <div class="conversation">
+
+        <div class="bubble">
+
+            <div class="avatar">
+                👩🏻
+            </div>
+
+            <div class="bubble-text">
+                <strong>
+                    What is it?
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="bubble right">
+
+            <div class="bubble-text">
+                It's a robot.
+            </div>
+
+            <div class="avatar">
+                👦🏻
+            </div>
+
+        </div>
+
+
+        <div class="bubble">
+
+            <div class="avatar">
+                👩🏻
+            </div>
+
+            <div class="bubble-text">
+                <strong>
+                    What does it have?
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="bubble right">
+
+            <div class="bubble-text">
+                It has two arms and two legs.
+            </div>
+
+            <div class="avatar">
+                👦🏻
+            </div>
+
+        </div>
+
+
+        <div class="bubble">
+
+            <div class="avatar">
+                👩🏻
+            </div>
+
+            <div class="bubble-text">
+                <strong>
+                    What can it do?
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="bubble right">
+
+            <div class="bubble-text">
+                It can walk and move its arms.
+            </div>
+
+            <div class="avatar">
+                👦🏻
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     COMMON MISTAKES
+========================= -->
+
+<section class="reveal">
+
+    <div class="mistake-box">
+
+        <div class="section-number">
+            06 · Watch Out
+        </div>
+
+        <h2 style="font-size:32px;margin-bottom:5px;">
+            Small grammar details.
+        </h2>
+
+        <p style="color:#6d7485;">
+            Watch the verb that comes after
+            <strong>can</strong>.
+        </p>
+
+
+        <div class="mistake">
+
+            <div class="wrong">
+
+                <span>✕ Incorrect</span>
+
+                The robot can walks.
+
+            </div>
+
+
+            <div class="correct">
+
+                <span>✓ Correct</span>
+
+                The robot can walk.
+
+            </div>
+
+        </div>
+
+
+        <div class="mistake">
+
+            <div class="wrong">
+
+                <span>✕ Incorrect</span>
+
+                It have two eyes.
+
+            </div>
+
+
+            <div class="correct">
+
+                <span>✓ Correct</span>
+
+                It has two eyes.
+
+            </div>
+
+        </div>
+
+
+        <div class="mistake">
+
+            <div class="wrong">
+
+                <span>✕ Incorrect</span>
+
+                It can to walk.
+
+            </div>
+
+
+            <div class="correct">
+
+                <span>✓ Correct</span>
+
+                It can walk.
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SUMMARY
+========================= -->
+
+<section class="reveal">
+
+    <div class="summary-card">
+
+        <h2>
+            Unit 8 · At a glance
+        </h2>
+
+
+        <div class="summary-grid">
+
+            <div class="summary-item">
+
+                <strong>
+                    Vocabulary
+                </strong>
+
+                <p>
+                    robot · head · eyes · arms · hands ·
+                    legs · feet · wheels
+                </p>
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <strong>
+                    Have
+                </strong>
+
+                <p>
+                    It has two eyes.<br>
+                    It has two arms.
+                </p>
+
+            </div>
+
+
+            <div class="summary-item">
+
+                <strong>
+                    Abilities
+                </strong>
+
+                <p>
+                    It can walk.<br>
+                    It can't fly.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<footer>
+    SmartLearn · English Learning · Unit 8
+</footer>
+
+
+<script>
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+function goBack() {
+
+    if (window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = "year2.html";
+    }
+
+}
+
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+
+const revealElements =
+    document.querySelectorAll(".reveal");
+
+const observer =
+    new IntersectionObserver(
+        (entries) => {
+
+            entries.forEach(entry => {
+
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+
+            });
+
+        },
+        {
+            threshold: 0.12
+        }
+    );
+
+
+revealElements.forEach(element => {
+    observer.observe(element);
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit 9 - At the Beach | SmartLearn</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    :root {
+        --navy: #102a43;
+        --blue: #1677b8;
+        --sky: #dff4ff;
+        --aqua: #45c6c0;
+        --sand: #f7e8c8;
+        --cream: #fffaf1;
+        --white: #ffffff;
+        --text: #183b56;
+        --muted: #66879f;
+        --line: rgba(16, 42, 67, 0.09);
+        --shadow: 0 20px 55px rgba(16, 42, 67, 0.10);
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background:
+            linear-gradient(180deg, #eaf9ff 0%, #ffffff 35%, #fffaf1 100%);
+        color: var(--text);
+        line-height: 1.6;
+    }
+
+    /* ================= NAV ================= */
+
+    .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6%;
+        background: rgba(255,255,255,0.88);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        font-size: 20px;
+        color: var(--navy);
+    }
+
+    .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 13px;
+        background: linear-gradient(135deg, var(--blue), var(--aqua));
+        display: grid;
+        place-items: center;
+        color: white;
+        font-size: 20px;
+        box-shadow: 0 8px 20px rgba(22,119,184,.22);
+    }
+
+    .back-btn {
+        border: 1px solid rgba(16,42,67,.1);
+        background: white;
+        color: var(--navy);
+        padding: 10px 17px;
+        border-radius: 30px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .25s;
+    }
+
+    .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16,42,67,.1);
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+        min-height: 610px;
+        padding: 80px 7% 110px;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        width: 650px;
+        height: 650px;
+        border-radius: 50%;
+        background: rgba(69,198,192,.12);
+        right: -180px;
+        top: -180px;
+    }
+
+    .hero::after {
+        content: "";
+        position: absolute;
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        background: rgba(247,232,200,.45);
+        left: -170px;
+        bottom: -180px;
+    }
+
+    .hero-content {
+        width: 100%;
+        max-width: 1250px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 70px;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 15px;
+        border-radius: 30px;
+        background: white;
+        color: var(--blue);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: .7px;
+        text-transform: uppercase;
+        box-shadow: 0 8px 25px rgba(16,42,67,.07);
+        margin-bottom: 22px;
+    }
+
+    .hero h1 {
+        font-size: clamp(48px, 7vw, 82px);
+        line-height: .95;
+        letter-spacing: -4px;
+        color: var(--navy);
+        margin-bottom: 25px;
+    }
+
+    .hero h1 span {
+        color: var(--blue);
+    }
+
+    .hero-description {
+        font-size: 18px;
+        max-width: 530px;
+        color: var(--muted);
+        margin-bottom: 30px;
+    }
+
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 9px;
+    }
+
+    .tag {
+        padding: 9px 15px;
+        background: rgba(255,255,255,.85);
+        border: 1px solid rgba(16,42,67,.08);
+        border-radius: 30px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    /* ================= BEACH ILLUSTRATION ================= */
+
+    .beach-card {
+        height: 440px;
+        border-radius: 36px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+            180deg,
+            #7ed8f4 0%,
+            #b9edfa 48%,
+            #45c6c0 49%,
+            #26aeb3 68%,
+            #f5dfad 69%,
+            #f8e9c8 100%
+        );
+        box-shadow: 0 35px 80px rgba(16,42,67,.16);
+        transform: rotate(1deg);
+    }
+
+    .sun {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: #ffd66b;
+        top: 45px;
+        right: 55px;
+        box-shadow: 0 0 55px rgba(255,214,107,.65);
+    }
+
+    .cloud {
+        position: absolute;
+        width: 115px;
+        height: 35px;
+        background: rgba(255,255,255,.75);
+        border-radius: 40px;
+        top: 90px;
+        left: 45px;
+    }
+
+    .cloud::before,
+    .cloud::after {
+        content: "";
+        position: absolute;
+        background: inherit;
+        border-radius: 50%;
+    }
+
+    .cloud::before {
+        width: 55px;
+        height: 55px;
+        left: 18px;
+        top: -28px;
+    }
+
+    .cloud::after {
+        width: 45px;
+        height: 45px;
+        right: 15px;
+        top: -20px;
+    }
+
+    .umbrella {
+        position: absolute;
+        bottom: 115px;
+        left: 70px;
+        width: 150px;
+        height: 95px;
+        border-radius: 150px 150px 0 0;
+        background: #ffffff;
+        border: 5px solid rgba(16,42,67,.08);
+    }
+
+    .umbrella::after {
+        content: "";
+        position: absolute;
+        width: 5px;
+        height: 125px;
+        background: var(--navy);
+        left: 72px;
+        top: 85px;
+        transform: rotate(4deg);
+    }
+
+    .umbrella-line {
+        position: absolute;
+        width: 5px;
+        height: 96px;
+        background: #e9a86d;
+        left: 72px;
+        top: 0;
+    }
+
+    .ball {
+        position: absolute;
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        right: 75px;
+        bottom: 70px;
+        background: #ffcf64;
+        box-shadow: inset -10px -10px 0 rgba(0,0,0,.05);
+    }
+
+    .shell {
+        position: absolute;
+        width: 35px;
+        height: 28px;
+        border-radius: 50% 50% 45% 45%;
+        background: #f0b9a0;
+        bottom: 45px;
+        left: 48%;
+        transform: rotate(-15deg);
+    }
+
+    .wave {
+        position: absolute;
+        left: -10%;
+        width: 120%;
+        height: 70px;
+        background: rgba(255,255,255,.65);
+        border-radius: 50%;
+        bottom: 115px;
+        transform: rotate(-2deg);
+    }
+
+    /* ================= SECTION ================= */
+
+    .section {
+        max-width: 1180px;
+        margin: auto;
+        padding: 90px 25px;
+    }
+
+    .section-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        margin-bottom: 40px;
+        gap: 30px;
+    }
+
+    .section-heading h2 {
+        font-size: clamp(32px, 5vw, 52px);
+        letter-spacing: -2px;
+        color: var(--navy);
+    }
+
+    .section-heading p {
+        max-width: 450px;
+        color: var(--muted);
+    }
+
+    /* ================= VOCAB ================= */
+
+    .vocab-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+    }
+
+    .vocab-card {
+        background: rgba(255,255,255,.9);
+        border: 1px solid var(--line);
+        border-radius: 25px;
+        padding: 23px;
+        min-height: 200px;
+        box-shadow: 0 12px 35px rgba(16,42,67,.06);
+        transition: .3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .vocab-card:hover {
+        transform: translateY(-7px);
+        box-shadow: var(--shadow);
+    }
+
+    .vocab-number {
+        position: absolute;
+        right: 16px;
+        top: 13px;
+        font-size: 12px;
+        font-weight: 800;
+        color: #a5bac7;
+    }
+
+    .vocab-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 20px;
+        background: var(--sky);
+        display: grid;
+        place-items: center;
+        font-size: 30px;
+        margin-bottom: 18px;
+    }
+
+    .vocab-card h3 {
+        color: var(--navy);
+        margin-bottom: 3px;
+        font-size: 19px;
+    }
+
+    .pronunciation {
+        color: var(--blue);
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .meaning {
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    /* ================= VOCAB FEATURE ================= */
+
+    .feature-box {
+        margin-top: 35px;
+        padding: 34px;
+        border-radius: 30px;
+        background: var(--navy);
+        color: white;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 35px;
+        align-items: center;
+        box-shadow: var(--shadow);
+    }
+
+    .feature-box h3 {
+        font-size: 28px;
+        margin-bottom: 12px;
+    }
+
+    .feature-box p {
+        color: rgba(255,255,255,.72);
+    }
+
+    .sentence {
+        background: rgba(255,255,255,.09);
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 22px;
+        padding: 25px;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .sentence span {
+        color: #7de4dc;
+    }
+
+    /* ================= GRAMMAR ================= */
+
+    .grammar-section {
+        background: #fff8e9;
+        max-width: 100%;
+    }
+
+    .grammar-inner {
+        max-width: 1180px;
+        margin: auto;
+        padding: 90px 25px;
+    }
+
+    .grammar-card {
+        background: white;
+        border-radius: 35px;
+        padding: 45px;
+        box-shadow: var(--shadow);
+    }
+
+    .grammar-label {
+        display: inline-block;
+        background: #e5f8f5;
+        color: #168e8b;
+        font-size: 12px;
+        font-weight: 800;
+        padding: 7px 13px;
+        border-radius: 20px;
+        text-transform: uppercase;
+        letter-spacing: .6px;
+        margin-bottom: 15px;
+    }
+
+    .grammar-card h3 {
+        font-size: 34px;
+        margin-bottom: 10px;
+        color: var(--navy);
+    }
+
+    .grammar-card > p {
+        color: var(--muted);
+        margin-bottom: 30px;
+    }
+
+    .formula {
+        padding: 20px;
+        background: #f3f9fc;
+        border-radius: 18px;
+        text-align: center;
+        font-size: 21px;
+        font-weight: 800;
+        color: var(--navy);
+        margin-bottom: 28px;
+    }
+
+    .formula span {
+        color: var(--blue);
+    }
+
+    .examples {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 15px;
+    }
+
+    .example {
+        padding: 20px;
+        border-left: 4px solid var(--aqua);
+        background: #fbfdfd;
+        border-radius: 0 15px 15px 0;
+    }
+
+    .example strong {
+        display: block;
+        color: var(--navy);
+        font-size: 17px;
+    }
+
+    .example small {
+        color: var(--muted);
+    }
+
+    /* ================= ABILITIES ================= */
+
+    .abilities {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 25px;
+    }
+
+    .ability-card {
+        border-radius: 30px;
+        padding: 35px;
+        min-height: 230px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ability-card.can {
+        background: #e9f9f7;
+    }
+
+    .ability-card.cant {
+        background: #edf5fb;
+    }
+
+    .ability-card h3 {
+        font-size: 28px;
+        color: var(--navy);
+        margin-bottom: 12px;
+    }
+
+    .ability-card p {
+        color: var(--muted);
+    }
+
+    .ability-example {
+        margin-top: 25px;
+        font-size: 20px;
+        font-weight: 800;
+        color: var(--navy);
+    }
+
+    /* ================= DIALOGUE ================= */
+
+    .dialogue {
+        background: linear-gradient(135deg,#0f789a,#164c72);
+        color: white;
+        border-radius: 35px;
+        padding: 45px;
+        box-shadow: var(--shadow);
+    }
+
+    .dialogue h3 {
+        font-size: 34px;
+        margin-bottom: 30px;
+    }
+
+    .chat {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .bubble {
+        max-width: 72%;
+        padding: 15px 20px;
+        border-radius: 20px;
+        font-size: 16px;
+    }
+
+    .bubble.left {
+        background: rgba(255,255,255,.12);
+        border-bottom-left-radius: 5px;
+    }
+
+    .bubble.right {
+        background: white;
+        color: var(--navy);
+        align-self: flex-end;
+        border-bottom-right-radius: 5px;
+    }
+
+    /* ================= MISTAKES ================= */
+
+    .mistakes {
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 18px;
+    }
+
+    .mistake {
+        padding: 24px;
+        border-radius: 23px;
+        background: white;
+        border: 1px solid var(--line);
+    }
+
+    .wrong {
+        color: #c45b5b;
+        text-decoration: line-through;
+        margin-bottom: 4px;
+    }
+
+    .correct {
+        color: #168e8b;
+        font-weight: 800;
+    }
+
+    /* ================= SUMMARY ================= */
+
+    .summary {
+        background: var(--navy);
+        color: white;
+        max-width: 100%;
+        padding: 90px 25px;
+    }
+
+    .summary-inner {
+        max-width: 1050px;
+        margin: auto;
+        text-align: center;
+    }
+
+    .summary h2 {
+        font-size: clamp(35px,5vw,55px);
+        margin-bottom: 18px;
+    }
+
+    .summary > .summary-inner > p {
+        color: rgba(255,255,255,.68);
+        max-width: 650px;
+        margin: auto auto 40px;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 15px;
+        text-align: left;
+    }
+
+    .summary-item {
+        padding: 24px;
+        background: rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.1);
+        border-radius: 20px;
+    }
+
+    .summary-item span {
+        display: block;
+        color: #79ded8;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+    }
+
+    .summary-item strong {
+        font-size: 17px;
+    }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        padding: 35px 20px;
+        text-align: center;
+        background: #0b2033;
+        color: rgba(255,255,255,.55);
+        font-size: 13px;
+    }
+
+    /* ================= ANIMATION ================= */
+
+    .reveal {
+        opacity: 0;
+        transform: translateY(25px);
+        transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 950px) {
+
+        .hero-content {
+            grid-template-columns: 1fr;
+        }
+
+        .hero {
+            padding-top: 60px;
+        }
+
+        .beach-card {
+            max-width: 650px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .vocab-grid {
+            grid-template-columns: repeat(2,1fr);
+        }
+
+        .summary-grid {
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+
+    @media (max-width: 650px) {
+
+        .navbar {
+            padding: 0 20px;
+        }
+
+        .brand {
+            font-size: 17px;
+        }
+
+        .hero h1 {
+            letter-spacing: -2px;
+        }
+
+        .hero {
+            min-height: auto;
+            padding: 55px 20px 80px;
+        }
+
+        .section,
+        .grammar-inner {
+            padding: 65px 20px;
+        }
+
+        .section-heading {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .vocab-grid,
+        .abilities,
+        .examples,
+        .mistakes,
+        .feature-box {
+            grid-template-columns: 1fr;
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .beach-card {
+            height: 350px;
+        }
+
+        .grammar-card,
+        .dialogue {
+            padding: 28px;
+        }
+
+        .bubble {
+            max-width: 90%;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<nav class="navbar">
+    <div class="brand">
+        <div class="brand-mark">S</div>
+        SmartLearn
+    </div>
+
+    <button class="back-btn" onclick="goBack()">
+        ← Back
+    </button>
+</nav>
+
+
+<!-- HERO -->
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="reveal">
+
+            <div class="eyebrow">
+                ☀️ Unit 9 · English Notes
+            </div>
+
+            <h1>
+                At the<br>
+                <span>Beach.</span>
+            </h1>
+
+            <p class="hero-description">
+                Discover useful beach vocabulary, simple sentences,
+                grammar patterns and everyday English for talking about
+                what you see and do at the beach.
+            </p>
+
+            <div class="tags">
+                <div class="tag">🏖️ Beach</div>
+                <div class="tag">🌊 Vocabulary</div>
+                <div class="tag">☀️ Activities</div>
+                <div class="tag">💬 Speaking</div>
+            </div>
+
+        </div>
+
+
+        <div class="beach-card reveal">
+
+            <div class="sun"></div>
+            <div class="cloud"></div>
+
+            <div class="umbrella">
+                <div class="umbrella-line"></div>
+            </div>
+
+            <div class="wave"></div>
+
+            <div class="ball"></div>
+            <div class="shell"></div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- VOCABULARY -->
+<section class="section">
+
+    <div class="section-heading reveal">
+        <div>
+            <div class="eyebrow">01 · Vocabulary</div>
+            <h2>Beach Words</h2>
+        </div>
+
+        <p>
+            Learn the important words you need when talking
+            about things at the beach.
+        </p>
+    </div>
+
+
+    <div class="vocab-grid">
+
+        <div class="vocab-card reveal">
+            <span class="vocab-number">01</span>
+            <div class="vocab-icon">🏖️</div>
+            <h3>beach</h3>
+            <div class="pronunciation">/biːtʃ/</div>
+            <div class="meaning">pantai</div>
+        </div>
+
+        <div class="vocab-card reveal">
+            <span class="vocab-number">02</span>
+            <div class="vocab-icon">🌊</div>
+            <h3>sea</h3>
+            <div class="pronunciation">/siː/</div>
+            <div class="meaning">laut</div>
+        </div>
+
+        <div class="vocab-card reveal">
+            <span class="vocab-number">03</span>
+            <div class="vocab-icon">🌊</div>
+            <h3>wave</h3>
+            <div class="pronunciation">/weɪv/</div>
+            <div class="meaning">ombak</div>
+        </div>
+
+        <div class="vocab-card reveal">
+            <span class="vocab-number">04</span>
+            <div class="vocab-icon">🏝️</div>
+            <h3>sand</h3>
+            <div class="pronunciation">/sænd/</div>
+            <div class="meaning">pasir</div>
+        </div>
+
+        <div class="vocab-card reveal">
+            <span class="vocab-number">05</span>
+            <div class="vocab-icon">☀️</div>
+            <h3>sun</h3>
+            <div class="pronunciation">/sʌn/</div>
+            <div class="meaning">matahari</div>
+        </div>
+
+        <div class="vocab-card reveal">
+            <span class="vocab-number">06</span>
+            <div class="vocab-icon">🐚</div>
+            <h3>shell</h3>
+            <div class="pronunciation">/ʃel/</div>
+            <div class="meaning">kulit kerang</div>
+        </div>
+
+        <div class="vocab-card reveal">
+            <span class="vocab-number">07</span>
+            <div class="vocab-icon">☂️</div>
+            <h3>umbrella</h3>
+            <div class="pronunciation">/ʌmˈbrel.ə/</div>
+            <div class="meaning">payung</div>
+        </div>
+
+        <div class="vocab-card reveal">
+            <span class="vocab-number">08</span>
+            <div class="vocab-icon">⚽</div>
+            <h3>ball</h3>
+            <div class="pronunciation">/bɔːl/</div>
+            <div class="meaning">bola</div>
+        </div>
+
+    </div>
+
+
+    <div class="feature-box reveal">
+
+        <div>
+            <h3>Put the words into a sentence.</h3>
+
+            <p>
+                Use beach vocabulary to describe what
+                you can see around you.
+            </p>
+        </div>
+
+        <div class="sentence">
+            I can see the <span>sea</span> and the <span>waves</span>.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ACTIVITIES -->
+<section class="section">
+
+    <div class="section-heading reveal">
+        <div>
+            <div class="eyebrow">02 · Activities</div>
+            <h2>What can you do?</h2>
+        </div>
+
+        <p>
+            Talk about activities that people can do
+            when they are at the beach.
+        </p>
+    </div>
+
+
+    <div class="abilities">
+
+        <div class="ability-card can reveal">
+
+            <h3>Things you can do</h3>
+
+            <p>
+                Use <strong>can + base verb</strong> to talk
+                about activities and abilities.
+            </p>
+
+            <div class="ability-example">
+                I can swim. 🏊
+            </div>
+
+        </div>
+
+
+        <div class="ability-card cant reveal">
+
+            <h3>Things you can't do</h3>
+
+            <p>
+                Use <strong>can't + base verb</strong>
+                when something is not possible.
+            </p>
+
+            <div class="ability-example">
+                I can't swim. 🚫
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- GRAMMAR -->
+<section class="grammar-section">
+
+    <div class="grammar-inner">
+
+        <div class="section-heading reveal">
+
+            <div>
+                <div class="eyebrow">03 · Grammar</div>
+                <h2>Look & Describe</h2>
+            </div>
+
+            <p>
+                Learn how to describe what someone
+                is doing right now.
+            </p>
+
+        </div>
+
+
+        <div class="grammar-card reveal">
+
+            <div class="grammar-label">
+                Present Continuous
+            </div>
+
+            <h3>What are they doing?</h3>
+
+            <p>
+                We use the present continuous to talk about
+                something happening now.
+            </p>
+
+
+            <div class="formula">
+                Subject + <span>am / is / are</span> + verb-ing
+            </div>
+
+
+            <div class="examples">
+
+                <div class="example">
+                    <strong>She is swimming.</strong>
+                    <small>Dia sedang berenang.</small>
+                </div>
+
+                <div class="example">
+                    <strong>He is playing with a ball.</strong>
+                    <small>Dia sedang bermain dengan bola.</small>
+                </div>
+
+                <div class="example">
+                    <strong>They are walking on the beach.</strong>
+                    <small>Mereka sedang berjalan di pantai.</small>
+                </div>
+
+                <div class="example">
+                    <strong>We are sitting on the sand.</strong>
+                    <small>Kami sedang duduk di atas pasir.</small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MORE GRAMMAR -->
+<section class="section">
+
+    <div class="section-heading reveal">
+
+        <div>
+            <div class="eyebrow">04 · Sentence Builder</div>
+            <h2>Build a Sentence</h2>
+        </div>
+
+        <p>
+            Combine the person, action and place
+            to create a complete sentence.
+        </p>
+
+    </div>
+
+
+    <div class="feature-box reveal">
+
+        <div>
+            <h3>Simple pattern</h3>
+
+            <p>
+                Start with who is doing the action,
+                then add the action and place.
+            </p>
+        </div>
+
+        <div class="sentence">
+            She <span>is swimming</span> in the <span>sea</span>.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- USEFUL ENGLISH -->
+<section class="section">
+
+    <div class="section-heading reveal">
+
+        <div>
+            <div class="eyebrow">05 · Speaking</div>
+            <h2>Useful English</h2>
+        </div>
+
+        <p>
+            Simple questions and answers for
+            everyday beach conversations.
+        </p>
+
+    </div>
+
+
+    <div class="dialogue reveal">
+
+        <h3>At the Beach 💬</h3>
+
+        <div class="chat">
+
+            <div class="bubble left">
+                What are you doing?
+            </div>
+
+            <div class="bubble right">
+                I'm swimming.
+            </div>
+
+            <div class="bubble left">
+                Where is your brother?
+            </div>
+
+            <div class="bubble right">
+                He's playing with a ball.
+            </div>
+
+            <div class="bubble left">
+                Can you swim?
+            </div>
+
+            <div class="bubble right">
+                Yes, I can!
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- COMMON MISTAKES -->
+<section class="section">
+
+    <div class="section-heading reveal">
+
+        <div>
+            <div class="eyebrow">06 · Accuracy</div>
+            <h2>Common Mistakes</h2>
+        </div>
+
+        <p>
+            Small grammar mistakes can change the
+            meaning of a sentence.
+        </p>
+
+    </div>
+
+
+    <div class="mistakes">
+
+        <div class="mistake reveal">
+            <div class="wrong">❌ She are swimming.</div>
+            <div class="correct">✓ She is swimming.</div>
+        </div>
+
+        <div class="mistake reveal">
+            <div class="wrong">❌ They is playing.</div>
+            <div class="correct">✓ They are playing.</div>
+        </div>
+
+        <div class="mistake reveal">
+            <div class="wrong">❌ I can swimming.</div>
+            <div class="correct">✓ I can swim.</div>
+        </div>
+
+        <div class="mistake reveal">
+            <div class="wrong">❌ He can to swim.</div>
+            <div class="correct">✓ He can swim.</div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SUMMARY -->
+<section class="summary">
+
+    <div class="summary-inner">
+
+        <div class="eyebrow">
+            Unit 9 · Quick Review
+        </div>
+
+        <h2>At the Beach</h2>
+
+        <p>
+            By the end of this unit, you should be able
+            to talk about things at the beach, describe
+            what people are doing and talk about abilities.
+        </p>
+
+
+        <div class="summary-grid">
+
+            <div class="summary-item">
+                <span>Vocabulary</span>
+                <strong>beach · sea · wave · sand</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Actions</span>
+                <strong>swim · play · walk · sit</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Grammar</span>
+                <strong>am / is / are + verb-ing</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Speaking</span>
+                <strong>Can you...? · What are you doing?</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+    © 2026 SmartLearn · Learn English with confidence.
+</footer>
+
+
+<script>
+
+    function goBack() {
+        if (document.referrer) {
+            window.history.back();
+        } else {
+            window.location.href = "year2.html";
+        }
+    }
+
+
+    const reveals = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(
+        entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        },
+        {
+            threshold: 0.12
+        }
+    );
+
+    reveals.forEach(element => observer.observe(element));
+
+</script>
+
+</body>
+</html>
