@@ -1,0 +1,1368 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit 6 - The Old House | SmartLearn Online</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%,#ede9fe,transparent 30%),
+        radial-gradient(circle at 90% 80%,#dbeafe,transparent 30%),
+        #f8fafc;
+    color:#1f2937;
+    line-height:1.6;
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#4c1d95,#6d28d9,#8b5cf6);
+    color:white;
+    padding:55px 20px 90px;
+    text-align:center;
+    border-radius:0 0 55px 55px;
+    box-shadow:0 20px 50px rgba(91,78,231,.25);
+}
+
+.hero::before,
+.hero::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+}
+
+.hero::before{
+    width:300px;
+    height:300px;
+    top:-150px;
+    left:-80px;
+}
+
+.hero::after{
+    width:380px;
+    height:380px;
+    right:-140px;
+    bottom:-220px;
+}
+
+.hero-content{
+    position:relative;
+    z-index:2;
+    max-width:950px;
+    margin:auto;
+}
+
+.small-title{
+    font-size:13px;
+    font-weight:bold;
+    letter-spacing:4px;
+    margin-bottom:12px;
+    opacity:.9;
+}
+
+.hero h1{
+    font-size:52px;
+    margin-bottom:10px;
+    letter-spacing:-1.5px;
+}
+
+.hero p{
+    font-size:18px;
+    opacity:.95;
+}
+
+.unit-badge{
+    display:inline-block;
+    margin-top:22px;
+    padding:9px 20px;
+    background:rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.25);
+    border-radius:30px;
+    font-size:13px;
+    font-weight:bold;
+    backdrop-filter:blur(10px);
+}
+
+/* ================= MAIN ================= */
+
+.container{
+    width:90%;
+    max-width:1100px;
+    margin:-35px auto 60px;
+    position:relative;
+    z-index:5;
+}
+
+/* ================= BACK BUTTON ================= */
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:#5b21b6;
+    background:white;
+    padding:14px 22px;
+    border-radius:16px;
+    font-size:14px;
+    font-weight:bold;
+    border:1px solid #e9d5ff;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    margin-bottom:28px;
+    transition:.3s ease;
+}
+
+.back-btn:hover{
+    transform:translateX(-7px);
+    background:#f5f3ff;
+    box-shadow:0 15px 30px rgba(124,58,237,.18);
+}
+
+/* ================= INTRO ================= */
+
+.intro-card{
+    background:white;
+    border-radius:30px;
+    padding:38px;
+    margin-bottom:35px;
+    border:1px solid #ede9fe;
+    box-shadow:0 15px 40px rgba(0,0,0,.07);
+    transition:.35s ease;
+}
+
+.intro-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 22px 45px rgba(124,58,237,.15);
+}
+
+.intro-label{
+    color:#7c3aed;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:8px;
+}
+
+.intro-card h2{
+    font-size:30px;
+    color:#312e81;
+    margin-bottom:10px;
+}
+
+.intro-card p{
+    color:#64748b;
+    font-size:16px;
+}
+
+/* ================= SECTION ================= */
+
+.section-title{
+    margin:45px 0 20px;
+}
+
+.section-title span{
+    color:#7c3aed;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.section-title h2{
+    font-size:28px;
+    color:#1e1b4b;
+    margin-top:3px;
+}
+
+/* ================= BIG HOUSE ================= */
+
+.house-card{
+    background:linear-gradient(135deg,#ffffff,#f5f3ff);
+    border-radius:35px;
+    padding:35px;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:30px;
+    align-items:center;
+    border:1px solid #ddd6fe;
+    box-shadow:0 18px 45px rgba(0,0,0,.08);
+    overflow:hidden;
+    transition:.4s ease;
+}
+
+.house-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 25px 55px rgba(124,58,237,.18);
+}
+
+.house-image{
+    min-height:360px;
+    border-radius:28px;
+    background:
+        linear-gradient(rgba(91,33,182,.08),rgba(91,33,182,.08)),
+        #ede9fe;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:210px;
+    transition:.5s ease;
+    cursor:pointer;
+}
+
+.house-image:hover{
+    transform:scale(1.04) rotate(-1deg);
+    background:#ddd6fe;
+}
+
+.house-info h3{
+    font-size:32px;
+    color:#312e81;
+    margin-bottom:12px;
+}
+
+.house-info p{
+    color:#64748b;
+    margin-bottom:18px;
+}
+
+.house-points{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.house-point{
+    padding:13px 16px;
+    background:white;
+    border-radius:14px;
+    border:1px solid #ede9fe;
+    transition:.3s ease;
+}
+
+.house-point:hover{
+    transform:translateX(8px);
+    background:#f5f3ff;
+    border-color:#c4b5fd;
+    color:#5b21b6;
+}
+
+/* ================= VOCAB ================= */
+
+.vocab-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.vocab-card{
+    background:white;
+    border-radius:23px;
+    padding:25px;
+    border:1px solid #eef2ff;
+    box-shadow:0 8px 25px rgba(0,0,0,.06);
+    transition:.35s ease;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+}
+
+.vocab-card::after{
+    content:"";
+    position:absolute;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:#ede9fe;
+    right:-35px;
+    top:-35px;
+    transition:.4s ease;
+}
+
+.vocab-card:hover{
+    transform:translateY(-9px) scale(1.02);
+    background:#faf5ff;
+    border-color:#c4b5fd;
+    box-shadow:0 20px 35px rgba(124,58,237,.16);
+}
+
+.vocab-card:hover::after{
+    transform:scale(2);
+    background:#ddd6fe;
+}
+
+.vocab-icon{
+    position:relative;
+    z-index:2;
+    width:65px;
+    height:65px;
+    border-radius:18px;
+    background:#f5f3ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    margin-bottom:15px;
+    transition:.35s ease;
+}
+
+.vocab-card:hover .vocab-icon{
+    transform:rotate(-7deg) scale(1.1);
+    background:#ede9fe;
+}
+
+.vocab-word{
+    position:relative;
+    z-index:2;
+    font-size:19px;
+    font-weight:bold;
+    color:#312e81;
+}
+
+.vocab-meaning{
+    position:relative;
+    z-index:2;
+    font-size:14px;
+    color:#64748b;
+}
+
+/* ================= POSITION ================= */
+
+.position-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.position-card{
+    background:white;
+    border-radius:23px;
+    padding:25px;
+    text-align:center;
+    border:1px solid #eef2ff;
+    box-shadow:0 8px 22px rgba(0,0,0,.05);
+    transition:.35s ease;
+}
+
+.position-card:hover{
+    transform:translateY(-8px);
+    background:linear-gradient(145deg,#ffffff,#f5f3ff);
+    border-color:#c4b5fd;
+    box-shadow:0 18px 35px rgba(124,58,237,.15);
+}
+
+.position-visual{
+    font-size:42px;
+    margin-bottom:10px;
+    transition:.35s ease;
+}
+
+.position-card:hover .position-visual{
+    transform:scale(1.15);
+}
+
+.position-card h3{
+    color:#312e81;
+    font-size:19px;
+}
+
+.position-card p{
+    color:#64748b;
+    font-size:14px;
+    margin-bottom:8px;
+}
+
+.position-card strong{
+    color:#475569;
+    font-size:13px;
+}
+
+/* ================= GRAMMAR ================= */
+
+.grammar-card{
+    background:white;
+    border-radius:27px;
+    padding:30px;
+    margin-bottom:20px;
+    border:1px solid #eef2ff;
+    box-shadow:0 10px 28px rgba(0,0,0,.06);
+    transition:.35s ease;
+}
+
+.grammar-card:hover{
+    transform:translateY(-6px);
+    border-color:#c4b5fd;
+    box-shadow:0 20px 40px rgba(124,58,237,.14);
+}
+
+.grammar-heading{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.grammar-icon{
+    width:58px;
+    height:58px;
+    border-radius:17px;
+    background:linear-gradient(135deg,#ede9fe,#ddd6fe);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:27px;
+    transition:.3s ease;
+}
+
+.grammar-card:hover .grammar-icon{
+    transform:rotate(5deg) scale(1.08);
+}
+
+.grammar-heading h3{
+    color:#312e81;
+    font-size:23px;
+}
+
+.grammar-heading p{
+    color:#8b5cf6;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.rule-box{
+    background:#faf5ff;
+    border-left:5px solid #7c3aed;
+    padding:18px 20px;
+    border-radius:14px;
+    margin:15px 0;
+}
+
+.rule-box strong{
+    color:#5b21b6;
+}
+
+.example{
+    background:#f8fafc;
+    border-radius:14px;
+    padding:14px 17px;
+    margin-top:10px;
+    transition:.25s ease;
+}
+
+.example:hover{
+    background:#f5f3ff;
+    transform:translateX(5px);
+}
+
+.example span{
+    color:#7c3aed;
+    font-weight:bold;
+}
+
+/* ================= SENTENCE ================= */
+
+.sentence-box{
+    background:linear-gradient(135deg,#312e81,#5b21b6,#7c3aed);
+    color:white;
+    border-radius:30px;
+    padding:35px;
+    box-shadow:0 20px 45px rgba(49,46,129,.2);
+}
+
+.sentence-box h3{
+    font-size:23px;
+    margin-bottom:20px;
+}
+
+.sentence{
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:15px;
+    padding:16px 18px;
+    margin-top:11px;
+    transition:.3s ease;
+}
+
+.sentence:hover{
+    transform:translateX(8px);
+    background:rgba(255,255,255,.18);
+}
+
+/* ================= SPEAKING ================= */
+
+.conversation{
+    background:white;
+    border-radius:27px;
+    padding:30px;
+    box-shadow:0 10px 28px rgba(0,0,0,.06);
+    border:1px solid #eef2ff;
+}
+
+.speech{
+    padding:15px 20px;
+    border-radius:17px;
+    margin-bottom:13px;
+    max-width:78%;
+    transition:.3s ease;
+}
+
+.speech:hover{
+    transform:scale(1.02);
+}
+
+.speaker-a{
+    background:#f5f3ff;
+    color:#4c1d95;
+}
+
+.speaker-b{
+    background:#eff6ff;
+    color:#1e40af;
+    margin-left:auto;
+}
+
+.speaker{
+    font-size:11px;
+    font-weight:bold;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-bottom:3px;
+    opacity:.7;
+}
+
+/* ================= READING ================= */
+
+.reading-card{
+    background:white;
+    border-radius:28px;
+    padding:35px;
+    border:1px solid #eef2ff;
+    box-shadow:0 12px 30px rgba(0,0,0,.06);
+    transition:.35s ease;
+}
+
+.reading-card:hover{
+    transform:translateY(-6px);
+    border-color:#c4b5fd;
+}
+
+.reading-title{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:20px;
+}
+
+.reading-title span{
+    font-size:40px;
+}
+
+.reading-title h3{
+    color:#312e81;
+    font-size:24px;
+}
+
+.reading-text{
+    color:#475569;
+    font-size:16px;
+    line-height:1.9;
+}
+
+.reading-text strong{
+    color:#6d28d9;
+}
+
+/* ================= MISTAKES ================= */
+
+.mistakes{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.mistake-card{
+    background:white;
+    border-radius:21px;
+    padding:23px;
+    border:1px solid #eef2ff;
+    box-shadow:0 8px 22px rgba(0,0,0,.05);
+    transition:.3s ease;
+}
+
+.mistake-card:hover{
+    transform:translateY(-6px);
+    background:#fff;
+    border-color:#c4b5fd;
+    box-shadow:0 16px 30px rgba(124,58,237,.13);
+}
+
+.wrong{
+    color:#dc2626;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+.correct{
+    color:#16a34a;
+    font-weight:bold;
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+    text-align:center;
+    color:#64748b;
+    font-size:13px;
+    padding:10px 20px 40px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:850px){
+
+    .house-card{
+        grid-template-columns:1fr;
+    }
+
+    .vocab-grid,
+    .position-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+}
+
+@media(max-width:600px){
+
+    .hero{
+        padding:40px 18px 70px;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+
+    .container{
+        width:92%;
+    }
+
+    .vocab-grid,
+    .position-grid,
+    .mistakes{
+        grid-template-columns:1fr;
+    }
+
+    .house-image{
+        min-height:260px;
+        font-size:150px;
+    }
+
+    .intro-card,
+    .grammar-card,
+    .reading-card,
+    .conversation,
+    .sentence-box{
+        padding:23px;
+    }
+
+    .speech{
+        max-width:90%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header class="hero">
+
+    <div class="hero-content">
+
+        <div class="small-title">
+            SMARTLEARN ONLINE
+        </div>
+
+        <h1>🏠 The Old House</h1>
+
+        <p>
+            Explore houses, rooms and places in English.
+        </p>
+
+        <div class="unit-badge">
+            UNIT 6 • YEAR 2 ENGLISH
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+<a href="year2.html" class="back-btn">
+    ← Go Back to Year 2
+</a>
+
+
+<!-- INTRO -->
+
+<section class="intro-card">
+
+    <div class="intro-label">
+        LET'S LEARN
+    </div>
+
+    <h2>
+        Welcome to The Old House! 🏡
+    </h2>
+
+    <p>
+        In this unit, we learn how to talk about a house,
+        different rooms and where things are.
+        We will also practise using
+        <strong>There is</strong> and
+        <strong>There are</strong>.
+    </p>
+
+</section>
+
+
+<!-- BIG VISUAL -->
+
+<div class="section-title">
+
+    <span>
+        01 • Explore
+    </span>
+
+    <h2>
+        🏡 Welcome to the Old House
+    </h2>
+
+</div>
+
+
+<section class="house-card">
+
+    <div class="house-image">
+        🏠
+    </div>
+
+    <div class="house-info">
+
+        <h3>
+            The Old House
+        </h3>
+
+        <p>
+            Look at the house and learn the names
+            of different places and rooms.
+        </p>
+
+        <div class="house-points">
+
+            <div class="house-point">
+                🛋️ Living room
+            </div>
+
+            <div class="house-point">
+                🍳 Kitchen
+            </div>
+
+            <div class="house-point">
+                🛏️ Bedroom
+            </div>
+
+            <div class="house-point">
+                🚿 Bathroom
+            </div>
+
+            <div class="house-point">
+                🌳 Garden
+            </div>
+
+            <div class="house-point">
+                🪜 Stairs
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- VOCABULARY -->
+
+<div class="section-title">
+
+    <span>
+        02 • Vocabulary
+    </span>
+
+    <h2>
+        🏡 Parts of a House
+    </h2>
+
+</div>
+
+
+<section class="vocab-grid">
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🏠</div>
+        <div class="vocab-word">house</div>
+        <div class="vocab-meaning">rumah</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🚪</div>
+        <div class="vocab-word">door</div>
+        <div class="vocab-meaning">pintu</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🪟</div>
+        <div class="vocab-word">window</div>
+        <div class="vocab-meaning">tingkap</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🛋️</div>
+        <div class="vocab-word">living room</div>
+        <div class="vocab-meaning">ruang tamu</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🍽️</div>
+        <div class="vocab-word">dining room</div>
+        <div class="vocab-meaning">ruang makan</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🍳</div>
+        <div class="vocab-word">kitchen</div>
+        <div class="vocab-meaning">dapur</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🛏️</div>
+        <div class="vocab-word">bedroom</div>
+        <div class="vocab-meaning">bilik tidur</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🚿</div>
+        <div class="vocab-word">bathroom</div>
+        <div class="vocab-meaning">bilik air</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🌳</div>
+        <div class="vocab-word">garden</div>
+        <div class="vocab-meaning">taman</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">🪜</div>
+        <div class="vocab-word">stairs</div>
+        <div class="vocab-meaning">tangga</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">⬆️</div>
+        <div class="vocab-word">upstairs</div>
+        <div class="vocab-meaning">tingkat atas</div>
+    </div>
+
+    <div class="vocab-card">
+        <div class="vocab-icon">⬇️</div>
+        <div class="vocab-word">downstairs</div>
+        <div class="vocab-meaning">tingkat bawah</div>
+    </div>
+
+</section>
+
+
+<!-- PREPOSITIONS -->
+
+<div class="section-title">
+
+    <span>
+        03 • Grammar
+    </span>
+
+    <h2>
+        📍 Where Is It?
+    </h2>
+
+</div>
+
+
+<section class="position-grid">
+
+    <div class="position-card">
+        <div class="position-visual">📦</div>
+        <h3>in</h3>
+        <p>di dalam</p>
+        <strong>The cat is in the room.</strong>
+    </div>
+
+    <div class="position-card">
+        <div class="position-visual">📖</div>
+        <h3>on</h3>
+        <p>di atas</p>
+        <strong>The book is on the table.</strong>
+    </div>
+
+    <div class="position-card">
+        <div class="position-visual">⚽</div>
+        <h3>under</h3>
+        <p>di bawah</p>
+        <strong>The ball is under the table.</strong>
+    </div>
+
+    <div class="position-card">
+        <div class="position-visual">🪑</div>
+        <h3>next to</h3>
+        <p>di sebelah</p>
+        <strong>The chair is next to the table.</strong>
+    </div>
+
+    <div class="position-card">
+        <div class="position-visual">🌳</div>
+        <h3>behind</h3>
+        <p>di belakang</p>
+        <strong>The garden is behind the house.</strong>
+    </div>
+
+    <div class="position-card">
+        <div class="position-visual">🚗</div>
+        <h3>in front of</h3>
+        <p>di hadapan</p>
+        <strong>The car is in front of the house.</strong>
+    </div>
+
+</section>
+
+
+<!-- THERE IS -->
+
+<div class="section-title">
+
+    <span>
+        04 • Grammar Focus
+    </span>
+
+    <h2>
+        ✨ There Is & There Are
+    </h2>
+
+</div>
+
+
+<section>
+
+    <div class="grammar-card">
+
+        <div class="grammar-heading">
+
+            <div class="grammar-icon">
+                1️⃣
+            </div>
+
+            <div>
+                <h3>There is</h3>
+                <p>FOR ONE THING</p>
+            </div>
+
+        </div>
+
+        <div class="rule-box">
+
+            <strong>
+                There is + singular noun
+            </strong>
+
+            <br>
+
+            Use "There is" when we talk about
+            one person, place or thing.
+
+        </div>
+
+        <div class="example">
+            <span>Example:</span>
+            There is a sofa in the living room.
+        </div>
+
+        <div class="example">
+            <span>Example:</span>
+            There is a kitchen downstairs.
+        </div>
+
+    </div>
+
+
+    <div class="grammar-card">
+
+        <div class="grammar-heading">
+
+            <div class="grammar-icon">
+                🔢
+            </div>
+
+            <div>
+                <h3>There are</h3>
+                <p>FOR TWO OR MORE</p>
+            </div>
+
+        </div>
+
+        <div class="rule-box">
+
+            <strong>
+                There are + plural noun
+            </strong>
+
+            <br>
+
+            Use "There are" when we talk about
+            two or more people, places or things.
+
+        </div>
+
+        <div class="example">
+            <span>Example:</span>
+            There are two bedrooms upstairs.
+        </div>
+
+        <div class="example">
+            <span>Example:</span>
+            There are three windows in the room.
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUESTIONS -->
+
+<div class="section-title">
+
+    <span>
+        05 • Asking Questions
+    </span>
+
+    <h2>
+        ❓ Is There or Are There?
+    </h2>
+
+</div>
+
+
+<section class="grammar-card">
+
+    <div class="grammar-heading">
+
+        <div class="grammar-icon">
+            ❓
+        </div>
+
+        <div>
+            <h3>Ask about things in a house</h3>
+            <p>QUESTIONS & SHORT ANSWERS</p>
+        </div>
+
+    </div>
+
+    <div class="rule-box">
+
+        <strong>Is there...?</strong>
+
+        <br>
+
+        Use this for ONE thing.
+
+        <br><br>
+
+        Is there a kitchen?
+
+        <br>
+
+        <strong>Yes, there is.</strong>
+
+        <br><br>
+
+        <strong>Are there...?</strong>
+
+        <br>
+
+        Use this for TWO or MORE things.
+
+        <br><br>
+
+        Are there two bedrooms?
+
+        <br>
+
+        <strong>Yes, there are.</strong>
+
+    </div>
+
+</section>
+
+
+<!-- SENTENCES -->
+
+<div class="section-title">
+
+    <span>
+        06 • Sentence Builder
+    </span>
+
+    <h2>
+        💬 Useful Sentences
+    </h2>
+
+</div>
+
+
+<section class="sentence-box">
+
+    <h3>
+        Describe a house in English
+    </h3>
+
+    <div class="sentence">
+        🏠 There is a big living room.
+    </div>
+
+    <div class="sentence">
+        🍳 There is a kitchen next to the dining room.
+    </div>
+
+    <div class="sentence">
+        🛏️ There are two bedrooms upstairs.
+    </div>
+
+    <div class="sentence">
+        🌳 There is a beautiful garden behind the house.
+    </div>
+
+    <div class="sentence">
+        🪟 There are three windows in the bedroom.
+    </div>
+
+</section>
+
+
+<!-- SPEAKING -->
+
+<div class="section-title">
+
+    <span>
+        07 • Speaking
+    </span>
+
+    <h2>
+        🗣️ Let's Talk
+    </h2>
+
+</div>
+
+
+<section class="conversation">
+
+    <div class="speech speaker-a">
+        <div class="speaker">Student A</div>
+        What's this?
+    </div>
+
+    <div class="speech speaker-b">
+        <div class="speaker">Student B</div>
+        It's a bedroom.
+    </div>
+
+    <div class="speech speaker-a">
+        <div class="speaker">Student A</div>
+        Is there a kitchen?
+    </div>
+
+    <div class="speech speaker-b">
+        <div class="speaker">Student B</div>
+        Yes, there is.
+    </div>
+
+    <div class="speech speaker-a">
+        <div class="speaker">Student A</div>
+        Where is the sofa?
+    </div>
+
+    <div class="speech speaker-b">
+        <div class="speaker">Student B</div>
+        It's in the living room.
+    </div>
+
+</section>
+
+
+<!-- READING -->
+
+<div class="section-title">
+
+    <span>
+        08 • Reading
+    </span>
+
+    <h2>
+        📖 My Old House
+    </h2>
+
+</div>
+
+
+<section class="reading-card">
+
+    <div class="reading-title">
+
+        <span>🏠</span>
+
+        <h3>
+            My Old House
+        </h3>
+
+    </div>
+
+    <div class="reading-text">
+
+        This is my <strong>old house</strong>.
+
+        <br><br>
+
+        There is a big
+        <strong>living room</strong>
+        downstairs.
+        There is a <strong>kitchen</strong>
+        next to the dining room.
+
+        <br><br>
+
+        There are <strong>two bedrooms</strong>
+        upstairs.
+        There is a small bathroom.
+
+        <br><br>
+
+        There is a beautiful
+        <strong>garden behind the house</strong>.
+
+        <br><br>
+
+        I love my old house! ❤️
+
+    </div>
+
+</section>
+
+
+<!-- COMMON MISTAKES -->
+
+<div class="section-title">
+
+    <span>
+        09 • Remember
+    </span>
+
+    <h2>
+        ⚠️ Common Mistakes
+    </h2>
+
+</div>
+
+
+<section class="mistakes">
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ✕ There are a kitchen.
+        </div>
+
+        <div class="correct">
+            ✓ There is a kitchen.
+        </div>
+
+    </div>
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ✕ There is two bedrooms.
+        </div>
+
+        <div class="correct">
+            ✓ There are two bedrooms.
+        </div>
+
+    </div>
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ✕ There are a sofa.
+        </div>
+
+        <div class="correct">
+            ✓ There is a sofa.
+        </div>
+
+    </div>
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ✕ Are there a kitchen?
+        </div>
+
+        <div class="correct">
+            ✓ Is there a kitchen?
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer class="footer">
+
+    © 2026 SmartLearn Online
+    • Unit 6 — The Old House
+
+</footer>
+
+</body>
+</html>
+```

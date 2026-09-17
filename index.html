@@ -1,129 +1,1599 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SmartLearn Online</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+<title>SmartLearn Online</title>
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+>
+
+
+<style>
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    :root {
+
+        --purple: #6c63ff;
+        --purple-dark: #5148e8;
+        --violet: #8b5cf6;
+
+        --dark: #17172d;
+        --text: #222238;
+        --muted: #8d8da3;
+
+        --bg: #f7f7fc;
+
+        --border: #ececf4;
+
+        --white: #ffffff;
+
+    }
+
+
+    body {
+
+        font-family: "Inter", sans-serif;
+
+        background:
+            radial-gradient(
+                circle at 10% 10%,
+                rgba(108,99,255,0.09),
+                transparent 28%
+            ),
+            radial-gradient(
+                circle at 90% 35%,
+                rgba(139,92,246,0.08),
+                transparent 28%
+            ),
+            var(--bg);
+
+        color: var(--text);
+
+        min-height: 100vh;
+
+    }
+
+
+    /* =====================================
+       NAVBAR
+    ===================================== */
+
+    nav {
+
+        height: 78px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding: 0 7%;
+
+        background: rgba(255,255,255,0.78);
+
+        backdrop-filter: blur(18px);
+
+        border-bottom: 1px solid rgba(230,230,240,0.7);
+
+        position: sticky;
+
+        top: 0;
+
+        z-index: 100;
+
+    }
+
+
+    .brand {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+
+    }
+
+
+    .brand-icon {
+
+        width: 42px;
+
+        height: 42px;
+
+        border-radius: 13px;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--purple),
+                var(--violet)
+            );
+
+        color: white;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 20px;
+
+        box-shadow:
+            0 8px 22px rgba(108,99,255,0.25);
+
+    }
+
+
+    .brand-name {
+
+        font-size: 17px;
+
+        font-weight: 800;
+
+        letter-spacing: -0.5px;
+
+    }
+
+
+    .nav-right {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 18px;
+
+    }
+
+
+    .welcome-user {
+
+        font-size: 12px;
+
+        color: var(--muted);
+
+    }
+
+
+    .logout-btn {
+
+        border: 1px solid #e8e8f0;
+
+        background: white;
+
+        padding: 10px 16px;
+
+        border-radius: 10px;
+
+        color: #66667a;
+
+        font-size: 11px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+
+    }
+
+
+    .logout-btn:hover {
+
+        color: #dc2626;
+
+        border-color: #fecaca;
+
+        background: #fffafa;
+
+    }
+
+
+    /* =====================================
+       HERO
+    ===================================== */
+
+    .hero {
+
+        max-width: 1200px;
+
+        margin: auto;
+
+        padding: 85px 7% 65px;
+
+        display: grid;
+
+        grid-template-columns: 1.05fr 0.95fr;
+
+        align-items: center;
+
+        gap: 70px;
+
+    }
+
+
+    .hero-content {
+
+        max-width: 570px;
+
+    }
+
+
+    .eyebrow {
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        background: #efedff;
+
+        color: var(--purple-dark);
+
+        padding: 8px 12px;
+
+        border-radius: 30px;
+
+        font-size: 10px;
+
+        font-weight: 700;
+
+        letter-spacing: 0.7px;
+
+        text-transform: uppercase;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .dot {
+
+        width: 6px;
+
+        height: 6px;
+
+        border-radius: 50%;
+
+        background: var(--purple);
+
+    }
+
+
+    .hero h1 {
+
+        font-size: 52px;
+
+        line-height: 1.08;
+
+        letter-spacing: -2.5px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .hero h1 span {
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--purple),
+                var(--violet)
+            );
+
+        -webkit-background-clip: text;
+
+        -webkit-text-fill-color: transparent;
+
+    }
+
+
+    .hero-description {
+
+        color: var(--muted);
+
+        font-size: 14px;
+
+        line-height: 1.8;
+
+        max-width: 500px;
+
+        margin-bottom: 30px;
+
+    }
+
+
+    .hero-buttons {
+
+        display: flex;
+
+        gap: 12px;
+
+    }
+
+
+    .primary-btn {
+
+        border: none;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--purple),
+                var(--violet)
+            );
+
+        color: white;
+
+        padding: 14px 21px;
+
+        border-radius: 12px;
+
+        font-family: inherit;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 12px 25px rgba(108,99,255,0.23);
+
+        transition: 0.25s;
+
+    }
+
+
+    .primary-btn:hover {
+
+        transform: translateY(-3px);
+
+        box-shadow:
+            0 17px 30px rgba(108,99,255,0.3);
+
+    }
+
+
+    .secondary-btn {
+
+        border: 1px solid var(--border);
+
+        background: white;
+
+        color: #5e5e74;
+
+        padding: 14px 21px;
+
+        border-radius: 12px;
+
+        font-family: inherit;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+
+    }
+
+
+    .secondary-btn:hover {
+
+        border-color: #d8d5ff;
+
+        color: var(--purple);
+
+    }
+
+
+    /* =====================================
+       HERO VISUAL
+    ===================================== */
+
+    .hero-visual {
+
+        position: relative;
+
+        min-height: 380px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+    }
+
+
+    .dashboard-preview {
+
+        width: 100%;
+
+        max-width: 430px;
+
+        background: rgba(255,255,255,0.85);
+
+        border: 1px solid rgba(255,255,255,0.9);
+
+        border-radius: 25px;
+
+        padding: 20px;
+
+        box-shadow:
+            0 30px 70px rgba(30,30,70,0.12);
+
+        backdrop-filter: blur(20px);
+
+        transform: rotate(2deg);
+
+    }
+
+
+    .preview-top {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .preview-title {
+
+        font-size: 11px;
+
+        font-weight: 800;
+
+    }
+
+
+    .preview-menu {
+
+        width: 28px;
+
+        height: 28px;
+
+        border-radius: 8px;
+
+        background: #f2f1ff;
+
+        color: var(--purple);
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+    }
+
+
+    .progress-box {
+
+        background:
+            linear-gradient(
+                135deg,
+                #5c55e6,
+                #8053dc
+            );
+
+        border-radius: 18px;
+
+        padding: 20px;
+
+        color: white;
+
+        margin-bottom: 15px;
+
+    }
+
+
+    .progress-box small {
+
+        opacity: 0.7;
+
+        font-size: 9px;
+
+    }
+
+
+    .progress-box h3 {
+
+        font-size: 18px;
+
+        margin: 7px 0 15px;
+
+    }
+
+
+    .mini-progress {
+
+        height: 7px;
+
+        background: rgba(255,255,255,0.2);
+
+        border-radius: 20px;
+
+        overflow: hidden;
+
+    }
+
+
+    .mini-progress div {
+
+        width: 68%;
+
+        height: 100%;
+
+        background: white;
+
+        border-radius: 20px;
+
+    }
+
+
+    .preview-cards {
+
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 12px;
+
+    }
+
+
+    .preview-card {
+
+        padding: 16px;
+
+        border-radius: 15px;
+
+        background: #fafafe;
+
+        border: 1px solid #eeeeF5;
+
+    }
+
+
+    .preview-card-icon {
+
+        font-size: 18px;
+
+        margin-bottom: 9px;
+
+    }
+
+
+    .preview-card strong {
+
+        display: block;
+
+        font-size: 11px;
+
+        margin-bottom: 4px;
+
+    }
+
+
+    .preview-card span {
+
+        font-size: 9px;
+
+        color: var(--muted);
+
+    }
+
+
+    /* Floating badge */
+
+    .floating-badge {
+
+        position: absolute;
+
+        right: -10px;
+
+        bottom: 35px;
+
+        background: white;
+
+        padding: 13px 16px;
+
+        border-radius: 14px;
+
+        box-shadow:
+            0 15px 35px rgba(20,20,60,0.12);
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+    }
+
+
+    .floating-icon {
+
+        width: 35px;
+
+        height: 35px;
+
+        border-radius: 11px;
+
+        background: #fff4d9;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+    }
+
+
+    .floating-badge strong {
+
+        font-size: 10px;
+
+        display: block;
+
+    }
+
+
+    .floating-badge span {
+
+        font-size: 9px;
+
+        color: var(--muted);
+
+    }
+
+
+    /* =====================================
+       FEATURES
+    ===================================== */
+
+    .features {
+
+        max-width: 1200px;
+
+        margin: auto;
+
+        padding: 15px 7% 80px;
+
+    }
+
+
+    .section-heading {
+
+        text-align: center;
+
+        margin-bottom: 35px;
+
+    }
+
+
+    .section-heading small {
+
+        color: var(--purple);
+
+        font-size: 10px;
+
+        font-weight: 700;
+
+        text-transform: uppercase;
+
+        letter-spacing: 1.2px;
+
+    }
+
+
+    .section-heading h2 {
+
+        font-size: 28px;
+
+        letter-spacing: -1px;
+
+        margin-top: 8px;
+
+    }
+
+
+    .section-heading p {
+
+        color: var(--muted);
+
+        font-size: 12px;
+
+        margin-top: 8px;
+
+    }
+
+
+    .feature-grid {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 18px;
+
+    }
+
+
+    .feature-card {
+
+        background: white;
+
+        border: 1px solid var(--border);
+
+        border-radius: 20px;
+
+        padding: 25px;
+
+        transition: 0.3s;
+
+    }
+
+
+    .feature-card:hover {
+
+        transform: translateY(-5px);
+
+        box-shadow:
+            0 18px 35px rgba(25,25,60,0.07);
+
+    }
+
+
+    .feature-icon {
+
+        width: 48px;
+
+        height: 48px;
+
+        border-radius: 14px;
+
+        background: #f1efff;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 21px;
+
+        margin-bottom: 18px;
+
+    }
+
+
+    .feature-card h3 {
+
+        font-size: 15px;
+
+        margin-bottom: 7px;
+
+    }
+
+
+    .feature-card p {
+
+        color: var(--muted);
+
+        font-size: 11px;
+
+        line-height: 1.7;
+
+    }
+
+
+    /* =====================================
+       CTA
+    ===================================== */
+
+    .cta {
+
+        max-width: 1100px;
+
+        margin: 0 auto 60px;
+
+        padding: 0 7%;
+
+    }
+
+
+    .cta-box {
+
+        background:
+            radial-gradient(
+                circle at 90% 20%,
+                rgba(255,255,255,0.16),
+                transparent 25%
+            ),
+            linear-gradient(
+                135deg,
+                #5149dc,
+                #8050dc
+            );
+
+        border-radius: 25px;
+
+        padding: 45px;
+
+        color: white;
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        overflow: hidden;
+
+        position: relative;
+
+    }
+
+
+    .cta-box h2 {
+
+        font-size: 25px;
+
+        letter-spacing: -1px;
+
+        margin-bottom: 7px;
+
+    }
+
+
+    .cta-box p {
+
+        font-size: 11px;
+
+        color: rgba(255,255,255,0.68);
+
+    }
+
+
+    .cta-btn {
+
+        border: none;
+
+        background: white;
+
+        color: var(--purple-dark);
+
+        padding: 13px 20px;
+
+        border-radius: 11px;
+
+        font-family: inherit;
+
+        font-size: 11px;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        transition: 0.25s;
+
+    }
+
+
+    .cta-btn:hover {
+
+        transform: translateY(-2px);
+
+    }
+
+
+    /* =====================================
+       FOOTER
+    ===================================== */
+
+    footer {
+
+        text-align: center;
+
+        padding: 25px;
+
+        color: #aaaabd;
+
+        font-size: 10px;
+
+        border-top: 1px solid var(--border);
+
+    }
+
+
+    /* =====================================
+       MOBILE
+    ===================================== */
+
+    @media (max-width: 850px) {
+
+        nav {
+
+            padding: 0 5%;
+
+        }
+
+
+        .welcome-user {
+
+            display: none;
+
+        }
+
+
+        .hero {
+
+            grid-template-columns: 1fr;
+
+            padding-top: 55px;
+
+            gap: 45px;
+
+        }
+
+
+        .hero h1 {
+
+            font-size: 40px;
+
+        }
+
+
+        .hero-visual {
+
+            min-height: 330px;
+
+        }
+
+
+        .feature-grid {
+
+            grid-template-columns: 1fr;
+
+        }
+
+
+        .cta-box {
+
+            flex-direction: column;
+
+            align-items: flex-start;
+
+            gap: 25px;
+
+        }
+
+    }
+
+
+    @media (max-width: 500px) {
+
+        .hero {
+
+            padding-left: 5%;
+
+            padding-right: 5%;
+
+        }
+
+
+        .hero h1 {
+
+            font-size: 34px;
+
+        }
+
+
+        .hero-buttons {
+
+            flex-direction: column;
+
+        }
+
+
+        .primary-btn,
+        .secondary-btn {
+
+            width: 100%;
+
+        }
+
+
+        .dashboard-preview {
+
+            transform: none;
+
+        }
+
+
+        .floating-badge {
+
+            right: 0;
+
+        }
+
+
+        .cta {
+
+            padding: 0 5%;
+
+        }
+
+
+        .cta-box {
+
+            padding: 30px;
+
+        }
+
+    }
+
+</style>
+
 </head>
 
 <body>
 
-    <header>
-        <h1>SmartLearn Online</h1>
-        <p>Learn • Play • Grow</p>
-    </header>
+<!-- =====================================
+     NAVBAR
+====================================== -->
 
-    <main>
+<nav>
 
-        <h2>Welcome to SmartLearn! 🎓</h2>
+    <div class="brand">
 
-        <p id="studentEmail"></p>
+        <div class="brand-icon">
+            ✦
+        </div>
 
-        <p>
-            Learn from home with fun lessons,
-            simple games and interactive activities.
-        </p>
+        <div class="brand-name">
+            UwiseLearn
+        </div>
 
-        <br>
+    </div>
 
-        <button onclick="startLearning()">
-            Start Learning 📚
-        </button>
 
-        <button onclick="logout()">
+    <div class="nav-right">
+
+        <span
+            class="welcome-user"
+            id="studentEmail"
+        >
+            Loading...
+        </span>
+
+
+        <button
+            class="logout-btn"
+            onclick="logout()"
+        >
             Logout
         </button>
 
-    </main>
+    </div>
 
-    <footer>
-        <p>© 2026 SmartLearn Online</p>
-    </footer>
+</nav>
 
 
-    <script>
 
-        // =========================
-        // SUPABASE
-        // =========================
+<!-- =====================================
+     HERO
+====================================== -->
 
-        const SUPABASE_URL = "https://exaohyhqllzylcfyqtge.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+<section class="hero">
 
-        const supabaseClient = window.supabase.createClient(
+
+    <div class="hero-content">
+
+
+        <div class="eyebrow">
+
+            <span class="dot"></span>
+
+            Your learning journey starts here
+
+        </div>
+
+
+        <h1>
+
+            Learn smarter.
+            <br>
+
+            <span>Achieve more.</span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            Welcome to SmartLearn — a fun and interactive
+            learning platform designed to help you understand,
+            practise and grow at your own pace.
+
+        </p>
+
+
+        <div class="hero-buttons">
+
+
+            <button
+                class="primary-btn"
+                onclick="startLearning()"
+            >
+                Start Learning&nbsp; →
+            </button>
+
+
+            <button
+                class="secondary-btn"
+                onclick="openGames()"
+            >
+                Explore Games&nbsp; 🎮
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         VISUAL
+    ====================================== -->
+
+    <div class="hero-visual">
+
+
+        <div class="dashboard-preview">
+
+
+            <div class="preview-top">
+
+                <div class="preview-title">
+                    Your Learning Space
+                </div>
+
+                <div class="preview-menu">
+                    •••
+                </div>
+
+            </div>
+
+
+            <div class="progress-box">
+
+                <small>
+                    CURRENT PROGRESS
+                </small>
+
+                <h3>
+                    Keep going! 🚀
+                </h3>
+
+
+                <div class="mini-progress">
+
+                    <div></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="preview-cards">
+
+
+                <div class="preview-card">
+
+                    <div class="preview-card-icon">
+                        📚
+                    </div>
+
+                    <strong>
+                        Lessons
+                    </strong>
+
+                    <span>
+                        Learn something new
+                    </span>
+
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div class="preview-card-icon">
+                        🎮
+                    </div>
+
+                    <strong>
+                        Games
+                    </strong>
+
+                    <span>
+                        Learn while playing
+                    </span>
+
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div class="preview-card-icon">
+                        🏆
+                    </div>
+
+                    <strong>
+                        Achievements
+                    </strong>
+
+                    <span>
+                        Track your progress
+                    </span>
+
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div class="preview-card-icon">
+                        ✨
+                    </div>
+
+                    <strong>
+                        Challenges
+                    </strong>
+
+                    <span>
+                        Test yourself
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="floating-badge">
+
+            <div class="floating-icon">
+                🔥
+            </div>
+
+            <div>
+
+                <strong>
+                    3 Day Streak
+                </strong>
+
+                <span>
+                    Keep it going!
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================
+     FEATURES
+====================================== -->
+
+<section class="features">
+
+
+    <div class="section-heading">
+
+        <small>
+            Everything you need
+        </small>
+
+        <h2>
+            One place to learn & grow
+        </h2>
+
+        <p>
+            Simple tools designed to make learning more engaging.
+        </p>
+
+    </div>
+
+
+
+    <div class="feature-grid">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📚
+            </div>
+
+            <h3>
+                Interactive Lessons
+            </h3>
+
+            <p>
+                Learn concepts step by step with structured
+                lessons that are easy to follow and understand.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🎮
+            </div>
+
+            <h3>
+                Fun Learning Games
+            </h3>
+
+            <p>
+                Turn revision into an enjoyable experience
+                through games and interactive challenges.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🏆
+            </div>
+
+            <h3>
+                Track Your Progress
+            </h3>
+
+            <p>
+                Monitor your marks, achievements and learning
+                progress as you move forward.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================
+     CTA
+====================================== -->
+
+<section class="cta">
+
+
+    <div class="cta-box">
+
+        <div>
+
+            <h2>
+                Ready to start learning?
+            </h2>
+
+            <p>
+                Your next achievement could be one lesson away.
+            </p>
+
+        </div>
+
+
+        <button
+            class="cta-btn"
+            onclick="startLearning()"
+        >
+            Start Learning →
+        </button>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================
+     FOOTER
+====================================== -->
+
+<footer>
+
+    © 2026 SmartLearn Online
+    &nbsp; • &nbsp;
+    Learn • Play • Grow
+
+</footer>
+
+
+
+<!-- =====================================
+     JAVASCRIPT
+====================================== -->
+
+<script>
+
+
+    // =========================
+    // SUPABASE
+    // =========================
+
+    const SUPABASE_URL =
+        "https://exaohyhqllzylcfyqtge.supabase.co";
+
+
+    const SUPABASE_KEY =
+        "sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+
+
+    const supabaseClient =
+        window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_KEY
         );
 
 
-        // =========================
-        // CHECK LOGIN
-        // =========================
 
-        async function checkUser() {
+    // =========================
+    // CHECK LOGIN
+    // =========================
 
-            const { data, error } =
-                await supabaseClient.auth.getUser();
+    async function checkUser() {
 
-            if (error || !data.user) {
 
-                // Kalau belum login,
-                // pergi ke login page
-                window.location.href = "login.html";
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .auth
+            .getUser();
 
-                return;
-            }
 
-            // Paparkan email student
-            document.getElementById("studentEmail").innerText =
-                "Logged in as: " + data.user.email;
+        if (
+            error ||
+            !data.user
+        ) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
         }
 
 
-        // =========================
-        // LOGOUT
-        // =========================
+        document
+            .getElementById("studentEmail")
+            .innerText =
+            data.user.email;
 
-        async function logout() {
+    }
 
-            const { error } =
-                await supabaseClient.auth.signOut();
 
-            if (error) {
 
-                console.error(error);
-                return;
-            }
+    // =========================
+    // LOGOUT
+    // =========================
 
-            // Balik ke login
-            window.location.href = "login.html";
+    async function logout() {
+
+
+        const {
+            error
+        } =
+            await supabaseClient
+            .auth
+            .signOut();
+
+
+        if (error) {
+
+            console.error(error);
+
+            return;
+
         }
 
 
-        // =========================
-        // START LEARNING
-        // =========================
+        window.location.href =
+            "login.html";
 
-   function startLearning() {
-
-    window.location.href = "dashboard.html";
-
-}
+    }
 
 
-        // Check user bila page dibuka
-        checkUser();
 
-    </script>
+    // =========================
+    // START LEARNING
+    // =========================
+
+    function startLearning() {
+
+        window.location.href =
+            "dashboard.html";
+
+    }
+
+
+
+    // =========================
+    // GAMES
+    // =========================
+
+    function openGames() {
+
+        window.location.href =
+            "year.html";
+
+    }
+
+
+
+    // =========================
+    // CHECK USER
+    // =========================
+
+    checkUser();
+
+
+</script>
 
 </body>
+
 </html>
-```
