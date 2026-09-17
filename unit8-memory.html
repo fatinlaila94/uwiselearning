@@ -1,0 +1,1053 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Memory Flip - Unit 8 | SmartLearn</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f3ff, #eef2ff, #f8fafc);
+            color: #27234a;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            color: white;
+            padding: 45px 20px 55px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+            top: -70px;
+            left: 8%;
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+            bottom: -130px;
+            right: 7%;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 38px;
+            position: relative;
+            z-index: 2;
+        }
+
+        header p {
+            margin: 10px 0 15px;
+            font-size: 17px;
+            opacity: 0.95;
+            position: relative;
+            z-index: 2;
+        }
+
+        .unit-name {
+            display: inline-block;
+            padding: 9px 20px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.3);
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1050px;
+            margin: -20px auto 50px;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* ================= BACK BUTTON ================= */
+
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: white;
+            color: #6c63ff;
+            border: 2px solid #6c63ff;
+            padding: 11px 20px;
+            border-radius: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            transition: 0.3s ease;
+            box-shadow: 0 8px 20px rgba(108,99,255,0.1);
+        }
+
+        .back-btn:hover {
+            color: white;
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(108,99,255,0.25);
+        }
+
+        /* ================= GAME PANEL ================= */
+
+        .game-panel {
+            background: rgba(255,255,255,0.92);
+            border-radius: 28px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(50,40,100,0.12);
+            border: 1px solid rgba(108,99,255,0.08);
+        }
+
+        .game-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .game-info h2 {
+            margin: 0 0 8px;
+            font-size: 28px;
+            color: #312e81;
+        }
+
+        .game-info p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* ================= SCORE ================= */
+
+        .score-box {
+            min-width: 145px;
+            text-align: center;
+            padding: 18px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #f3f0ff, #eef2ff);
+            border: 1px solid #ddd6fe;
+        }
+
+        .score-label {
+            font-size: 13px;
+            color: #7c3aed;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .score {
+            font-size: 30px;
+            font-weight: bold;
+            color: #4f46e5;
+            margin-top: 4px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            flex: 1;
+            background: #fafafa;
+            border: 1px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 13px;
+            text-align: center;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 21px;
+            color: #6c63ff;
+        }
+
+        .stat span {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* ================= PROGRESS ================= */
+
+        .progress-section {
+            margin-bottom: 25px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #6b7280;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #6c63ff, #8b5cf6);
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        /* ================= MEMORY GRID ================= */
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            justify-content: center;
+        }
+
+        .memory-card {
+            height: 155px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .memory-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ================= FRONT ================= */
+
+        .card-front {
+            background: white;
+            border: 2px solid #e5e7eb;
+            transform: rotateY(180deg);
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .card-front .emoji {
+            font-size: 43px;
+        }
+
+        .card-front .word {
+            font-size: 17px;
+            font-weight: bold;
+            color: #312e81;
+            text-align: center;
+        }
+
+        /* ================= BACK ================= */
+
+        .card-back {
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(108,99,255,0.2);
+        }
+
+        .card-back::before {
+            content: "";
+            position: absolute;
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            top: -20px;
+            right: -15px;
+        }
+
+        .card-back::after {
+            content: "★";
+            position: absolute;
+            font-size: 18px;
+            opacity: 0.25;
+            bottom: 18px;
+            left: 20px;
+        }
+
+        .memory-card:hover:not(.flipped):not(.matched) {
+            transform: translateY(-6px);
+        }
+
+        .memory-card.matched .card-front {
+            border: 2px solid #22c55e;
+            background: #f0fdf4;
+        }
+
+        .memory-card.matched {
+            pointer-events: none;
+        }
+
+        /* ================= RESULT ================= */
+
+        .result-panel {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .result-icon {
+            font-size: 70px;
+            margin-bottom: 10px;
+        }
+
+        .result-panel h2 {
+            color: #312e81;
+            font-size: 32px;
+            margin: 5px 0 10px;
+        }
+
+        .result-panel p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .final-score {
+            font-size: 38px;
+            font-weight: bold;
+            color: #6c63ff;
+            margin: 18px 0;
+        }
+
+        .restart-btn {
+            border: none;
+            padding: 14px 25px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 10px 20px rgba(108,99,255,0.2);
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 14px 28px rgba(108,99,255,0.3);
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 750px) {
+
+            header h1 {
+                font-size: 31px;
+            }
+
+            .game-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .score-box {
+                width: 100%;
+            }
+
+            .memory-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .memory-card {
+                height: 125px;
+            }
+
+            .card-front .emoji {
+                font-size: 34px;
+            }
+
+            .card-front .word {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .container {
+                width: 94%;
+            }
+
+            .game-panel {
+                padding: 20px 15px;
+            }
+
+            .memory-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+            }
+
+            .memory-card {
+                height: 135px;
+            }
+
+            .stats {
+                gap: 7px;
+            }
+
+            .stat {
+                padding: 10px 5px;
+            }
+
+            .card-front .emoji {
+                font-size: 36px;
+            }
+
+            .card-front .word {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🤖 Memory Flip</h1>
+
+    <p>Match the robot picture with the correct word!</p>
+
+    <div class="unit-name">
+        Unit 8 — The Robot
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <a href="unit8y2.html" class="back-btn">
+        ← Back to Unit 8 Games
+    </a>
+
+
+    <div class="game-panel">
+
+        <!-- GAME AREA -->
+
+        <div id="gameArea">
+
+            <div class="game-top">
+
+                <div class="game-info">
+
+                    <h2>🤖 Meet the Robot!</h2>
+
+                    <p>
+                        Flip two cards and find the matching robot words.
+                    </p>
+
+                </div>
+
+
+                <div class="score-box">
+
+                    <div class="score-label">
+                        Score
+                    </div>
+
+                    <div class="score" id="score">
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <strong id="matches">
+                        0 / 8
+                    </strong>
+
+                    <span>
+                        Matches
+                    </span>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <strong id="moves">
+                        0
+                    </strong>
+
+                    <span>
+                        Moves
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="progress-section">
+
+                <div class="progress-header">
+
+                    <span>
+                        Robot Challenge
+                    </span>
+
+                    <span id="progressText">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        id="progressFill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MEMORY GRID -->
+
+            <div
+                class="memory-grid"
+                id="memoryGrid">
+            </div>
+
+        </div>
+
+
+        <!-- RESULT -->
+
+        <div
+            class="result-panel"
+            id="resultPanel">
+
+            <div class="result-icon">
+                🤖
+            </div>
+
+            <h2>
+                🏆 Robot Master!
+            </h2>
+
+            <p>
+                Amazing! You matched all the robot parts and features!
+            </p>
+
+            <div
+                class="final-score"
+                id="finalScore">
+                0 Points
+            </div>
+
+            <button
+                class="restart-btn"
+                onclick="restartGame()">
+
+                🔄 Play Again
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* ================= GAME DATA ================= */
+
+    const activities = [
+
+        {
+            id: "head",
+            word: "Head",
+            emoji: "🤖"
+        },
+
+        {
+            id: "eyes",
+            word: "Eyes",
+            emoji: "👀"
+        },
+
+        {
+            id: "arms",
+            word: "Arms",
+            emoji: "💪"
+        },
+
+        {
+            id: "hands",
+            word: "Hands",
+            emoji: "🖐️"
+        },
+
+        {
+            id: "legs",
+            word: "Legs",
+            emoji: "🦿"
+        },
+
+        {
+            id: "wheels",
+            word: "Wheels",
+            emoji: "⚙️"
+        },
+
+        {
+            id: "button",
+            word: "Button",
+            emoji: "🔘"
+        },
+
+        {
+            id: "battery",
+            word: "Battery",
+            emoji: "🔋"
+        }
+
+    ];
+
+
+    let cards = [];
+
+    let flippedCards = [];
+
+    let matchedPairs = 0;
+
+    let moves = 0;
+
+    let score = 0;
+
+    let lockBoard = false;
+
+
+    /* ================= START GAME ================= */
+
+    function startGame() {
+
+        cards = [];
+
+        flippedCards = [];
+
+        matchedPairs = 0;
+
+        moves = 0;
+
+        score = 0;
+
+        lockBoard = false;
+
+
+        activities.forEach(item => {
+
+            /*
+                Picture card
+            */
+
+            cards.push({
+
+                id: item.id,
+
+                type: "picture",
+
+                word: item.word,
+
+                emoji: item.emoji
+
+            });
+
+
+            /*
+                Word card
+            */
+
+            cards.push({
+
+                id: item.id,
+
+                type: "word",
+
+                word: item.word,
+
+                emoji: item.emoji
+
+            });
+
+        });
+
+
+        shuffle(cards);
+
+        updateStats();
+
+        createCards();
+
+    }
+
+
+    /* ================= SHUFFLE ================= */
+
+    function shuffle(array) {
+
+        for (
+            let i = array.length - 1;
+            i > 0;
+            i--
+        ) {
+
+            const j =
+                Math.floor(
+                    Math.random() * (i + 1)
+                );
+
+            [
+                array[i],
+                array[j]
+            ] =
+            [
+                array[j],
+                array[i]
+            ];
+
+        }
+
+    }
+
+
+    /* ================= CREATE CARDS ================= */
+
+    function createCards() {
+
+        const grid =
+            document.getElementById("memoryGrid");
+
+        grid.innerHTML = "";
+
+
+        cards.forEach((card, index) => {
+
+            const memoryCard =
+                document.createElement("div");
+
+            memoryCard.className =
+                "memory-card";
+
+            memoryCard.dataset.id =
+                card.id;
+
+            memoryCard.dataset.index =
+                index;
+
+
+            memoryCard.innerHTML = `
+
+                <div class="card-inner">
+
+                    <div class="card-front">
+
+                        <div class="emoji">
+                            ${card.emoji}
+                        </div>
+
+                        <div class="word">
+                            ${card.word}
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-back">
+                        ?
+                    </div>
+
+                </div>
+
+            `;
+
+
+            memoryCard.addEventListener(
+                "click",
+                () => flipCard(memoryCard)
+            );
+
+
+            grid.appendChild(memoryCard);
+
+        });
+
+    }
+
+
+    /* ================= FLIP CARD ================= */
+
+    function flipCard(card) {
+
+        if (lockBoard) return;
+
+        if (
+            card.classList.contains("flipped") ||
+            card.classList.contains("matched")
+        ) {
+            return;
+        }
+
+
+        card.classList.add("flipped");
+
+        flippedCards.push(card);
+
+
+        if (flippedCards.length === 2) {
+
+            moves++;
+
+            updateStats();
+
+            checkMatch();
+
+        }
+
+    }
+
+
+    /* ================= CHECK MATCH ================= */
+
+    function checkMatch() {
+
+        lockBoard = true;
+
+
+        const firstCard =
+            flippedCards[0];
+
+        const secondCard =
+            flippedCards[1];
+
+
+        const isMatch =
+            firstCard.dataset.id ===
+            secondCard.dataset.id;
+
+
+        if (isMatch) {
+
+            setTimeout(() => {
+
+                firstCard.classList.add("matched");
+
+                secondCard.classList.add("matched");
+
+
+                matchedPairs++;
+
+                score += 100;
+
+
+                flippedCards = [];
+
+                lockBoard = false;
+
+
+                updateStats();
+
+                updateProgress();
+
+
+                if (
+                    matchedPairs ===
+                    activities.length
+                ) {
+
+                    finishGame();
+
+                }
+
+            }, 500);
+
+        } else {
+
+            setTimeout(() => {
+
+                firstCard.classList.remove("flipped");
+
+                secondCard.classList.remove("flipped");
+
+
+                flippedCards = [];
+
+                lockBoard = false;
+
+            }, 900);
+
+        }
+
+    }
+
+
+    /* ================= UPDATE STATS ================= */
+
+    function updateStats() {
+
+        document.getElementById("matches")
+            .textContent =
+            `${matchedPairs} / ${activities.length}`;
+
+
+        document.getElementById("moves")
+            .textContent =
+            moves;
+
+
+        document.getElementById("score")
+            .textContent =
+            score;
+
+    }
+
+
+    /* ================= PROGRESS ================= */
+
+    function updateProgress() {
+
+        const progress =
+            Math.round(
+                (matchedPairs /
+                activities.length) * 100
+            );
+
+
+        document.getElementById("progressFill")
+            .style.width =
+            progress + "%";
+
+
+        document.getElementById("progressText")
+            .textContent =
+            progress + "%";
+
+    }
+
+
+    /* ================= FINISH ================= */
+
+    function finishGame() {
+
+        setTimeout(() => {
+
+            document.getElementById("gameArea")
+                .style.display =
+                "none";
+
+
+            document.getElementById("resultPanel")
+                .style.display =
+                "block";
+
+
+            document.getElementById("finalScore")
+                .textContent =
+                score + " Points";
+
+        }, 700);
+
+    }
+
+
+    /* ================= RESTART ================= */
+
+    function restartGame() {
+
+        document.getElementById("gameArea")
+            .style.display =
+            "block";
+
+
+        document.getElementById("resultPanel")
+            .style.display =
+            "none";
+
+
+        startGame();
+
+        updateProgress();
+
+    }
+
+
+    /* ================= START ================= */
+
+    startGame();
+
+</script>
+
+</body>
+</html>
+```

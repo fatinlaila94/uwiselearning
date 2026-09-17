@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Detective Case - The Robot | SmartLearn</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #25205c 0%, transparent 35%),
+                radial-gradient(circle at bottom right, #172554 0%, transparent 35%),
+                #070b16;
+            color: white;
+            padding: 30px 0 60px;
+        }
+
+        .container {
+            width: min(1100px, 94%);
+            margin: auto;
+        }
+
+        /* BACK BUTTON */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+            background: rgba(124, 92, 255, 0.18);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            transition: 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            background: rgba(124, 92, 255, 0.35);
+            box-shadow: 0 8px 25px rgba(124, 92, 255, 0.25);
+        }
+
+        /* HEADER */
+        .header {
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(39, 29, 91, 0.98),
+                    rgba(20, 27, 61, 0.98)
+                );
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            border-radius: 30px;
+            padding: 45px 30px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: rgba(139, 92, 246, 0.12);
+            border-radius: 50%;
+            top: -80px;
+            left: -60px;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            background: rgba(59, 130, 246, 0.08);
+            border-radius: 50%;
+            bottom: -120px;
+            right: -70px;
+        }
+
+        .detective-icon {
+            position: relative;
+            z-index: 1;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 20px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+            box-shadow:
+                0 15px 35px rgba(124, 58, 237, 0.35);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-7px);
+            }
+        }
+
+        .case-label {
+            position: relative;
+            z-index: 1;
+            color: #a78bfa;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 1;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            position: relative;
+            z-index: 1;
+            color: #cbd5e1;
+            font-size: 16px;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            border-radius: 18px;
+            padding: 18px;
+            text-align: center;
+            transition: 0.3s ease;
+        }
+
+        .stat:hover {
+            transform: translateY(-4px);
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .stat-label {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .timer-warning {
+            color: #f87171;
+        }
+
+        /* PROGRESS */
+        .progress-container {
+            margin-bottom: 25px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 9px;
+            background: rgba(30, 41, 59, 0.9);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #7c3aed, #3b82f6);
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        /* CASE CARD */
+        .case-card {
+            position: relative;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(18, 25, 48, 0.98),
+                    rgba(10, 15, 30, 0.98)
+                );
+            border: 1px solid rgba(139, 92, 246, 0.18);
+            border-radius: 27px;
+            padding: 35px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .case-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #7c3aed, #3b82f6);
+        }
+
+        .case-number {
+            color: #a78bfa;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .case-title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #f8fafc;
+            margin-bottom: 20px;
+        }
+
+        /* CLUE */
+        .clue {
+            background: rgba(76, 29, 149, 0.16);
+            border: 1px solid rgba(139, 92, 246, 0.25);
+            padding: 16px 18px;
+            border-radius: 15px;
+            color: #ddd6fe;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* ANSWERS */
+        .answers {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .answer {
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(30, 41, 59, 0.65);
+            color: white;
+            padding: 18px;
+            border-radius: 16px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 15px;
+            transition: 0.25s ease;
+        }
+
+        .answer:hover {
+            transform: translateY(-4px);
+            background: rgba(76, 29, 149, 0.35);
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .answer.correct {
+            background: rgba(22, 163, 74, 0.2);
+            border-color: #22c55e;
+        }
+
+        .answer.wrong {
+            background: rgba(220, 38, 38, 0.2);
+            border-color: #ef4444;
+        }
+
+        .answer.disabled {
+            pointer-events: none;
+        }
+
+        /* FEEDBACK */
+        .feedback {
+            display: none;
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: bold;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct-feedback {
+            background: rgba(22, 163, 74, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            color: #86efac;
+        }
+
+        .feedback.wrong-feedback {
+            background: rgba(220, 38, 38, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+
+        /* NEXT BUTTON */
+        .next-btn {
+            display: none;
+            width: 100%;
+            margin-top: 20px;
+            padding: 17px;
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+            transition: 0.3s ease;
+        }
+
+        .next-btn.show {
+            display: block;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        /* RESULT */
+        .result {
+            display: none;
+            text-align: center;
+            padding: 30px 10px 10px;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(
+                145deg,
+                rgba(124, 58, 237, 0.25),
+                rgba(37, 99, 235, 0.2)
+            );
+            border: 3px solid rgba(139, 92, 246, 0.5);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.2);
+        }
+
+        .score-number {
+            font-size: 38px;
+            font-weight: bold;
+        }
+
+        .score-label {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .result h2 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            color: #cbd5e1;
+            line-height: 1.6;
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .restart-btn {
+            margin-top: 25px;
+            padding: 15px 28px;
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+            transition: 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        /* MOBILE */
+        @media (max-width: 700px) {
+
+            body {
+                padding-top: 20px;
+            }
+
+            .header {
+                padding: 35px 20px;
+            }
+
+            .header h1 {
+                font-size: 30px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .case-card {
+                padding: 25px 20px;
+            }
+
+            .answers {
+                grid-template-columns: 1fr;
+            }
+
+            .question {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- BACK BUTTON -->
+    <a href="unit8y2.html" class="back-btn">
+        ← Back to Unit 8 Games
+    </a>
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div class="detective-icon">
+            🤖
+        </div>
+
+        <div class="case-label">
+            SMARTLEARN DETECTIVE AGENCY
+        </div>
+
+        <h1>The Robot Mystery</h1>
+
+        <p>
+            Follow the clues, solve the mystery and test your English skills!
+        </p>
+
+    </div>
+
+    <!-- STATS -->
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-label">
+                Score
+            </div>
+
+            <div class="stat-value" id="score">
+                0
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                Case
+            </div>
+
+            <div class="stat-value" id="caseNumber">
+                1/12
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                Time
+            </div>
+
+            <div class="stat-value" id="timer">
+                20s
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="progress-container">
+
+        <div class="progress-info">
+            <span>Investigation Progress</span>
+            <span id="progressText">0%</span>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+
+    </div>
+
+    <!-- GAME CARD -->
+    <div class="case-card" id="gameCard">
+
+        <div class="case-number" id="caseLabel">
+            CASE 01
+        </div>
+
+        <div class="case-title">
+            Detective Clue
+        </div>
+
+        <div class="question" id="question">
+        </div>
+
+        <div class="clue" id="clue">
+        </div>
+
+        <div class="answers" id="answers">
+        </div>
+
+        <div class="feedback" id="feedback">
+        </div>
+
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+            Next Case →
+        </button>
+
+        <!-- RESULT -->
+        <div class="result" id="result">
+
+            <div class="score-circle">
+
+                <div class="score-number" id="finalScore">
+                    0
+                </div>
+
+                <div class="score-label">
+                    POINTS
+                </div>
+
+            </div>
+
+            <h2 id="resultTitle">
+                Master Detective!
+            </h2>
+
+            <p id="resultMessage">
+            </p>
+
+            <button class="restart-btn" onclick="restartGame()">
+                🔄 Investigate Again
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+    {
+        question: "Detective clue: You see a robot in the kitchen. It is holding a spoon and a bowl. What is the robot probably doing?",
+        clue: "Look carefully at what the robot is holding.",
+        answers: [
+            "Cooking",
+            "Swimming",
+            "Sleeping",
+            "Flying"
+        ],
+        correct: 0
+    },
+
+    {
+        question: "The robot's battery is empty. What does the robot need?",
+        clue: "A robot needs energy to work.",
+        answers: [
+            "A jacket",
+            "A charger",
+            "A pillow",
+            "A bicycle"
+        ],
+        correct: 1
+    },
+
+    {
+        question: "Detective clue: The robot is standing beside the door. It is waiting for someone. Where is the robot?",
+        clue: "Look at the position of the robot.",
+        answers: [
+            "Behind the door",
+            "Under the door",
+            "Beside the door",
+            "Inside the door"
+        ],
+        correct: 2
+    },
+
+    {
+        question: "Which sentence describes the robot correctly?",
+        clue: "Choose the sentence with correct grammar.",
+        answers: [
+            "The robot have two hands.",
+            "The robot has two hands.",
+            "The robot having two hands.",
+            "The robot haves two hands."
+        ],
+        correct: 1
+    },
+
+    {
+        question: "The robot is carrying a heavy box. Who might need its help?",
+        clue: "Think about what a robot can help people with.",
+        answers: [
+            "A person moving a heavy box",
+            "A fish in the sea",
+            "A bird in the sky",
+            "A cloud in the air"
+        ],
+        correct: 0
+    },
+
+    {
+        question: "Detective clue: The robot hears a strange noise at night. What should it do first?",
+        clue: "A careful detective checks the situation.",
+        answers: [
+            "Check where the noise comes from",
+            "Eat dinner",
+            "Go swimming",
+            "Play football"
+        ],
+        correct: 0
+    },
+
+    {
+        question: "Choose the correct question:",
+        clue: "You want to ask about the robot's ability to dance.",
+        answers: [
+            "Can the robot dance?",
+            "Does the robot can dance?",
+            "Is the robot can dance?",
+            "Can the robot dancing?"
+        ],
+        correct: 0
+    },
+
+    {
+        question: "The robot is cleaning the classroom. There are books on the floor. What should the robot do?",
+        clue: "Think about keeping the classroom tidy.",
+        answers: [
+            "Put the books in the correct place",
+            "Throw all the books away",
+            "Hide the books",
+            "Leave the books on the floor"
+        ],
+        correct: 0
+    },
+
+    {
+        question: "Detective clue: The robot has a red light on its chest. The light is flashing. What might this mean?",
+        clue: "Look for a possible warning signal.",
+        answers: [
+            "There may be a problem",
+            "The robot is eating",
+            "The robot is sleeping",
+            "The robot is reading"
+        ],
+        correct: 0
+    },
+
+    {
+        question: "Which word best describes a robot that follows instructions and helps people?",
+        clue: "Choose a word that describes its behaviour.",
+        answers: [
+            "Helpful",
+            "Hungry",
+            "Sleepy",
+            "Wet"
+        ],
+        correct: 0
+    },
+
+    {
+        question: "The robot says, “Please press the green button.” What should you do?",
+        clue: "Follow the robot's instruction.",
+        answers: [
+            "Press the red button",
+            "Press the green button",
+            "Turn off the lights",
+            "Open the window"
+        ],
+        correct: 1
+    },
+
+    {
+        question: "Final clue: Sara asks the robot to help her carry three books. The robot carries the books to the table. What can we learn about the robot?",
+        clue: "Think about the robot's action.",
+        answers: [
+            "It is helpful",
+            "It is afraid",
+            "It is hungry",
+            "It is sleeping"
+        ],
+        correct: 0
+    }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let timeLeft = 20;
+let timerInterval = null;
+let answered = false;
+
+
+/* LOAD QUESTION */
+
+function loadQuestion() {
+
+    clearInterval(timerInterval);
+
+    answered = false;
+    timeLeft = 20;
+
+    const q = questions[currentQuestion];
+
+    document.getElementById("caseNumber").textContent =
+        `${currentQuestion + 1}/${questions.length}`;
+
+    document.getElementById("caseLabel").textContent =
+        `CASE ${String(currentQuestion + 1).padStart(2, "0")}`;
+
+    document.getElementById("question").textContent =
+        q.question;
+
+    document.getElementById("clue").innerHTML =
+        `🔐 <strong>Clue:</strong> ${q.clue}`;
+
+    document.getElementById("score").textContent =
+        score;
+
+    const answersContainer =
+        document.getElementById("answers");
+
+    answersContainer.innerHTML = "";
+
+    q.answers.forEach((answer, index) => {
+
+        const button = document.createElement("button");
+
+        button.className = "answer";
+
+        button.textContent =
+            `${String.fromCharCode(65 + index)}. ${answer}`;
+
+        button.onclick = function () {
+            checkAnswer(index);
+        };
+
+        answersContainer.appendChild(button);
+
+    });
+
+
+    const feedback =
+        document.getElementById("feedback");
+
+    feedback.className = "feedback";
+    feedback.innerHTML = "";
+
+    const nextBtn =
+        document.getElementById("nextBtn");
+
+    nextBtn.classList.remove("show");
+
+
+    document.getElementById("result")
+        .classList.remove("show");
+
+
+    updateProgress();
+
+    startTimer();
+
+}
+
+
+/* TIMER */
+
+function startTimer() {
+
+    const timer =
+        document.getElementById("timer");
+
+    timer.textContent =
+        `${timeLeft}s`;
+
+    timer.classList.remove("timer-warning");
+
+
+    timerInterval = setInterval(() => {
+
+        timeLeft--;
+
+        timer.textContent =
+            `${timeLeft}s`;
+
+
+        if (timeLeft <= 5) {
+            timer.classList.add("timer-warning");
+        }
+
+
+        if (timeLeft <= 0) {
+
+            clearInterval(timerInterval);
+
+            timeOut();
+
+        }
+
+    }, 1000);
+
+}
+
+
+/* CHECK ANSWER */
+
+function checkAnswer(selectedIndex) {
+
+    if (answered) return;
+
+    answered = true;
+
+    clearInterval(timerInterval);
+
+    const q = questions[currentQuestion];
+
+    const answerButtons =
+        document.querySelectorAll(".answer");
+
+    answerButtons.forEach(button => {
+        button.classList.add("disabled");
+    });
+
+
+    if (selectedIndex === q.correct) {
+
+        answerButtons[selectedIndex]
+            .classList.add("correct");
+
+        score += 100;
+
+        document.getElementById("score")
+            .textContent = score;
+
+
+        showFeedback(
+            true,
+            "✅ Correct! Excellent detective work. You found the clue!"
+        );
+
+    } else {
+
+        answerButtons[selectedIndex]
+            .classList.add("wrong");
+
+        answerButtons[q.correct]
+            .classList.add("correct");
+
+
+        showFeedback(
+            false,
+            `❌ Not quite! The correct answer is "${q.answers[q.correct]}".`
+        );
+
+    }
+
+
+    document.getElementById("nextBtn")
+        .classList.add("show");
+
+}
+
+
+/* TIME OUT */
+
+function timeOut() {
+
+    if (answered) return;
+
+    answered = true;
+
+    const q = questions[currentQuestion];
+
+    const answerButtons =
+        document.querySelectorAll(".answer");
+
+    answerButtons.forEach(button => {
+        button.classList.add("disabled");
+    });
+
+
+    answerButtons[q.correct]
+        .classList.add("correct");
+
+
+    showFeedback(
+        false,
+        `⏰ Time's up! The correct answer is "${q.answers[q.correct]}".`
+    );
+
+
+    document.getElementById("nextBtn")
+        .classList.add("show");
+
+}
+
+
+/* FEEDBACK */
+
+function showFeedback(isCorrect, message) {
+
+    const feedback =
+        document.getElementById("feedback");
+
+    feedback.textContent =
+        message;
+
+    feedback.className =
+        "feedback show " +
+        (isCorrect
+            ? "correct-feedback"
+            : "wrong-feedback");
+
+}
+
+
+/* NEXT QUESTION */
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+    if (currentQuestion >= questions.length) {
+
+        finishGame();
+
+    } else {
+
+        loadQuestion();
+
+    }
+
+}
+
+
+/* PROGRESS */
+
+function updateProgress() {
+
+    const percentage =
+        (currentQuestion / questions.length) * 100;
+
+    document.getElementById("progress")
+        .style.width = `${percentage}%`;
+
+    document.getElementById("progressText")
+        .textContent = `${Math.round(percentage)}%`;
+
+}
+
+
+/* FINISH GAME */
+
+function finishGame() {
+
+    clearInterval(timerInterval);
+
+    document.getElementById("question")
+        .style.display = "none";
+
+    document.getElementById("clue")
+        .style.display = "none";
+
+    document.getElementById("answers")
+        .style.display = "none";
+
+    document.getElementById("feedback")
+        .className = "feedback";
+
+    document.getElementById("nextBtn")
+        .classList.remove("show");
+
+    document.getElementById("caseLabel")
+        .style.display = "none";
+
+    document.querySelector(".case-title")
+        .style.display = "none";
+
+
+    const result =
+        document.getElementById("result");
+
+    result.classList.add("show");
+
+
+    const finalScore =
+        document.getElementById("finalScore");
+
+    finalScore.textContent =
+        score;
+
+
+    const percentage =
+        (score / (questions.length * 100)) * 100;
+
+
+    const resultTitle =
+        document.getElementById("resultTitle");
+
+    const resultMessage =
+        document.getElementById("resultMessage");
+
+
+    if (percentage >= 90) {
+
+        resultTitle.textContent =
+            "🏆 Master Detective!";
+
+        resultMessage.textContent =
+            "Outstanding work! You examined every robot clue carefully and solved The Robot Mystery like a true detective.";
+
+    } else if (percentage >= 70) {
+
+        resultTitle.textContent =
+            "🤖 Great Detective Work!";
+
+        resultMessage.textContent =
+            "Excellent investigation! You discovered most of the clues and showed strong English skills about robots and abilities.";
+
+    } else if (percentage >= 50) {
+
+        resultTitle.textContent =
+            "🔎 Good Investigation!";
+
+        resultMessage.textContent =
+            "You found some important clues. Keep practising the vocabulary and grammar from Unit 8.";
+
+    } else {
+
+        resultTitle.textContent =
+            "🗂️ Case Still Open!";
+
+        resultMessage.textContent =
+            "The mystery needs another investigation. Review Unit 8: The Robot and try the case again!";
+
+    }
+
+
+    document.getElementById("progress")
+        .style.width = "100%";
+
+    document.getElementById("progressText")
+        .textContent = "100%";
+
+}
+
+
+/* RESTART */
+
+function restartGame() {
+
+    currentQuestion = 0;
+    score = 0;
+    timeLeft = 20;
+
+    document.getElementById("score")
+        .textContent = "0";
+
+
+    document.getElementById("question")
+        .style.display = "block";
+
+    document.getElementById("clue")
+        .style.display = "block";
+
+    document.getElementById("answers")
+        .style.display = "grid";
+
+    document.getElementById("caseLabel")
+        .style.display = "block";
+
+    document.querySelector(".case-title")
+        .style.display = "block";
+
+
+    document.getElementById("result")
+        .classList.remove("show");
+
+
+    loadQuestion();
+
+}
+
+
+/* START */
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

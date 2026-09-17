@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Detective Case - The Old House | SmartLearn</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        min-height: 100vh;
+        color: #e5e7eb;
+
+        background:
+            radial-gradient(circle at 10% 10%, rgba(99,102,241,.18), transparent 30%),
+            radial-gradient(circle at 90% 20%, rgba(139,92,246,.14), transparent 30%),
+            radial-gradient(circle at 50% 100%, rgba(14,165,233,.10), transparent 35%),
+            #070b16;
+    }
+
+    .container {
+        width: min(1100px, 94%);
+        margin: auto;
+        padding: 30px 0 60px;
+    }
+
+    /* =========================
+       BACK BUTTON
+    ========================= */
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+
+        padding: 11px 17px;
+
+        text-decoration: none;
+
+        color: #c4b5fd;
+
+        background: rgba(255,255,255,.05);
+
+        border: 1px solid rgba(255,255,255,.10);
+
+        border-radius: 14px;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        backdrop-filter: blur(15px);
+
+        box-shadow:
+            0 8px 25px rgba(0,0,0,.20);
+
+        transition: .3s ease;
+
+        margin-bottom: 25px;
+    }
+
+    .back-btn:hover {
+        background: rgba(124,92,246,.18);
+
+        border-color: rgba(167,139,250,.4);
+
+        transform: translateX(-5px);
+
+        color: white;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header {
+        position: relative;
+        overflow: hidden;
+
+        padding: 45px 30px;
+
+        text-align: center;
+
+        border-radius: 30px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(30,41,59,.95),
+                rgba(15,23,42,.97)
+            );
+
+        border: 1px solid rgba(148,163,184,.14);
+
+        box-shadow:
+            0 25px 60px rgba(0,0,0,.35);
+
+        margin-bottom: 25px;
+    }
+
+    .header::before {
+        content: "";
+
+        position: absolute;
+
+        width: 260px;
+        height: 260px;
+
+        border-radius: 50%;
+
+        background: rgba(124,58,237,.12);
+
+        top: -150px;
+        left: -70px;
+    }
+
+    .header::after {
+        content: "";
+
+        position: absolute;
+
+        width: 220px;
+        height: 220px;
+
+        border-radius: 50%;
+
+        background: rgba(59,130,246,.10);
+
+        bottom: -130px;
+        right: -50px;
+    }
+
+    .header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .detective-icon {
+        width: 85px;
+        height: 85px;
+
+        margin: auto auto 18px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 25px;
+
+        font-size: 44px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(124,92,246,.22),
+                rgba(59,130,246,.16)
+            );
+
+        border: 1px solid rgba(167,139,250,.25);
+
+        box-shadow:
+            0 15px 35px rgba(0,0,0,.25),
+            inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .case-label {
+        display: inline-block;
+
+        padding: 7px 13px;
+
+        border-radius: 20px;
+
+        background: rgba(139,92,246,.14);
+
+        color: #c4b5fd;
+
+        font-size: 10px;
+
+        font-weight: 900;
+
+        letter-spacing: 1.5px;
+
+        margin-bottom: 12px;
+    }
+
+    .header h1 {
+        margin: 0;
+
+        font-size: 40px;
+
+        letter-spacing: -1px;
+
+        color: white;
+    }
+
+    .header p {
+        margin: 12px auto 0;
+
+        max-width: 600px;
+
+        color: #94a3b8;
+
+        line-height: 1.6;
+
+        font-size: 15px;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+        display: grid;
+
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 15px;
+
+        margin-bottom: 20px;
+    }
+
+    .stat {
+        padding: 17px;
+
+        text-align: center;
+
+        border-radius: 18px;
+
+        background: rgba(15,23,42,.72);
+
+        border: 1px solid rgba(148,163,184,.10);
+
+        box-shadow:
+            0 10px 25px rgba(0,0,0,.16);
+
+        backdrop-filter: blur(15px);
+    }
+
+    .stat-label {
+        color: #64748b;
+
+        font-size: 10px;
+
+        font-weight: 800;
+
+        letter-spacing: 1px;
+
+        margin-bottom: 6px;
+    }
+
+    .stat-value {
+        font-size: 22px;
+
+        font-weight: 900;
+
+        color: white;
+    }
+
+    .timer-warning {
+        color: #fb7185 !important;
+    }
+
+    /* =========================
+       PROGRESS
+    ========================= */
+
+    .progress-wrap {
+        margin-bottom: 20px;
+    }
+
+    .progress-info {
+        display: flex;
+        justify-content: space-between;
+
+        color: #64748b;
+
+        font-size: 12px;
+
+        margin-bottom: 8px;
+    }
+
+    .progress {
+        height: 7px;
+
+        border-radius: 20px;
+
+        background: rgba(255,255,255,.07);
+
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+
+        width: 0%;
+
+        border-radius: 20px;
+
+        background:
+            linear-gradient(
+                90deg,
+                #6366f1,
+                #8b5cf6,
+                #a855f7
+            );
+
+        transition: width .4s ease;
+    }
+
+    /* =========================
+       CASE CARD
+    ========================= */
+
+    .case-card {
+        position: relative;
+
+        padding: 32px;
+
+        border-radius: 27px;
+
+        background:
+            linear-gradient(
+                145deg,
+                rgba(15,23,42,.96),
+                rgba(17,24,39,.93)
+            );
+
+        border: 1px solid rgba(148,163,184,.13);
+
+        box-shadow:
+            0 25px 60px rgba(0,0,0,.30);
+
+        overflow: hidden;
+    }
+
+    .case-card::before {
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 3px;
+
+        background:
+            linear-gradient(
+                90deg,
+                #6366f1,
+                #8b5cf6,
+                #3b82f6
+            );
+    }
+
+    .case-number {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+
+        color: #a78bfa;
+
+        font-size: 12px;
+
+        font-weight: 900;
+
+        letter-spacing: 1px;
+
+        margin-bottom: 15px;
+    }
+
+    .case-title {
+        font-size: 25px;
+
+        color: white;
+
+        margin: 0 0 10px;
+    }
+
+    .question {
+        font-size: 18px;
+
+        line-height: 1.55;
+
+        color: #e2e8f0;
+
+        margin-bottom: 22px;
+    }
+
+    /* =========================
+       CLUE
+    ========================= */
+
+    .clue {
+        display: flex;
+
+        gap: 13px;
+
+        align-items: flex-start;
+
+        padding: 15px 17px;
+
+        margin-bottom: 22px;
+
+        border-radius: 16px;
+
+        background:
+            rgba(124,92,246,.07);
+
+        border: 1px solid rgba(139,92,246,.12);
+    }
+
+    .clue-icon {
+        font-size: 22px;
+    }
+
+    .clue-text {
+        color: #94a3b8;
+
+        font-size: 13px;
+
+        line-height: 1.5;
+    }
+
+    .clue-text strong {
+        display: block;
+
+        color: #c4b5fd;
+
+        margin-bottom: 3px;
+    }
+
+    /* =========================
+       ANSWERS
+    ========================= */
+
+    .answers {
+        display: grid;
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 13px;
+    }
+
+    .answer {
+        width: 100%;
+
+        padding: 17px 18px;
+
+        text-align: left;
+
+        border-radius: 16px;
+
+        border: 1px solid rgba(148,163,184,.12);
+
+        background: rgba(255,255,255,.035);
+
+        color: #cbd5e1;
+
+        font-size: 14px;
+
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: .25s ease;
+    }
+
+    .answer:hover {
+        background: rgba(124,92,246,.12);
+
+        border-color: rgba(167,139,250,.35);
+
+        transform: translateY(-2px);
+
+        color: white;
+    }
+
+    .answer.correct {
+        background: rgba(34,197,94,.12);
+
+        border-color: rgba(34,197,94,.45);
+
+        color: #86efac;
+    }
+
+    .answer.wrong {
+        background: rgba(239,68,68,.10);
+
+        border-color: rgba(239,68,68,.4);
+
+        color: #fca5a5;
+    }
+
+    .answer.disabled {
+        pointer-events: none;
+    }
+
+    /* =========================
+       FEEDBACK
+    ========================= */
+
+    .feedback {
+        display: none;
+
+        margin-top: 18px;
+
+        padding: 16px;
+
+        border-radius: 15px;
+
+        font-size: 14px;
+
+        line-height: 1.5;
+    }
+
+    .feedback.show {
+        display: block;
+    }
+
+    .feedback.correct-feedback {
+        background: rgba(34,197,94,.08);
+
+        border: 1px solid rgba(34,197,94,.18);
+
+        color: #86efac;
+    }
+
+    .feedback.wrong-feedback {
+        background: rgba(239,68,68,.08);
+
+        border: 1px solid rgba(239,68,68,.18);
+
+        color: #fca5a5;
+    }
+
+    /* =========================
+       NEXT BUTTON
+    ========================= */
+
+    .next-btn {
+        display: none;
+
+        margin: 20px 0 0 auto;
+
+        padding: 13px 22px;
+
+        border: none;
+
+        border-radius: 13px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #6366f1,
+                #8b5cf6
+            );
+
+        color: white;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 8px 20px rgba(99,102,241,.25);
+
+        transition: .25s ease;
+    }
+
+    .next-btn.show {
+        display: block;
+    }
+
+    .next-btn:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 12px 28px rgba(99,102,241,.35);
+    }
+
+    /* =========================
+       RESULT
+    ========================= */
+
+    .result {
+        display: none;
+
+        text-align: center;
+
+        padding: 45px 25px;
+    }
+
+    .result.show {
+        display: block;
+    }
+
+    .result-icon {
+        font-size: 65px;
+
+        margin-bottom: 15px;
+    }
+
+    .result h2 {
+        margin: 0 0 10px;
+
+        color: white;
+
+        font-size: 32px;
+    }
+
+    .result p {
+        color: #94a3b8;
+
+        line-height: 1.6;
+
+        max-width: 550px;
+
+        margin: auto;
+    }
+
+    .final-score {
+        margin: 25px auto;
+
+        width: 150px;
+        height: 150px;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 50%;
+
+        background:
+            radial-gradient(
+                circle,
+                rgba(139,92,246,.20),
+                rgba(99,102,241,.05)
+            );
+
+        border: 1px solid rgba(167,139,250,.25);
+
+        box-shadow:
+            0 20px 45px rgba(0,0,0,.25);
+    }
+
+    .final-score strong {
+        font-size: 38px;
+
+        color: white;
+    }
+
+    .final-score span {
+        color: #94a3b8;
+
+        font-size: 11px;
+
+        letter-spacing: 1px;
+    }
+
+    .restart-btn {
+        margin-top: 25px;
+
+        border: none;
+
+        padding: 14px 25px;
+
+        border-radius: 14px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #6366f1,
+                #8b5cf6
+            );
+
+        color: white;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 25px rgba(99,102,241,.25);
+    }
+
+    .restart-btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 700px) {
+
+        .container {
+            width: 94%;
+            padding-top: 20px;
+        }
+
+        .header {
+            padding: 38px 20px;
+            border-radius: 24px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+        }
+
+        .header p {
+            font-size: 14px;
+        }
+
+        .stats {
+            gap: 9px;
+        }
+
+        .stat {
+            padding: 13px 8px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+        }
+
+        .case-card {
+            padding: 24px 18px;
+            border-radius: 22px;
+        }
+
+        .question {
+            font-size: 16px;
+        }
+
+        .answers {
+            grid-template-columns: 1fr;
+        }
+
+        .answer {
+            padding: 15px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- BACK -->
+    <a href="year2.html" class="back-btn">
+        <span>←</span>
+        <span>Back to Unit 6 Games</span>
+    </a>
+
+
+    <!-- HEADER -->
+    <div class="header">
+
+        <div class="header-content">
+
+            <div class="detective-icon">
+                🕵️‍♀️
+            </div>
+
+            <div class="case-label">
+                SMARTLEARN DETECTIVE AGENCY
+            </div>
+
+            <h1>
+                The Old House Mystery
+            </h1>
+
+            <p>
+                Something mysterious is happening
+                inside the old house...
+                Examine the clues, use your English skills
+                and solve the case!
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-label">
+                SCORE
+            </div>
+
+            <div class="stat-value" id="score">
+                0
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                CASE
+            </div>
+
+            <div class="stat-value">
+                <span id="questionNumber">1</span>/12
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">
+                TIME
+            </div>
+
+            <div class="stat-value" id="timer">
+                20s
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap">
+
+        <div class="progress-info">
+
+            <span>
+                Investigation progress
+            </span>
+
+            <span id="progressText">
+                0%
+            </span>
+
+        </div>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="progressBar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- GAME -->
+    <div class="case-card" id="gameCard">
+
+        <div id="questionArea">
+
+            <div class="case-number">
+                🔎 CASE FILE #<span id="caseNumber">01</span>
+            </div>
+
+            <h2 class="case-title">
+                Examine the clue
+            </h2>
+
+            <div class="question" id="question">
+                Loading case...
+            </div>
+
+            <div class="clue">
+
+                <div class="clue-icon">
+                    🔐
+                </div>
+
+                <div class="clue-text">
+
+                    <strong>
+                        DETECTIVE CLUE
+                    </strong>
+
+                    <span id="clue">
+                        Look carefully at the information.
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="answers" id="answers">
+            </div>
+
+            <div
+                class="feedback"
+                id="feedback">
+            </div>
+
+            <button
+                class="next-btn"
+                id="nextBtn"
+                onclick="nextQuestion()">
+
+                Next Case →
+
+            </button>
+
+        </div>
+
+
+        <!-- RESULT -->
+        <div
+            class="result"
+            id="result">
+
+            <div
+                class="result-icon"
+                id="resultIcon">
+
+                🏆
+
+            </div>
+
+            <h2 id="resultTitle">
+                Case Solved!
+            </h2>
+
+            <div class="final-score">
+
+                <strong id="finalScore">
+                    0
+                </strong>
+
+                <span>
+                    POINTS
+                </span>
+
+            </div>
+
+            <p id="resultMessage">
+                Excellent detective work!
+            </p>
+
+            <button
+                class="restart-btn"
+                onclick="restartGame()">
+
+                🔄 Investigate Again
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+    {
+        question:
+        "Detective clue: The house is very old. Its walls are cracked and the windows are dusty. Which word best describes the house?",
+
+        clue:
+        "Look at the condition of the walls and windows.",
+
+        answers: [
+            "Old",
+            "New",
+            "Modern",
+            "Clean"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "The house is old because its walls are cracked and the windows are dusty."
+    },
+
+    {
+        question:
+        "There is a large wooden door at the front of the house. Where is the door?",
+
+        clue:
+        "Think about the position of the door.",
+
+        answers: [
+            "At the front of the house",
+            "Under the house",
+            "Behind the roof",
+            "Inside the garden"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "The large wooden door is at the front of the house."
+    },
+
+    {
+        question:
+        "Detective clue: You enter the house and see a sofa, a table and two chairs. Which room are you probably in?",
+
+        clue:
+        "Think about the furniture in the room.",
+
+        answers: [
+            "Living room",
+            "Bathroom",
+            "Kitchen",
+            "Bedroom"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "A sofa, table and chairs are common furniture in a living room."
+    },
+
+    {
+        question:
+        "There is a bed, a wardrobe and a small lamp in one room. Which room is it?",
+
+        clue:
+        "Look at the objects in the room.",
+
+        answers: [
+            "Bedroom",
+            "Kitchen",
+            "Garden",
+            "Bathroom"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "A bed, wardrobe and lamp are usually found in a bedroom."
+    },
+
+    {
+        question:
+        "Choose the correct sentence: The old clock is _____ the wall.",
+
+        clue:
+        "A clock can be attached to a wall.",
+
+        answers: [
+            "on",
+            "under",
+            "between",
+            "behind"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "We say 'The clock is on the wall.'"
+    },
+
+    {
+        question:
+        "Detective clue: A cat is hiding underneath the table. Where is the cat?",
+
+        clue:
+        "Look carefully at the word 'underneath'.",
+
+        answers: [
+            "Under the table",
+            "On the table",
+            "Behind the table",
+            "Next to the roof"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "Underneath means below something, so the cat is under the table."
+    },
+
+    {
+        question:
+        "There _____ a mysterious picture on the wall.",
+
+        clue:
+        "Use the correct form with one object.",
+
+        answers: [
+            "are",
+            "is",
+            "am",
+            "be"
+        ],
+
+        correct: 1,
+
+        explanation:
+        "We use 'There is' with one object: There is a mysterious picture."
+    },
+
+    {
+        question:
+        "There _____ three old chairs in the dining room.",
+
+        clue:
+        "Use the correct form with more than one object.",
+
+        answers: [
+            "is",
+            "am",
+            "are",
+            "be"
+        ],
+
+        correct: 2,
+
+        explanation:
+        "We use 'There are' with more than one object: There are three old chairs."
+    },
+
+    {
+        question:
+        "Detective clue: The kitchen has a fridge, a cooker and a sink. What can you probably do in this room?",
+
+        clue:
+        "Think about what people normally do in a kitchen.",
+
+        answers: [
+            "Cook food",
+            "Sleep",
+            "Take a shower",
+            "Play football"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "A kitchen is a place where people usually cook food."
+    },
+
+    {
+        question:
+        "The mysterious key is _____ the drawer. Which preposition is correct?",
+
+        clue:
+        "The key is inside the drawer.",
+
+        answers: [
+            "in",
+            "on",
+            "under",
+            "between"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "We use 'in' when something is inside another thing: The key is in the drawer."
+    },
+
+    {
+        question:
+        "Detective clue: You hear a strange sound coming from upstairs. Where should you look?",
+
+        clue:
+        "Think about the opposite of downstairs.",
+
+        answers: [
+            "Upstairs",
+            "Outside",
+            "Under the house",
+            "In the garden"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "If the sound is coming from upstairs, you should look upstairs."
+    },
+
+    {
+        question:
+        "Final clue: The detective finds an old photo of a family inside the house. What does the photo probably show?",
+
+        clue:
+        "Think about what people usually keep in family photos.",
+
+        answers: [
+            "People",
+            "Furniture",
+            "Food",
+            "Animals only"
+        ],
+
+        correct: 0,
+
+        explanation:
+        "A family photo normally shows people from the family."
+    }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let timeLeft = 20;
+let timerInterval = null;
+let answered = false;
+
+
+const questionElement =
+    document.getElementById("question");
+
+const clueElement =
+    document.getElementById("clue");
+
+const answersElement =
+    document.getElementById("answers");
+
+const feedbackElement =
+    document.getElementById("feedback");
+
+const nextButton =
+    document.getElementById("nextBtn");
+
+const scoreElement =
+    document.getElementById("score");
+
+const timerElement =
+    document.getElementById("timer");
+
+const questionNumberElement =
+    document.getElementById("questionNumber");
+
+const caseNumberElement =
+    document.getElementById("caseNumber");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const progressText =
+    document.getElementById("progressText");
+
+
+function loadQuestion() {
+
+    clearInterval(timerInterval);
+
+    answered = false;
+
+    const q = questions[currentQuestion];
+
+    questionNumberElement.textContent =
+        currentQuestion + 1;
+
+    caseNumberElement.textContent =
+        String(currentQuestion + 1).padStart(2, "0");
+
+    questionElement.textContent =
+        q.question;
+
+    clueElement.textContent =
+        q.clue;
+
+    feedbackElement.className =
+        "feedback";
+
+    feedbackElement.innerHTML =
+        "";
+
+    nextButton.classList.remove("show");
+
+    answersElement.innerHTML =
+        "";
+
+    q.answers.forEach((answer, index) => {
+
+        const button =
+            document.createElement("button");
+
+        button.className =
+            "answer";
+
+        button.textContent =
+            answer;
+
+        button.onclick = () =>
+            checkAnswer(index, button);
+
+        answersElement.appendChild(button);
+
+    });
+
+    updateProgress();
+
+    startTimer();
+}
+
+
+function startTimer() {
+
+    timeLeft = 20;
+
+    timerElement.textContent =
+        timeLeft + "s";
+
+    timerElement.classList.remove(
+        "timer-warning"
+    );
+
+    timerInterval =
+        setInterval(() => {
+
+            timeLeft--;
+
+            timerElement.textContent =
+                timeLeft + "s";
+
+            if (timeLeft <= 5) {
+
+                timerElement.classList.add(
+                    "timer-warning"
+                );
+
+            }
+
+            if (timeLeft <= 0) {
+
+                clearInterval(timerInterval);
+
+                timeOut();
+
+            }
+
+        }, 1000);
+}
+
+
+function checkAnswer(index, button) {
+
+    if (answered) return;
+
+    answered = true;
+
+    clearInterval(timerInterval);
+
+    const q =
+        questions[currentQuestion];
+
+    const allAnswers =
+        document.querySelectorAll(".answer");
+
+    allAnswers.forEach(btn => {
+        btn.classList.add("disabled");
+    });
+
+    if (index === q.correct) {
+
+        button.classList.add("correct");
+
+        score += 100;
+
+        scoreElement.textContent =
+            score;
+
+        feedbackElement.className =
+            "feedback show correct-feedback";
+
+        feedbackElement.innerHTML =
+            "✓ <strong>Correct!</strong> " +
+            q.explanation;
+
+    } else {
+
+        button.classList.add("wrong");
+
+        allAnswers[q.correct]
+            .classList.add("correct");
+
+        feedbackElement.className =
+            "feedback show wrong-feedback";
+
+        feedbackElement.innerHTML =
+            "✕ <strong>Not quite!</strong> " +
+            q.explanation;
+    }
+
+    nextButton.classList.add("show");
+}
+
+
+function timeOut() {
+
+    if (answered) return;
+
+    answered = true;
+
+    const q =
+        questions[currentQuestion];
+
+    const allAnswers =
+        document.querySelectorAll(".answer");
+
+    allAnswers.forEach(btn => {
+        btn.classList.add("disabled");
+    });
+
+    allAnswers[q.correct]
+        .classList.add("correct");
+
+    feedbackElement.className =
+        "feedback show wrong-feedback";
+
+    feedbackElement.innerHTML =
+        "⏱️ <strong>Time's up!</strong> " +
+        q.explanation;
+
+    nextButton.classList.add("show");
+}
+
+
+function nextQuestion() {
+
+    currentQuestion++;
+
+    if (currentQuestion >= questions.length) {
+
+        finishGame();
+
+        return;
+    }
+
+    loadQuestion();
+}
+
+
+function updateProgress() {
+
+    const progress =
+        (currentQuestion / questions.length) * 100;
+
+    progressBar.style.width =
+        progress + "%";
+
+    progressText.textContent =
+        Math.round(progress) + "%";
+}
+
+
+function finishGame() {
+
+    clearInterval(timerInterval);
+
+    document.getElementById("questionArea")
+        .style.display = "none";
+
+    document.getElementById("result")
+        .classList.add("show");
+
+    progressBar.style.width = "100%";
+
+    progressText.textContent = "100%";
+
+    document.getElementById("finalScore")
+        .textContent = score;
+
+    const percentage =
+        Math.round(
+            (score / (questions.length * 100)) * 100
+        );
+
+    const resultTitle =
+        document.getElementById("resultTitle");
+
+    const resultMessage =
+        document.getElementById("resultMessage");
+
+    const resultIcon =
+        document.getElementById("resultIcon");
+
+
+    if (percentage >= 90) {
+
+        resultIcon.textContent = "🏆";
+
+        resultTitle.textContent =
+            "Master Detective!";
+
+        resultMessage.textContent =
+            "Outstanding work! You examined every clue carefully and solved The Old House Mystery like a true detective.";
+
+    } else if (percentage >= 70) {
+
+        resultIcon.textContent = "🕵️‍♀️";
+
+        resultTitle.textContent =
+            "Great Detective Work!";
+
+        resultMessage.textContent =
+            "Excellent investigation! You discovered most of the clues and showed strong English skills.";
+
+    } else if (percentage >= 50) {
+
+        resultIcon.textContent = "🔎";
+
+        resultTitle.textContent =
+            "Good Investigation!";
+
+        resultMessage.textContent =
+            "You found some important clues. Keep practising the vocabulary and grammar from Unit 6.";
+
+    } else {
+
+        resultIcon.textContent = "🗂️";
+
+        resultTitle.textContent =
+            "Case Still Open!";
+
+        resultMessage.textContent =
+            "The mystery needs another investigation. Review Unit 6: The Old House and try again!";
+    }
+}
+
+
+function restartGame() {
+
+    currentQuestion = 0;
+
+    score = 0;
+
+    scoreElement.textContent =
+        "0";
+
+    document.getElementById("result")
+        .classList.remove("show");
+
+    document.getElementById("questionArea")
+        .style.display = "block";
+
+    loadQuestion();
+}
+
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
