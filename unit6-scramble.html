@@ -524,10 +524,10 @@
 
     <h1>🔤 Word Scramble</h1>
 
-    <p>Unscramble the letters and discover fun free-time activities!</p>
+    <p>Unscramble the letters and discover the secrets of the old house!</p>
 
     <div class="unit-pill">
-        🎮 Unit 5 — Free Time
+        🏚️ Unit 6 — The Old House
     </div>
 
 </header>
@@ -536,20 +536,20 @@
 <div class="container">
 
     <button class="back-btn" onclick="goBack()">
-        ← Back to Unit 5 Games
+        ← Back to Unit 6 Games
     </button>
 
 
     <div class="game-card" id="gameScreen">
 
         <div class="game-icon">
-            🎮
+            🏚️
         </div>
 
-        <h2>Free Time Fun!</h2>
+        <h2>Explore the Old House!</h2>
 
         <p>
-            Unscramble the letters to find the correct free-time activity.
+            Unscramble the letters to find the correct word.
         </p>
 
 
@@ -592,7 +592,7 @@
             <div class="progress-text">
 
                 <span>
-                    🎯 Free Time Challenge
+                    🏚️ Old House Challenge
                 </span>
 
                 <span id="progressPercent">
@@ -666,10 +666,10 @@
             🏆
         </div>
 
-        <h2>Free Time Champion!</h2>
+        <h2>Old House Explorer!</h2>
 
         <p class="final-message">
-            Amazing! You completed the Free Time Word Scramble!
+            Amazing! You completed the Old House Word Scramble!
         </p>
 
         <div class="final-score" id="finalScore">
@@ -695,16 +695,16 @@
 
 const words = [
 
-    "PLAY",
-    "READ",
-    "SWIM",
-    "DRAW",
-    "SING",
-    "DANCE",
-    "CYCLE",
-    "COOK",
-    "WATCH",
-    "GAMES"
+    "HOUSE",
+    "ROOM",
+    "DOOR",
+    "WINDOW",
+    "STAIRS",
+    "ATTIC",
+    "GARDEN",
+    "KITCHEN",
+    "BEDROOM",
+    "FIREPLACE"
 
 ];
 
@@ -885,7 +885,7 @@ function restartGame() {
 function goBack() {
 
     window.location.href =
-        "unit5y2.html";
+        "unit6y2.html";
 
 }
 
@@ -895,7 +895,7 @@ function goBack() {
 showWord();
 
 
-/* ENTER KEY */
+/* ================= ENTER KEY ================= */
 
 document.getElementById("answer").addEventListener(
     "keydown",

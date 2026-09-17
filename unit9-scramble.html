@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Word Scramble - SmartLearn</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, rgba(124,58,237,0.12), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(79,70,229,0.10), transparent 35%),
+        linear-gradient(135deg, #f5f3ff, #eef2ff, #f8fafc);
+    color: #25253a;
+}
+
+/* HEADER */
+
+header {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    padding: 45px 7% 65px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(79,70,229,0.25);
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    top: -80px;
+    left: -40px;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
+    right: -70px;
+    bottom: -120px;
+}
+
+header h1 {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    font-size: 38px;
+    font-weight: 800;
+}
+
+header p {
+    position: relative;
+    z-index: 2;
+    margin: 12px 0 0;
+    font-size: 17px;
+    opacity: 0.92;
+}
+
+.unit-pill {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    margin-top: 18px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.25);
+    backdrop-filter: blur(8px);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* CONTAINER */
+
+.container {
+    width: 92%;
+    max-width: 850px;
+    margin: -30px auto 60px;
+    position: relative;
+    z-index: 5;
+}
+
+/* BACK */
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.95);
+    color: #4f46e5;
+    margin-bottom: 20px;
+    padding: 13px 20px;
+    border: 2px solid #e0e7ff;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+    transition: 0.3s ease;
+    box-shadow: 0 8px 20px rgba(79,70,229,0.08);
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    transform: translateX(-5px);
+}
+
+/* GAME CARD */
+
+.game-card {
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(14px);
+    padding: 38px;
+    border-radius: 28px;
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow:
+        0 20px 50px rgba(30,41,59,0.10),
+        0 5px 15px rgba(79,70,229,0.06);
+    text-align: center;
+    animation: cardAppear 0.6s ease;
+}
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.game-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+    box-shadow: 0 10px 25px rgba(79,70,229,0.12);
+    transition: 0.3s ease;
+}
+
+.game-icon:hover {
+    transform: rotate(-6deg) scale(1.08);
+}
+
+.game-card h2 {
+    margin: 5px 0 8px;
+    font-size: 28px;
+    color: #312e81;
+}
+
+.game-card > p {
+    color: #64748b;
+    margin-bottom: 28px;
+}
+
+/* INFO */
+
+.top-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.info-box {
+    flex: 1;
+    padding: 13px 15px;
+    border-radius: 15px;
+    background: #f8f7ff;
+    border: 1px solid #e0e7ff;
+}
+
+.info-label {
+    display: block;
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.info-value {
+    font-size: 19px;
+    font-weight: 800;
+    color: #4f46e5;
+}
+
+/* PROGRESS */
+
+.progress-area {
+    margin: 20px 0 30px;
+    text-align: left;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #64748b;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 10%;
+    height: 100%;
+    background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+/* WORD */
+
+.word-label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.scrambled-word {
+    display: inline-block;
+    margin: 18px 0 28px;
+    padding: 20px 28px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+    color: #4f46e5;
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: 9px;
+    box-shadow:
+        inset 0 0 0 1px rgba(124,58,237,0.08),
+        0 10px 25px rgba(79,70,229,0.10);
+}
+
+/* INPUT */
+
+input {
+    width: 85%;
+    max-width: 500px;
+    padding: 16px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    font-size: 18px;
+    text-align: center;
+    outline: none;
+    background: white;
+    color: #25253a;
+    transition: 0.3s ease;
+}
+
+input:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 4px rgba(124,58,237,0.10);
+    transform: translateY(-2px);
+}
+
+/* BUTTON */
+
+.check-btn,
+.restart-btn {
+    margin-top: 16px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(79,70,229,0.20);
+    transition: 0.3s ease;
+}
+
+.check-btn:hover,
+.restart-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 28px rgba(79,70,229,0.30);
+}
+
+/* RESULT */
+
+#result {
+    min-height: 30px;
+    margin-top: 22px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.correct {
+    color: #16a34a;
+}
+
+.wrong {
+    color: #dc2626;
+}
+
+#score {
+    margin-top: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #475569;
+}
+
+/* FINAL */
+
+.final-screen {
+    display: none;
+}
+
+.final-icon {
+    font-size: 75px;
+    animation: trophyBounce 1s infinite alternate;
+}
+
+@keyframes trophyBounce {
+
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-8px);
+    }
+
+}
+
+.final-screen h2 {
+    font-size: 32px;
+    color: #312e81;
+}
+
+.final-message {
+    color: #64748b;
+}
+
+.final-score {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 18px 35px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+    color: #4f46e5;
+    font-size: 28px;
+    font-weight: 900;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 35px 5% 55px;
+    }
+
+    header h1 {
+        font-size: 29px;
+    }
+
+    header p {
+        font-size: 14px;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    .game-card {
+        padding: 25px 18px;
+    }
+
+    .game-card h2 {
+        font-size: 24px;
+    }
+
+    .top-info {
+        gap: 8px;
+    }
+
+    .info-box {
+        padding: 11px 8px;
+    }
+
+    .info-value {
+        font-size: 16px;
+    }
+
+    .scrambled-word {
+        font-size: 28px;
+        letter-spacing: 5px;
+        padding: 17px 15px;
+        max-width: 100%;
+        word-break: break-word;
+    }
+
+    input {
+        width: 100%;
+    }
+
+    .check-btn {
+        width: 100%;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+    <h1>🔤 Word Scramble</h1>
+
+    <p>Unscramble the letters and discover the fun of the beach!</p>
+
+    <div class="unit-pill">
+        🏖️ Unit 9 — At the Beach
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <button class="back-btn" onclick="goBack()">
+        ← Back to Unit 9 Games
+    </button>
+
+
+    <div class="game-card" id="gameScreen">
+
+        <div class="game-icon">
+            🏖️
+        </div>
+
+        <h2>Beach Adventure!</h2>
+
+        <p>
+            Unscramble the letters and find the correct beach word.
+        </p>
+
+
+        <div class="top-info">
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Question
+                </span>
+
+                <span class="info-value" id="questionNumber">
+                    1 / 10
+                </span>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Score
+                </span>
+
+                <span class="info-value" id="scoreTop">
+                    0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="progress-area">
+
+            <div class="progress-text">
+
+                <span>
+                    🏖️ Beach Challenge
+                </span>
+
+                <span id="progressPercent">
+                    10%
+                </span>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="word-label">
+            Unscramble this word
+        </div>
+
+
+        <div
+            class="scrambled-word"
+            id="scrambledWord">
+        </div>
+
+
+        <input
+            type="text"
+            id="answer"
+            placeholder="Type the correct word..."
+            autocomplete="off"
+        >
+
+        <br>
+
+
+        <button
+            class="check-btn"
+            onclick="checkAnswer()">
+
+            ✨ Check Answer
+
+        </button>
+
+
+        <p id="result"></p>
+
+
+        <p id="score">
+            Score: 0 / 10
+        </p>
+
+    </div>
+
+
+    <div class="game-card final-screen" id="finalScreen">
+
+        <div class="final-icon">
+            🏆
+        </div>
+
+        <h2>Beach Explorer!</h2>
+
+        <p class="final-message">
+            Amazing! You completed the Beach Word Scramble!
+        </p>
+
+        <div class="final-score" id="finalScore">
+            0 / 10
+        </div>
+
+        <br>
+
+        <button
+            class="restart-btn"
+            onclick="restartGame()">
+
+            🔄 Play Again
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const words = [
+
+    "BEACH",
+    "SAND",
+    "SHELL",
+    "SUN",
+    "WAVE",
+    "KITE",
+    "BALL",
+    "UMBRELLA",
+    "SWIM",
+    "SEASHELL"
+
+];
+
+let currentIndex = 0;
+let score = 0;
+
+
+function scrambleWord(word) {
+
+    let scrambled = word;
+
+    while (scrambled === word && word.length > 2) {
+
+        scrambled = word
+            .split("")
+            .sort(() => Math.random() - 0.5)
+            .join("");
+
+    }
+
+    return scrambled;
+}
+
+
+function showWord() {
+
+    if (currentIndex >= words.length) {
+
+        finishGame();
+
+        return;
+    }
+
+    const word = words[currentIndex];
+
+    document.getElementById("scrambledWord").textContent =
+        scrambleWord(word);
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("result").textContent = "";
+
+    document.getElementById("result").className = "";
+
+    document.getElementById("questionNumber").textContent =
+        (currentIndex + 1) + " / " + words.length;
+
+    const percent =
+        ((currentIndex + 1) / words.length) * 100;
+
+    document.getElementById("progressFill").style.width =
+        percent + "%";
+
+    document.getElementById("progressPercent").textContent =
+        Math.round(percent) + "%";
+
+    document.getElementById("scoreTop").textContent =
+        score;
+}
+
+
+function checkAnswer() {
+
+    const answer =
+        document
+        .getElementById("answer")
+        .value
+        .trim()
+        .toUpperCase();
+
+
+    if (answer === "") {
+
+        document.getElementById("result").textContent =
+            "✏️ Please type an answer!";
+
+        document.getElementById("result").className =
+            "wrong";
+
+        return;
+    }
+
+
+    if (answer === words[currentIndex]) {
+
+        score++;
+
+        document.getElementById("result").textContent =
+            "✅ Correct! Great job!";
+
+        document.getElementById("result").className =
+            "correct";
+
+        document.getElementById("score").textContent =
+            "Score: " + score + " / 10";
+
+        document.getElementById("scoreTop").textContent =
+            score;
+
+        currentIndex++;
+
+
+        if (currentIndex < words.length) {
+
+            setTimeout(showWord, 900);
+
+        } else {
+
+            setTimeout(finishGame, 900);
+
+        }
+
+    } else {
+
+        document.getElementById("result").textContent =
+            "❌ Not quite! Try again.";
+
+        document.getElementById("result").className =
+            "wrong";
+
+    }
+
+}
+
+
+function finishGame() {
+
+    document.getElementById("gameScreen").style.display =
+        "none";
+
+    document.getElementById("finalScreen").style.display =
+        "block";
+
+    document.getElementById("finalScore").textContent =
+        score + " / 10";
+}
+
+
+function restartGame() {
+
+    currentIndex = 0;
+
+    score = 0;
+
+    document.getElementById("gameScreen").style.display =
+        "block";
+
+    document.getElementById("finalScreen").style.display =
+        "none";
+
+    document.getElementById("score").textContent =
+        "Score: 0 / 10";
+
+    showWord();
+}
+
+
+function goBack() {
+
+    window.location.href =
+        "unit9y2.html";
+}
+
+
+showWord();
+
+
+document.getElementById("answer").addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            checkAnswer();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+
+</html>
