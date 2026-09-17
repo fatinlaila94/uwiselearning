@@ -1,1385 +1,1610 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SmartLearn | Balloon Pop Quiz</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at 10% 10%, rgba(119, 92, 255, .18), transparent 30%),
-        radial-gradient(circle at 90% 15%, rgba(0, 210, 255, .14), transparent 28%),
-        radial-gradient(circle at 50% 100%, rgba(255, 91, 148, .12), transparent 35%),
-        #070b18;
-    color: #fff;
-    overflow-x: hidden;
-}
-
-/* =========================
-   BACKGROUND
-========================= */
-
-.bg-orb {
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(70px);
-    pointer-events: none;
-    opacity: .35;
-}
-
-.orb1 {
-    width: 250px;
-    height: 250px;
-    background: #7357ff;
-    top: -100px;
-    left: -80px;
-}
-
-.orb2 {
-    width: 220px;
-    height: 220px;
-    background: #00c6ff;
-    right: -70px;
-    top: 180px;
-}
-
-.orb3 {
-    width: 180px;
-    height: 180px;
-    background: #ff4f91;
-    bottom: -70px;
-    left: 35%;
-}
-
-/* =========================
-   APP
-========================= */
-
-.app {
-    width: min(1100px, 94%);
-    margin: auto;
-    padding: 28px 0 50px;
-    position: relative;
-    z-index: 2;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 28px;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.logo {
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, #775cff, #4f8cff);
-    box-shadow: 0 10px 30px rgba(91, 82, 255, .35);
-    font-size: 21px;
-}
-
-.brand-text h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 20px;
-    letter-spacing: -.5px;
-}
-
-.brand-text span {
-    font-size: 11px;
-    color: #8d96b4;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-}
-
-.stats {
-    display: flex;
-    gap: 10px;
-}
-
-.stat {
-    min-width: 92px;
-    padding: 10px 14px;
-    border: 1px solid rgba(255,255,255,.08);
-    background: rgba(255,255,255,.045);
-    backdrop-filter: blur(18px);
-    border-radius: 14px;
-}
-
-.stat small {
-    display: block;
-    color: #858eab;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 2px;
-}
-
-.stat strong {
-    font-family: 'Outfit', sans-serif;
-    font-size: 17px;
-}
-
-/* =========================
-   PROGRESS
-========================= */
-
-.progress-area {
-    margin-bottom: 25px;
-}
-
-.progress-info {
-    display: flex;
-    justify-content: space-between;
-    color: #9ca5c0;
-    font-size: 13px;
-    margin-bottom: 9px;
-}
-
-.progress-info strong {
-    color: #fff;
-}
-
-.progress-bar {
-    height: 7px;
-    background: rgba(255,255,255,.07);
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    width: 10%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, #765cff, #20d4ff);
-    box-shadow: 0 0 18px rgba(75,180,255,.5);
-    transition: width .4s ease;
-}
-/* =========================
-   PREMIUM BACK BUTTON
-========================= */
-
-.premium-back {
-    position: relative;
-
-    display: inline-flex;
-    align-items: center;
-
-    min-width: 175px;
-    height: 58px;
-
-    padding: 6px 13px 6px 6px;
-
-    gap: 12px;
-
-    margin-bottom: 22px;
-
-    text-decoration: none;
-
-    border-radius: 18px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.10),
-            rgba(255,255,255,.035)
-        );
-
-    border: 1px solid rgba(255,255,255,.12);
-
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.25),
-        inset 0 1px 0 rgba(255,255,255,.10),
-        inset 0 -1px 0 rgba(255,255,255,.02);
-
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-
-    overflow: hidden;
-
-    transition:
-        transform .28s ease,
-        border-color .28s ease,
-        background .28s ease,
-        box-shadow .28s ease;
-}
-
-
-/* subtle glow */
-
-.premium-back::before {
-    content: "";
-
-    position: absolute;
-
-    width: 90px;
-    height: 90px;
-
-    left: -35px;
-    top: -25px;
-
-    background: rgba(108,92,255,.22);
-
-    filter: blur(25px);
-
-    border-radius: 50%;
-
-    pointer-events: none;
-}
-
-
-/* shine */
-
-.premium-back::after {
-    content: "";
-
-    position: absolute;
-
-    width: 45px;
-    height: 150%;
-
-    top: -25%;
-
-    left: -80px;
-
-    background: rgba(255,255,255,.10);
-
-    transform: rotate(20deg);
-
-    transition: left .5s ease;
-
-    pointer-events: none;
-}
-
-
-/* hover */
-
-.premium-back:hover {
-
-    transform: translateY(-3px) translateX(-3px);
-
-    border-color: rgba(118,92,255,.48);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(118,92,255,.16),
-            rgba(255,255,255,.055)
-        );
-
-    box-shadow:
-        0 18px 42px rgba(45,35,130,.32),
-        0 0 25px rgba(101,85,255,.12),
-        inset 0 1px 0 rgba(255,255,255,.13);
-}
-
-
-.premium-back:hover::after {
-    left: 220px;
-}
-
-
-/* =========================
-   ICON
-========================= */
-
-.premium-back-icon {
-
-    position: relative;
-
-    width: 44px;
-    height: 44px;
-
-    flex-shrink: 0;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #8068ff,
-            #4a8dff
-        );
-
-    box-shadow:
-        0 8px 22px rgba(91,82,255,.40),
-        inset 0 1px 1px rgba(255,255,255,.35);
-
-    transition:
-        transform .28s ease,
-        box-shadow .28s ease;
-}
-
-
-.premium-back-icon span {
-
-    position: relative;
-
-    color: #ffffff;
-
-    font-family: Arial, sans-serif;
-
-    font-size: 22px;
-
-    font-weight: 400;
-
-    line-height: 1;
-
-    transform: translateX(-1px);
-
-    text-shadow:
-        0 2px 5px rgba(0,0,0,.20);
-}
-
-
-.premium-back:hover .premium-back-icon {
-
-    transform: translateX(-3px);
-
-    box-shadow:
-        0 10px 28px rgba(91,82,255,.55),
-        inset 0 1px 1px rgba(255,255,255,.40);
-}
-
-
-/* =========================
-   TEXT
-========================= */
-
-.premium-back-content {
-
-    position: relative;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    gap: 4px;
-
-    min-width: 72px;
-}
-
-
-.premium-back-label {
-
-    color: #818ba9;
-
-    font-family: 'DM Sans', sans-serif;
-
-    font-size: 8px;
-
-    font-weight: 700;
-
-    letter-spacing: 1.8px;
-
-    line-height: 1;
-
-    text-transform: uppercase;
-}
-
-
-.premium-back-title {
-
-    color: #f5f6ff;
-
-    font-family: 'Outfit', sans-serif;
-
-    font-size: 16px;
-
-    font-weight: 700;
-
-    letter-spacing: -.2px;
-
-    line-height: 1;
-}
-
-
-/* =========================
-   RIGHT ARROW
-========================= */
-
-.premium-back-arrow {
-
-    margin-left: auto;
-
-    width: 27px;
-    height: 27px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 9px;
-
-    color: #8e98b8;
-
-    background: rgba(255,255,255,.045);
-
-    border: 1px solid rgba(255,255,255,.06);
-
-    font-size: 20px;
-
-    line-height: 1;
-
-    transition:
-        transform .28s ease,
-        color .28s ease,
-        background .28s ease;
-}
-
-
-.premium-back:hover .premium-back-arrow {
-
-    color: #ffffff;
-
-    background: rgba(118,92,255,.20);
-
-    transform: translateX(3px);
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 700px) {
-
-    .premium-back {
-
-        min-width: 158px;
-
-        height: 53px;
-
-        padding-right: 11px;
-
-        gap: 10px;
-
-        border-radius: 16px;
-
-        margin-bottom: 18px;
-    }
-
-
-    .premium-back-icon {
-
-        width: 40px;
-        height: 40px;
-
-        border-radius: 12px;
-    }
-
-
-    .premium-back-icon span {
-        font-size: 20px;
-    }
-
-
-    .premium-back-title {
-        font-size: 14px;
-    }
-
-
-    .premium-back-arrow {
-        width: 24px;
-        height: 24px;
-
-        font-size: 18px;
-    }
-}
-
-/* =========================
-   GAME CARD
-========================= */
-
-.game-card {
-    border: 1px solid rgba(255,255,255,.09);
-    background: rgba(13,18,37,.76);
-    backdrop-filter: blur(25px);
-    border-radius: 30px;
-    padding: 38px;
-    box-shadow:
-        0 30px 80px rgba(0,0,0,.35),
-        inset 0 1px rgba(255,255,255,.04);
-}
-
-.topic-label {
-    text-align: center;
-    color: #8792b3;
-    font-size: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 9px;
-}
-
-.question {
-    font-family: 'Outfit', sans-serif;
-    font-size: clamp(27px, 4vw, 43px);
-    line-height: 1.15;
-    text-align: center;
-    max-width: 800px;
-    margin: auto;
-    letter-spacing: -.8px;
-}
-
-.instruction {
-    text-align: center;
-    color: #78829f;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-/* =========================
-   TIMER
-========================= */
-
-.timer-wrap {
-    display: flex;
-    justify-content: center;
-    margin: 22px 0 8px;
-}
-
-.timer {
-    width: 62px;
-    height: 62px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background:
-        radial-gradient(circle at center, #11182e 58%, transparent 59%),
-        conic-gradient(#6c5cff var(--progress), rgba(255,255,255,.07) 0);
-    font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-}
-
-/* =========================
-   BALLOONS
-========================= */
-
-.balloons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-    max-width: 820px;
-    margin: 30px auto 5px;
-    align-items: end;
-}
-
-.balloon-option {
-    position: relative;
-    height: 190px;
-    cursor: pointer;
-    transition: transform .25s ease;
-}
-
-.balloon-option:hover {
-    transform: translateY(-10px);
-}
-
-.balloon {
-    width: 125px;
-    height: 145px;
-    margin: auto;
-    position: relative;
-    border-radius: 53% 53% 50% 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 18px;
-    text-align: center;
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 1.2;
-    text-shadow: 0 2px 8px rgba(0,0,0,.18);
-    box-shadow:
-        inset -12px -18px 25px rgba(0,0,0,.12),
-        inset 10px 10px 18px rgba(255,255,255,.2),
-        0 15px 35px rgba(0,0,0,.22);
-}
-
-.balloon::before {
-    content: "";
-    position: absolute;
-    width: 18px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.45);
-    top: 20px;
-    left: 25px;
-    transform: rotate(-35deg);
-}
-
-.balloon::after {
-    content: "";
-    position: absolute;
-    bottom: -9px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 11px solid currentColor;
-}
-
-.string {
-    width: 1px;
-    height: 48px;
-    background: rgba(255,255,255,.3);
-    margin: -1px auto 0;
-}
-
-/* balloon variations */
-
-.balloon-option:nth-child(1) .balloon {
-    background: linear-gradient(145deg, #ff668e, #e93667);
-    color: #111827;
-}
-
-.balloon-option:nth-child(2) .balloon {
-    background: linear-gradient(145deg, #45d8ff, #2386ed);
-    color: #111827;
-}
-
-.balloon-option:nth-child(3) .balloon {
-    background: linear-gradient(145deg, #9b7cff, #6549df);
-    color: #ffffff;
-}
-
-.balloon-option:nth-child(4) .balloon {
-    background: linear-gradient(145deg, #ffc85a, #f39a2d);
-    color: #111827;
-}
-
-.balloon-option.correct {
-    animation: popCorrect .5s forwards;
-}
-
-.balloon-option.wrong {
-    animation: shake .4s;
-    opacity: .55;
-}
-
-@keyframes popCorrect {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.15); }
-    100% {
-        transform: scale(0);
-        opacity: 0;
-    }
-}
-
-@keyframes shake {
-    0%,100% { transform: translateX(0); }
-    25% { transform: translateX(-9px); }
-    75% { transform: translateX(9px); }
-}
-
-/* =========================
-   FEEDBACK
-========================= */
-
-.feedback {
-    min-height: 28px;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 600;
-    margin-top: 12px;
-}
-
-.feedback.correct {
-    color: #54e6a5;
-}
-
-.feedback.wrong {
-    color: #ff708f;
-}
-
-/* =========================
-   RESULT
-========================= */
-
-.result {
-    display: none;
-    text-align: center;
-    padding: 45px 20px;
-}
-
-.result.show {
-    display: block;
-}
-
-.result-icon {
-    font-size: 65px;
-    margin-bottom: 15px;
-}
-
-.result h1 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 42px;
-    margin-bottom: 8px;
-}
-
-.result p {
-    color: #929bb7;
-}
-
-.final-score {
-    font-family: 'Outfit', sans-serif;
-    font-size: 58px;
-    margin: 20px 0;
-    background: linear-gradient(90deg, #8d75ff, #2bdcff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.play-again {
-    border: none;
-    color: white;
-    padding: 14px 26px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #765cff, #438dff);
-    font-weight: 700;
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 12px 30px rgba(78,91,255,.3);
-    transition: .2s;
-}
-
-.play-again:hover {
-    transform: translateY(-2px);
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 700px) {
-
-    .app {
-        padding-top: 18px;
-    }
-
-    .topbar {
-        align-items: flex-start;
-    }
-
-    .stats {
-        gap: 5px;
-    }
-
-    .stat {
-        min-width: 65px;
-        padding: 8px;
-    }
-
-    .stat small {
-        font-size: 8px;
-    }
-
-    .stat strong {
-        font-size: 14px;
-    }
-
-    .game-card {
-        padding: 25px 15px;
-        border-radius: 23px;
-    }
-
-    .balloons {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 5px;
-    }
-
-    .balloon-option {
-        height: 165px;
-    }
-
-    .balloon {
-        width: 110px;
-        height: 130px;
-        font-size: 14px;
-    }
-
-    .question {
-        font-size: 28px;
-    }
-    @media (max-width: 700px) {
-    .app {
-        padding-top: 18px;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartLearn | Balloon Pop Quiz</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(119, 92, 255, .18), transparent 30%),
+                radial-gradient(circle at 90% 15%, rgba(0, 210, 255, .14), transparent 28%),
+                radial-gradient(circle at 50% 100%, rgba(255, 91, 148, .12), transparent 35%),
+                #070b18;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* BACKGROUND */
+
+        .bg-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(70px);
+            pointer-events: none;
+            opacity: .35;
+        }
+
+        .orb1 {
+            width: 250px;
+            height: 250px;
+            background: #7357ff;
+            top: -100px;
+            left: -80px;
+        }
+
+        .orb2 {
+            width: 220px;
+            height: 220px;
+            background: #00c6ff;
+            right: -70px;
+            top: 180px;
+        }
+
+        .orb3 {
+            width: 180px;
+            height: 180px;
+            background: #ff4f91;
+            bottom: -70px;
+            left: 35%;
+        }
+
+        /* APP */
+
+        .app {
+            width: min(1100px, 94%);
+            margin: auto;
+            padding: 28px 0 50px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* HEADER */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #775cff, #4f8cff);
+            box-shadow: 0 10px 30px rgba(91, 82, 255, .35);
+            font-size: 21px;
+        }
+
+        .brand-text h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            letter-spacing: -.5px;
+        }
+
+        .brand-text span {
+            font-size: 11px;
+            color: #8d96b4;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .stats {
+            display: flex;
+            gap: 10px;
+        }
+
+        .stat {
+            min-width: 92px;
+            padding: 10px 14px;
+            border: 1px solid rgba(255,255,255,.08);
+            background: rgba(255,255,255,.045);
+            backdrop-filter: blur(18px);
+            border-radius: 14px;
+        }
+
+        .stat small {
+            display: block;
+            color: #858eab;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .stat strong {
+            font-family: 'Outfit', sans-serif;
+            font-size: 17px;
+        }
+
+        /* PROGRESS */
+
+        .progress-area {
+            margin-bottom: 25px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            color: #9ca5c0;
+            font-size: 13px;
+            margin-bottom: 9px;
+        }
+
+        .progress-info strong {
+            color: #fff;
+        }
+
+        .progress-bar {
+            height: 7px;
+            background: rgba(255,255,255,.07);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 10%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #765cff, #20d4ff);
+            box-shadow: 0 0 18px rgba(75,180,255,.5);
+            transition: width .4s ease;
+        }
+
+        /* BACK BUTTON */
+
+        .premium-back {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            min-width: 175px;
+            height: 58px;
+            padding: 6px 13px 6px 6px;
+            gap: 12px;
+            margin-bottom: 22px;
+            text-decoration: none;
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.10),
+                    rgba(255,255,255,.035)
+                );
+
+            border: 1px solid rgba(255,255,255,.12);
+
+            box-shadow:
+                0 12px 35px rgba(0,0,0,.25),
+                inset 0 1px 0 rgba(255,255,255,.10),
+                inset 0 -1px 0 rgba(255,255,255,.02);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            overflow: hidden;
+
+            transition:
+                transform .28s ease,
+                border-color .28s ease,
+                background .28s ease,
+                box-shadow .28s ease;
+        }
+
+        .premium-back::before {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            left: -35px;
+            top: -25px;
+            background: rgba(108,92,255,.22);
+            filter: blur(25px);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .premium-back::after {
+            content: "";
+            position: absolute;
+            width: 45px;
+            height: 150%;
+            top: -25%;
+            left: -80px;
+            background: rgba(255,255,255,.10);
+            transform: rotate(20deg);
+            transition: left .5s ease;
+            pointer-events: none;
+        }
+
+        .premium-back:hover {
+            transform: translateY(-3px) translateX(-3px);
+            border-color: rgba(118,92,255,.48);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(118,92,255,.16),
+                    rgba(255,255,255,.055)
+                );
+
+            box-shadow:
+                0 18px 42px rgba(45,35,130,.32),
+                0 0 25px rgba(101,85,255,.12),
+                inset 0 1px 0 rgba(255,255,255,.13);
+        }
+
+        .premium-back:hover::after {
+            left: 220px;
+        }
+
+        /* ICON */
+
+        .premium-back-icon {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8068ff,
+                    #4a8dff
+                );
+
+            box-shadow:
+                0 8px 22px rgba(91,82,255,.40),
+                inset 0 1px 1px rgba(255,255,255,.35);
+
+            transition:
+                transform .28s ease,
+                box-shadow .28s ease;
+        }
+
+        .premium-back-icon span {
+            position: relative;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+            line-height: 1;
+            transform: translateX(-1px);
+
+            text-shadow:
+                0 2px 5px rgba(0,0,0,.20);
+        }
+
+        .premium-back:hover .premium-back-icon {
+            transform: translateX(-3px);
+
+            box-shadow:
+                0 10px 28px rgba(91,82,255,.55),
+                inset 0 1px 1px rgba(255,255,255,.40);
+        }
+
+        /* TEXT */
+
+        .premium-back-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            min-width: 72px;
+        }
+
+        .premium-back-label {
+            color: #818ba9;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .premium-back-title {
+            color: #f5f6ff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -.2px;
+            line-height: 1;
+        }
+
+        /* RIGHT ARROW */
+
+        .premium-back-arrow {
+            margin-left: auto;
+            width: 27px;
+            height: 27px;
+            display: grid;
+            place-items: center;
+            border-radius: 9px;
+            color: #8e98b8;
+            background: rgba(255,255,255,.045);
+            border: 1px solid rgba(255,255,255,.06);
+            font-size: 20px;
+            line-height: 1;
+
+            transition:
+                transform .28s ease,
+                color .28s ease,
+                background .28s ease;
+        }
+
+        .premium-back:hover .premium-back-arrow {
+            color: #ffffff;
+            background: rgba(118,92,255,.20);
+            transform: translateX(3px);
+        }
+
+        /* GAME CARD */
+
+        .game-card {
+            border: 1px solid rgba(255,255,255,.09);
+            background: rgba(13,18,37,.76);
+            backdrop-filter: blur(25px);
+            border-radius: 30px;
+            padding: 38px;
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.35),
+                inset 0 1px rgba(255,255,255,.04);
+        }
+
+        .topic-label {
+            text-align: center;
+            color: #8792b3;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 9px;
+        }
+
+        .question {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(27px, 4vw, 43px);
+            line-height: 1.15;
+            text-align: center;
+            max-width: 800px;
+            margin: auto;
+            letter-spacing: -.8px;
+        }
+
+        .instruction {
+            text-align: center;
+            color: #78829f;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        /* TIMER */
+
+        .timer-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 22px 0 8px;
+        }
+
+        .timer {
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #11182e 58%,
+                    transparent 59%
+                ),
+                conic-gradient(
+                    #6c5cff var(--progress),
+                    rgba(255,255,255,.07) 0
+                );
+
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* BALLOONS */
+
+        .balloons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            max-width: 820px;
+            margin: 30px auto 5px;
+            align-items: end;
+        }
+
+        .balloon-option {
+            position: relative;
+            height: 190px;
+            cursor: pointer;
+            transition: transform .25s ease;
+        }
+
+        .balloon-option:hover {
+            transform: translateY(-10px);
+        }
+
+        .balloon {
+            width: 125px;
+            height: 145px;
+            margin: auto;
+            position: relative;
+
+            border-radius: 53% 53% 50% 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 18px;
+            text-align: center;
+
+            color: white;
+
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.2;
+
+            text-shadow: 0 2px 8px rgba(0,0,0,.18);
+
+            box-shadow:
+                inset -12px -18px 25px rgba(0,0,0,.12),
+                inset 10px 10px 18px rgba(255,255,255,.2),
+                0 15px 35px rgba(0,0,0,.22);
+        }
+
+        .balloon::before {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.45);
+            top: 20px;
+            left: 25px;
+            transform: rotate(-35deg);
+        }
+
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -9px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 11px solid currentColor;
+        }
+
+        .string {
+            width: 1px;
+            height: 48px;
+            background: rgba(255,255,255,.3);
+            margin: -1px auto 0;
+        }
+
+        .balloon-option:nth-child(1) .balloon {
+            background: linear-gradient(145deg, #ff668e, #e93667);
+            color: #111827;
+        }
+
+        .balloon-option:nth-child(2) .balloon {
+            background: linear-gradient(145deg, #45d8ff, #2386ed);
+            color: #111827;
+        }
+
+        .balloon-option:nth-child(3) .balloon {
+            background: linear-gradient(145deg, #9b7cff, #6549df);
+            color: #ffffff;
+        }
+
+        .balloon-option:nth-child(4) .balloon {
+            background: linear-gradient(145deg, #ffc85a, #f39a2d);
+            color: #111827;
+        }
+
+        .balloon-option.correct {
+            animation: popCorrect .5s forwards;
+        }
+
+        .balloon-option.wrong {
+            animation: shake .4s;
+            opacity: .55;
+        }
+
+        @keyframes popCorrect {
+            0% {
+                transform: scale(1);
+            }
+
+            40% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shake {
+            0%,100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-9px);
+            }
+
+            75% {
+                transform: translateX(9px);
+            }
+        }
+
+        /* FEEDBACK */
+
+        .feedback {
+            min-height: 28px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .feedback.correct {
+            color: #54e6a5;
+        }
+
+        .feedback.wrong {
+            color: #ff708f;
+        }
+
+        /* RESULT */
+
+        .result {
+            display: none;
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-icon {
+            font-size: 65px;
+            margin-bottom: 15px;
+        }
+
+        .result h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            margin-bottom: 8px;
+        }
+
+        .result p {
+            color: #929bb7;
+        }
+
+        .final-score {
+            font-family: 'Outfit', sans-serif;
+            font-size: 58px;
+            margin: 20px 0;
+
+            background: linear-gradient(90deg, #8d75ff, #2bdcff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .play-again {
+            border: none;
+            color: white;
+            padding: 14px 26px;
+            border-radius: 14px;
+
+            background: linear-gradient(135deg, #765cff, #438dff);
+
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+
+            box-shadow: 0 12px 30px rgba(78,91,255,.3);
+            transition: .2s;
+        }
+
+        .play-again:hover {
+            transform: translateY(-2px);
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 700px) {
+
+            .app {
+                padding-top: 18px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .stats {
+                gap: 5px;
+            }
+
+            .stat {
+                min-width: 65px;
+                padding: 8px;
+            }
+
+            .stat small {
+                font-size: 8px;
+            }
+
+            .stat strong {
+                font-size: 14px;
+            }
+
+            .game-card {
+                padding: 25px 15px;
+                border-radius: 23px;
+            }
+
+            .balloons {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 5px;
+            }
+
+            .balloon-option {
+                height: 165px;
+            }
+
+            .balloon {
+                width: 110px;
+                height: 130px;
+                font-size: 14px;
+            }
+
+            .question {
+                font-size: 28px;
+            }
+
+            .premium-back {
+                min-width: 158px;
+                height: 53px;
+                padding-right: 11px;
+                gap: 10px;
+                border-radius: 16px;
+                margin-bottom: 18px;
+            }
+
+            .premium-back-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 12px;
+            }
+
+            .premium-back-icon span {
+                font-size: 20px;
+            }
+
+            .premium-back-title {
+                font-size: 14px;
+            }
+
+            .premium-back-arrow {
+                width: 24px;
+                height: 24px;
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="bg-orb orb1"></div>
-<div class="bg-orb orb2"></div>
-<div class="bg-orb orb3"></div>
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+    <div class="bg-orb orb3"></div>
 
-<div class="app">
+    <div class="app">
 
-    <!-- HEADER -->
-    <div class="topbar">
+        <!-- HEADER -->
 
-        <div class="brand">
-            <div class="logo">🎈</div>
+        <div class="topbar">
 
-            <div class="brand-text">
-                <h2>SmartLearn</h2>
-                <span>Balloon Pop Quiz</span>
-            </div>
-        </div>
+            <div class="brand">
 
-        <div class="stats">
+                <div class="logo">🎈</div>
 
-            <div class="stat">
-                <small>Score</small>
-                <strong id="score">0</strong>
-            </div>
-
-            <div class="stat">
-                <small>Streak</small>
-                <strong id="streak">0 🔥</strong>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- PROGRESS -->
-    <div class="progress-area">
-
-        <div class="progress-info">
-            <span>Super Minds • Topic 5</span>
-            <strong id="questionNumber">1 / 10</strong>
-        </div>
-
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-
-    </div>
-
-<!-- PREMIUM BACK TO UNIT 5 -->
-<a href="unit5y2.html" class="premium-back">
-
-    <span class="premium-back-icon">
-        <span>←</span>
-    </span>
-
-    <span class="premium-back-content">
-        <span class="premium-back-label">RETURN TO</span>
-        <span class="premium-back-title">Unit 5</span>
-    </span>
-
-    <span class="premium-back-arrow">›</span>
-
-</a>
-
-<!-- GAME -->
-<div class="game-card" id="game">
-
-        <div id="quizArea">
-
-            <div class="topic-label">
-                FREE TIME 🎮
-            </div>
-
-            <h1 class="question" id="question">
-                What do you like doing in your free time?
-            </h1>
-
-            <p class="instruction">
-                Pop the correct balloon!
-            </p>
-
-            <div class="timer-wrap">
-                <div class="timer" id="timer">
-                    15
+                <div class="brand-text">
+                    <h2>SmartLearn</h2>
+                    <span>Balloon Pop Quiz</span>
                 </div>
+
             </div>
 
-            <div class="balloons" id="balloons"></div>
+            <div class="stats">
 
-            <div class="feedback" id="feedback"></div>
+                <div class="stat">
+                    <small>Score</small>
+                    <strong id="score">0</strong>
+                </div>
+
+                <div class="stat">
+                    <small>Streak</small>
+                    <strong id="streak">0 🔥</strong>
+                </div>
+
+            </div>
 
         </div>
 
-        <!-- RESULT -->
-        <div class="result" id="result">
+        <!-- PROGRESS -->
 
-            <div class="result-icon" id="resultIcon">🏆</div>
+        <div class="progress-area">
 
-            <h1 id="resultTitle">
-                Amazing!
-            </h1>
+            <div class="progress-info">
 
-            <p>
-                You completed Topic 5: Free Time
-            </p>
+                <span>Super Minds • Topic 5</span>
 
-            <div class="final-score" id="finalScore">
-                0 / 10
+                <strong id="questionNumber">
+                    1 / 10
+                </strong>
+
             </div>
 
-            <p id="resultMessage">
-                Great job!
-            </p>
+            <div class="progress-bar">
 
-            <br><br>
+                <div
+                    class="progress-fill"
+                    id="progressFill">
+                </div>
 
-            <button class="play-again" onclick="restartQuiz()">
-                🔄 Play Again
-            </button>
+            </div>
+
+        </div>
+
+        <!-- BACK TO UNIT 5 -->
+
+        <a href="unit5y2.html" class="premium-back">
+
+            <span class="premium-back-icon">
+                <span>←</span>
+            </span>
+
+            <span class="premium-back-content">
+
+                <span class="premium-back-label">
+                    RETURN TO
+                </span>
+
+                <span class="premium-back-title">
+                    Unit 5
+                </span>
+
+            </span>
+
+            <span class="premium-back-arrow">
+                ›
+            </span>
+
+        </a>
+
+        <!-- GAME -->
+
+        <div class="game-card" id="game">
+
+            <div id="quizArea">
+
+                <div class="topic-label">
+                    FREE TIME 🎮
+                </div>
+
+                <h1 class="question" id="question">
+                    What do you like doing in your free time?
+                </h1>
+
+                <p class="instruction">
+                    Pop the correct balloon!
+                </p>
+
+                <div class="timer-wrap">
+
+                    <div class="timer" id="timer">
+                        15
+                    </div>
+
+                </div>
+
+                <div
+                    class="balloons"
+                    id="balloons">
+                </div>
+
+                <div
+                    class="feedback"
+                    id="feedback">
+                </div>
+
+            </div>
+
+            <!-- RESULT -->
+
+            <div class="result" id="result">
+
+                <div class="result-icon" id="resultIcon">
+                    🏆
+                </div>
+
+                <h1 id="resultTitle">
+                    Amazing!
+                </h1>
+
+                <p>
+                    You completed Topic 5: Free Time
+                </p>
+
+                <div
+                    class="final-score"
+                    id="finalScore">
+                    0 / 10
+                </div>
+
+                <p id="resultMessage">
+                    Great job!
+                </p>
+
+                <br>
+                <br>
+
+                <button
+                    class="play-again"
+                    onclick="restartQuiz()">
+                    🔄 Play Again
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+
+        /* =====================================
+           SUPABASE
+        ===================================== */
+
+        const SUPABASE_URL =
+            "https://exaohyhqllzylcfyqtge.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+
+        const supabaseClient =
+            supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            );
 
 
-<script>
+        /* =====================================
+           QUESTIONS
+           TOPIC 5: FREE TIME
+        ===================================== */
 
-/* =====================================
-   QUESTIONS
-   Topic 5: FREE TIME
-   Original practice questions
-===================================== */
+        const questions = [
 
-const questions = [
+            {
+                question:
+                    "What do you like doing in your free time?",
 
-    {
-        question: "What do you like doing in your free time?",
-        options: [
-            "I like reading.",
-            "I am eleven.",
-            "I live in London.",
-            "I have a brother."
-        ],
-        answer: 0
-    },
+                options: [
+                    "I like reading.",
+                    "I am eleven.",
+                    "I live in London.",
+                    "I have a brother."
+                ],
 
-    {
-        question: "Which activity can you do with a ball?",
-        options: [
-            "Play football",
-            "Read a book",
-            "Watch TV",
-            "Draw a picture"
-        ],
-        answer: 0
-    },
+                answer: 0
+            },
 
-    {
-        question: "Which sentence is correct?",
-        options: [
-            "I like play tennis.",
-            "I like playing tennis.",
-            "I liking tennis.",
-            "I likes playing tennis."
-        ],
-        answer: 1
-    },
+            {
+                question:
+                    "Which activity can you do with a ball?",
 
-    {
-        question: "What can you do at the cinema?",
-        options: [
-            "Watch a film",
-            "Play football",
-            "Ride a bike",
-            "Go swimming"
-        ],
-        answer: 0
-    },
+                options: [
+                    "Play football",
+                    "Read a book",
+                    "Watch TV",
+                    "Draw a picture"
+                ],
 
-    {
-        question: "Which activity is usually done in water?",
-        options: [
-            "Swimming",
-            "Cycling",
-            "Reading",
-            "Drawing"
-        ],
-        answer: 0
-    },
+                answer: 0
+            },
 
-    {
-        question: "Choose the correct sentence.",
-        options: [
-            "She like dancing.",
-            "She likes dancing.",
-            "She liking dance.",
-            "She likes danceing."
-        ],
-        answer: 1
-    },
+            {
+                question:
+                    "Which sentence is correct?",
 
-    {
-        question: "Which activity can you do with a bicycle?",
-        options: [
-            "Cycling",
-            "Swimming",
-            "Reading",
-            "Watching TV"
-        ],
-        answer: 0
-    },
+                options: [
+                    "I like play tennis.",
+                    "I like playing tennis.",
+                    "I liking tennis.",
+                    "I likes playing tennis."
+                ],
 
-    {
-        question: "Tom enjoys music. What does he like doing?",
-        options: [
-            "Listening to music",
-            "Playing football",
-            "Going swimming",
-            "Reading comics"
-        ],
-        answer: 0
-    },
+                answer: 1
+            },
 
-    {
-        question: "Which question is correct?",
-        options: [
-            "Do you like playing games?",
-            "Are you like playing games?",
-            "Does you like games?",
-            "Do you likes games?"
-        ],
-        answer: 0
-    },
+            {
+                question:
+                    "What can you do at the cinema?",
 
-    {
-        question: "Which activity is a quiet free-time activity?",
-        options: [
-            "Reading a book",
-            "Playing football",
-            "Running",
-            "Cycling"
-        ],
-        answer: 0
-    }
+                options: [
+                    "Watch a film",
+                    "Play football",
+                    "Ride a bike",
+                    "Go swimming"
+                ],
 
-];
+                answer: 0
+            },
 
-let currentQuestion = 0;
-let score = 0;
-let streak = 0;
-let timer;
-let timeLeft = 15;
-let answered = false;
+            {
+                question:
+                    "Which activity is usually done in water?",
 
+                options: [
+                    "Swimming",
+                    "Cycling",
+                    "Reading",
+                    "Drawing"
+                ],
 
-/* =====================================
-   START QUIZ
-===================================== */
+                answer: 0
+            },
 
-function loadQuestion() {
+            {
+                question:
+                    "Choose the correct sentence.",
 
-    answered = false;
+                options: [
+                    "She like dancing.",
+                    "She likes dancing.",
+                    "She liking dance.",
+                    "She likes danceing."
+                ],
 
-    clearInterval(timer);
+                answer: 1
+            },
 
-    const q = questions[currentQuestion];
+            {
+                question:
+                    "Which activity can you do with a bicycle?",
 
-    document.getElementById("question").textContent = q.question;
+                options: [
+                    "Cycling",
+                    "Swimming",
+                    "Reading",
+                    "Watching TV"
+                ],
 
-    document.getElementById("questionNumber").textContent =
-        `${currentQuestion + 1} / ${questions.length}`;
+                answer: 0
+            },
 
-    document.getElementById("progressFill").style.width =
-        `${((currentQuestion + 1) / questions.length) * 100}%`;
+            {
+                question:
+                    "Tom enjoys music. What does he like doing?",
 
-    document.getElementById("feedback").textContent = "";
-    document.getElementById("feedback").className = "feedback";
+                options: [
+                    "Listening to music",
+                    "Playing football",
+                    "Going swimming",
+                    "Reading comics"
+                ],
 
-    const balloons = document.getElementById("balloons");
+                answer: 0
+            },
 
-    balloons.innerHTML = "";
+            {
+                question:
+                    "Which question is correct?",
 
-    q.options.forEach((option, index) => {
+                options: [
+                    "Do you like playing games?",
+                    "Are you like playing games?",
+                    "Does you like games?",
+                    "Do you likes games?"
+                ],
 
-        const wrapper = document.createElement("div");
+                answer: 0
+            },
 
-        wrapper.className = "balloon-option";
+            {
+                question:
+                    "Which activity is a quiet free-time activity?",
 
-        wrapper.innerHTML = `
-            <div class="balloon">
-                ${option}
-            </div>
-            <div class="string"></div>
-        `;
+                options: [
+                    "Reading a book",
+                    "Playing football",
+                    "Running",
+                    "Cycling"
+                ],
 
-        wrapper.onclick = () => selectAnswer(index, wrapper);
+                answer: 0
+            }
 
-        balloons.appendChild(wrapper);
-
-    });
-
-    startTimer();
-}
+        ];
 
 
-/* =====================================
-   TIMER
-===================================== */
+        /* =====================================
+           VARIABLES
+        ===================================== */
 
-function startTimer() {
+        let currentQuestion = 0;
+        let score = 0;
+        let streak = 0;
+        let timer;
+        let timeLeft = 15;
+        let answered = false;
 
-    timeLeft = 15;
 
-    updateTimer();
+        /* =====================================
+           LOAD QUESTION
+        ===================================== */
 
-    timer = setInterval(() => {
+        function loadQuestion() {
 
-        timeLeft--;
-
-        updateTimer();
-
-        if (timeLeft <= 0) {
+            answered = false;
 
             clearInterval(timer);
 
-            if (!answered) {
+            const q =
+                questions[currentQuestion];
 
-                answered = true;
+            document.getElementById("question")
+                .textContent = q.question;
+
+            document.getElementById("questionNumber")
+                .textContent =
+                `${currentQuestion + 1} / ${questions.length}`;
+
+            document.getElementById("progressFill")
+                .style.width =
+                `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+            document.getElementById("feedback")
+                .textContent = "";
+
+            document.getElementById("feedback")
+                .className = "feedback";
+
+            const balloons =
+                document.getElementById("balloons");
+
+            balloons.innerHTML = "";
+
+            q.options.forEach(
+                (option, index) => {
+
+                    const wrapper =
+                        document.createElement("div");
+
+                    wrapper.className =
+                        "balloon-option";
+
+                    wrapper.innerHTML = `
+
+                        <div class="balloon">
+                            ${option}
+                        </div>
+
+                        <div class="string"></div>
+
+                    `;
+
+                    wrapper.onclick = () =>
+                        selectAnswer(
+                            index,
+                            wrapper
+                        );
+
+                    balloons.appendChild(
+                        wrapper
+                    );
+
+                }
+            );
+
+            startTimer();
+        }
+
+
+        /* =====================================
+           TIMER
+        ===================================== */
+
+        function startTimer() {
+
+            timeLeft = 15;
+
+            updateTimer();
+
+            timer = setInterval(() => {
+
+                timeLeft--;
+
+                updateTimer();
+
+                if (timeLeft <= 0) {
+
+                    clearInterval(timer);
+
+                    if (!answered) {
+
+                        answered = true;
+
+                        streak = 0;
+
+                        document.getElementById(
+                            "streak"
+                        ).textContent = "0 🔥";
+
+                        document.getElementById(
+                            "feedback"
+                        ).textContent =
+                            "⏰ Time's up!";
+
+                        document.getElementById(
+                            "feedback"
+                        ).className =
+                            "feedback wrong";
+
+                        setTimeout(
+                            nextQuestion,
+                            1000
+                        );
+                    }
+                }
+
+            }, 1000);
+        }
+
+
+        function updateTimer() {
+
+            const timerElement =
+                document.getElementById("timer");
+
+            timerElement.textContent =
+                timeLeft;
+
+            timerElement.style.setProperty(
+                "--progress",
+                `${(timeLeft / 15) * 100}%`
+            );
+        }
+
+
+        /* =====================================
+           ANSWER
+        ===================================== */
+
+        function selectAnswer(
+            index,
+            element
+        ) {
+
+            if (answered) return;
+
+            answered = true;
+
+            clearInterval(timer);
+
+            const correctAnswer =
+                questions[currentQuestion].answer;
+
+
+            if (index === correctAnswer) {
+
+                /* CORRECT */
+
+                score += 100;
+
+                streak++;
+
+                element.classList.add(
+                    "correct"
+                );
+
+                document.getElementById(
+                    "feedback"
+                ).textContent =
+                    streak >= 3
+                        ? "🔥 AMAZING STREAK!"
+                        : "✨ Correct!";
+
+                document.getElementById(
+                    "feedback"
+                ).className =
+                    "feedback correct";
+
+                document.getElementById(
+                    "score"
+                ).textContent =
+                    score;
+
+                document.getElementById(
+                    "streak"
+                ).textContent =
+                    `${streak} 🔥`;
+
+            } else {
+
+                /* WRONG */
 
                 streak = 0;
 
-                document.getElementById("streak").textContent =
-                    "0 🔥";
+                element.classList.add(
+                    "wrong"
+                );
 
-                document.getElementById("feedback").textContent =
-                    "⏰ Time's up!";
+                document.getElementById(
+                    "feedback"
+                ).textContent =
+                    "❌ Not quite!";
 
-                document.getElementById("feedback").className =
+                document.getElementById(
+                    "feedback"
+                ).className =
                     "feedback wrong";
 
-                setTimeout(nextQuestion, 1000);
+                document.getElementById(
+                    "streak"
+                ).textContent =
+                    "0 🔥";
+
+                /* Highlight correct answer */
+
+                const allBalloons =
+                    document.querySelectorAll(
+                        ".balloon-option"
+                    );
+
+                allBalloons[
+                    correctAnswer
+                ].classList.add(
+                    "correct"
+                );
+            }
+
+            setTimeout(
+                nextQuestion,
+                1100
+            );
+        }
+
+
+        /* =====================================
+           NEXT QUESTION
+        ===================================== */
+
+        function nextQuestion() {
+
+            currentQuestion++;
+
+            if (
+                currentQuestion >=
+                questions.length
+            ) {
+
+                showResult();
+
+            } else {
+
+                loadQuestion();
+
             }
         }
 
-    }, 1000);
-}
+
+        /* =====================================
+           SAVE SCORE TO SUPABASE
+        ===================================== */
+
+        async function saveScore(
+            finalScore
+        ) {
+
+            const {
+                data: userData,
+                error: userError
+            } =
+                await supabaseClient.auth.getUser();
 
 
-function updateTimer() {
+            if (
+                userError ||
+                !userData.user
+            ) {
 
-    const timerElement = document.getElementById("timer");
+                console.log(
+                    "User belum login."
+                );
 
-    timerElement.textContent = timeLeft;
-
-    timerElement.style.setProperty(
-        "--progress",
-        `${(timeLeft / 15) * 100}%`
-    );
-}
-
-
-/* =====================================
-   ANSWER
-===================================== */
-
-function selectAnswer(index, element) {
-
-    if (answered) return;
-
-    answered = true;
-
-    clearInterval(timer);
-
-    const correctAnswer =
-        questions[currentQuestion].answer;
-
-    if (index === correctAnswer) {
-
-        /* CORRECT */
-
-        score += 100;
-        streak++;
-
-        element.classList.add("correct");
-
-        document.getElementById("feedback").textContent =
-            streak >= 3
-                ? "🔥 AMAZING STREAK!"
-                : "✨ Correct!";
-
-        document.getElementById("feedback").className =
-            "feedback correct";
-
-        document.getElementById("score").textContent =
-            score;
-
-        document.getElementById("streak").textContent =
-            `${streak} 🔥`;
-
-    } else {
-
-        /* WRONG */
-
-        streak = 0;
-
-        element.classList.add("wrong");
-
-        document.getElementById("feedback").textContent =
-            "❌ Not quite!";
-
-        document.getElementById("feedback").className =
-            "feedback wrong";
-
-        document.getElementById("streak").textContent =
-            "0 🔥";
-
-        /* Highlight correct answer */
-
-        const allBalloons =
-            document.querySelectorAll(".balloon-option");
-
-        allBalloons[correctAnswer].classList.add("correct");
-    }
-
-    setTimeout(nextQuestion, 1100);
-}
+                return;
+            }
 
 
-/* =====================================
-   NEXT QUESTION
-===================================== */
+            /*
+                SCORE DISIMPAN SEBAGAI
+                JUMLAH JAWAPAN BETUL.
 
-function nextQuestion() {
+                Contoh:
+                8 betul = score 8
+                total questions = 10
+            */
 
-    currentQuestion++;
+            const correctAnswers =
+                Math.round(
+                    finalScore / 10
+                );
 
-    if (currentQuestion >= questions.length) {
 
-        showResult();
+            const {
+                error
+            } =
+                await supabaseClient
+                    .from("quiz_scores")
+                    .insert([
 
-    } else {
+                        {
+                            user_id:
+                                userData.user.id,
+
+                            score:
+                                correctAnswers,
+
+                            "total questions":
+                                questions.length,
+
+                            unit:
+                                "Unit 5",
+
+                            activity:
+                                "Balloon"
+                        }
+
+                    ]);
+
+
+            if (error) {
+
+                console.log(
+                    "❌ Gagal simpan markah"
+                );
+
+                console.log(
+                    "Code:",
+                    error.code
+                );
+
+                console.log(
+                    "Message:",
+                    error.message
+                );
+
+                console.log(
+                    "Details:",
+                    error.details
+                );
+
+                console.log(
+                    "Hint:",
+                    error.hint
+                );
+
+            } else {
+
+                console.log(
+                    "✅ Markah Unit 5 Balloon berjaya disimpan!"
+                );
+
+            }
+
+        }
+
+
+        /* =====================================
+           RESULT
+        ===================================== */
+
+        function showResult() {
+
+            clearInterval(timer);
+
+            document.getElementById(
+                "quizArea"
+            ).style.display = "none";
+
+            document.getElementById(
+                "result"
+            ).classList.add("show");
+
+
+            const finalScore =
+                Math.round(
+                    (
+                        score /
+                        (
+                            questions.length *
+                            100
+                        )
+                    ) * 100
+                );
+
+
+            /* SAVE TO SUPABASE */
+
+            saveScore(finalScore);
+
+
+            document.getElementById(
+                "finalScore"
+            ).textContent =
+                `${finalScore}%`;
+
+
+            let title;
+            let icon;
+            let message;
+
+
+            if (finalScore === 100) {
+
+                icon = "🏆";
+
+                title =
+                    "Perfect Score!";
+
+                message =
+                    "Outstanding! You really know your Free Time vocabulary!";
+
+            } else if (
+                finalScore >= 80
+            ) {
+
+                icon = "🌟";
+
+                title =
+                    "Excellent!";
+
+                message =
+                    "Great work! Keep learning and keep your streak alive.";
+
+            } else if (
+                finalScore >= 60
+            ) {
+
+                icon = "👏";
+
+                title =
+                    "Good Job!";
+
+                message =
+                    "Nice effort! A little more practice and you'll master it.";
+
+            } else {
+
+                icon = "💪";
+
+                title =
+                    "Keep Going!";
+
+                message =
+                    "Don't give up. Practice again and beat your score!";
+            }
+
+
+            document.getElementById(
+                "resultIcon"
+            ).textContent =
+                icon;
+
+            document.getElementById(
+                "resultTitle"
+            ).textContent =
+                title;
+
+            document.getElementById(
+                "resultMessage"
+            ).textContent =
+                message;
+        }
+
+
+        /* =====================================
+           RESTART
+        ===================================== */
+
+        function restartQuiz() {
+
+            currentQuestion = 0;
+
+            score = 0;
+
+            streak = 0;
+
+            document.getElementById(
+                "score"
+            ).textContent = "0";
+
+            document.getElementById(
+                "streak"
+            ).textContent = "0 🔥";
+
+            document.getElementById(
+                "quizArea"
+            ).style.display = "block";
+
+            document.getElementById(
+                "result"
+            ).classList.remove("show");
+
+            loadQuestion();
+        }
+
+
+        /* =====================================
+           RUN
+        ===================================== */
 
         loadQuestion();
 
-    }
-}
-
-
-/* =====================================
-   RESULT
-===================================== */
-
-function showResult() {
-
-    clearInterval(timer);
-
-    document.getElementById("quizArea").style.display =
-        "none";
-
-    document.getElementById("result").classList.add("show");
-
-    const finalScore =
-        Math.round((score / (questions.length * 100)) * 100);
-
-    document.getElementById("finalScore").textContent =
-        `${finalScore}%`;
-
-    let title;
-    let icon;
-    let message;
-
-    if (finalScore === 100) {
-
-        icon = "🏆";
-        title = "Perfect Score!";
-        message =
-            "Outstanding! You really know your Free Time vocabulary!";
-
-    } else if (finalScore >= 80) {
-
-        icon = "🌟";
-        title = "Excellent!";
-        message =
-            "Great work! Keep learning and keep your streak alive.";
-
-    } else if (finalScore >= 60) {
-
-        icon = "👏";
-        title = "Good Job!";
-        message =
-            "Nice effort! A little more practice and you'll master it.";
-
-    } else {
-
-        icon = "💪";
-        title = "Keep Going!";
-        message =
-            "Don't give up. Practice again and beat your score!";
-
-    }
-
-    document.getElementById("resultIcon").textContent = icon;
-    document.getElementById("resultTitle").textContent = title;
-    document.getElementById("resultMessage").textContent = message;
-}
-
-
-/* =====================================
-   RESTART
-===================================== */
-
-function restartQuiz() {
-
-    currentQuestion = 0;
-    score = 0;
-    streak = 0;
-
-    document.getElementById("score").textContent = "0";
-    document.getElementById("streak").textContent = "0 🔥";
-
-    document.getElementById("quizArea").style.display =
-        "block";
-
-    document.getElementById("result").classList.remove("show");
-
-    loadQuestion();
-}
-
-
-/* =====================================
-   RUN
-===================================== */
-
-loadQuestion();
-
-</script>
+    </script>
 
 </body>
+
 </html>

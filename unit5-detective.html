@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Detective Case - SmartLearn</title>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
     * {
@@ -794,6 +798,7 @@
     <div class="stats">
 
         <div class="stat">
+
             <div class="stat-label">
                 SCORE
             </div>
@@ -801,9 +806,12 @@
             <div class="stat-value" id="score">
                 0
             </div>
+
         </div>
 
+
         <div class="stat">
+
             <div class="stat-label">
                 CASE
             </div>
@@ -811,9 +819,12 @@
             <div class="stat-value">
                 <span id="questionNumber">1</span>/12
             </div>
+
         </div>
 
+
         <div class="stat">
+
             <div class="stat-label">
                 TIME
             </div>
@@ -821,6 +832,7 @@
             <div class="stat-value" id="timer">
                 20s
             </div>
+
         </div>
 
     </div>
@@ -877,22 +889,31 @@
                 </div>
 
                 <div class="clue-text">
-                    <strong>DETECTIVE CLUE</strong>
+
+                    <strong>
+                        DETECTIVE CLUE
+                    </strong>
 
                     <span id="clue">
                         Look carefully at the information.
                     </span>
+
                 </div>
 
             </div>
 
-            <div class="answers" id="answers">
+
+            <div
+                class="answers"
+                id="answers">
             </div>
+
 
             <div
                 class="feedback"
                 id="feedback">
             </div>
+
 
             <button
                 class="next-btn"
@@ -900,23 +921,31 @@
                 onclick="nextQuestion()">
 
                 Next Case →
+
             </button>
 
         </div>
 
 
         <!-- RESULT -->
+
         <div
             class="result"
             id="result">
 
-            <div class="result-icon" id="resultIcon">
+            <div
+                class="result-icon"
+                id="resultIcon">
+
                 🏆
+
             </div>
+
 
             <h2 id="resultTitle">
                 Case Solved!
             </h2>
+
 
             <div class="final-score">
 
@@ -930,15 +959,18 @@
 
             </div>
 
+
             <p id="resultMessage">
                 Excellent detective work!
             </p>
+
 
             <button
                 class="restart-btn"
                 onclick="restartGame()">
 
                 🔄 Investigate Again
+
             </button>
 
         </div>
@@ -949,6 +981,27 @@
 
 
 <script>
+
+/* =====================================================
+   SUPABASE CONNECTION
+===================================================== */
+
+const SUPABASE_URL =
+    "https://exaohyhqllzylcfyqtge.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================================
+   QUESTIONS
+===================================================== */
 
 const questions = [
 
@@ -972,6 +1025,7 @@ const questions = [
         "Sara likes riding a bicycle in her free time."
     },
 
+
     {
         question:
         "Tom usually plays football with his friends. Which sentence is correct?",
@@ -991,6 +1045,7 @@ const questions = [
         explanation:
         "With 'he', 'she' or 'it', we normally use the -s form: Tom plays football."
     },
+
 
     {
         question:
@@ -1012,6 +1067,7 @@ const questions = [
         "Tennis is played with a racket and a ball."
     },
 
+
     {
         question:
         "Mia is at home. She has a book and sits quietly on the sofa. What is she probably doing?",
@@ -1031,6 +1087,7 @@ const questions = [
         explanation:
         "Mia is probably reading because she has a book."
     },
+
 
     {
         question:
@@ -1052,6 +1109,7 @@ const questions = [
         "'Is playing' describes an activity happening now."
     },
 
+
     {
         question:
         "Which activity is most likely to happen in a swimming pool?",
@@ -1071,6 +1129,7 @@ const questions = [
         explanation:
         "Swimming is normally done in a swimming pool."
     },
+
 
     {
         question:
@@ -1092,6 +1151,7 @@ const questions = [
         "Moving to music means Ben is dancing."
     },
 
+
     {
         question:
         "Choose the best question: '_____ you like playing computer games?'",
@@ -1111,6 +1171,7 @@ const questions = [
         explanation:
         "We use 'Do' with 'you': Do you like playing computer games?"
     },
+
 
     {
         question:
@@ -1132,6 +1193,7 @@ const questions = [
         "Playing football is commonly an outdoor activity."
     },
 
+
     {
         question:
         "Lucy says, 'I don't like skating.' Which sentence has the same meaning?",
@@ -1152,6 +1214,7 @@ const questions = [
         "'I don't like skating' means Lucy dislikes skating."
     },
 
+
     {
         question:
         "Detective clue: Jack has a fishing rod, a hat and a small box of bait. What is he probably going to do?",
@@ -1171,6 +1234,7 @@ const questions = [
         explanation:
         "A fishing rod and bait are clues that Jack is going fishing."
     },
+
 
     {
         question:
@@ -1195,12 +1259,24 @@ const questions = [
 ];
 
 
+/* =====================================================
+   GAME VARIABLES
+===================================================== */
+
 let currentQuestion = 0;
+
 let score = 0;
+
 let timeLeft = 20;
+
 let timerInterval = null;
+
 let answered = false;
 
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
 const questionElement =
     document.getElementById("question");
@@ -1236,60 +1312,96 @@ const progressText =
     document.getElementById("progressText");
 
 
+/* =====================================================
+   LOAD QUESTION
+===================================================== */
+
 function loadQuestion() {
 
     clearInterval(timerInterval);
 
     answered = false;
 
-    const q = questions[currentQuestion];
+    const q =
+        questions[currentQuestion];
+
 
     questionNumberElement.textContent =
         currentQuestion + 1;
 
+
     caseNumberElement.textContent =
-        String(currentQuestion + 1).padStart(2, "0");
+        String(
+            currentQuestion + 1
+        ).padStart(2, "0");
+
 
     questionElement.textContent =
         q.question;
 
+
     clueElement.textContent =
         q.clue;
+
 
     feedbackElement.className =
         "feedback";
 
+
     feedbackElement.innerHTML =
         "";
 
-    nextButton.classList.remove("show");
+
+    nextButton.classList.remove(
+        "show"
+    );
+
 
     answersElement.innerHTML =
         "";
 
-    q.answers.forEach((answer, index) => {
 
-        const button =
-            document.createElement("button");
+    q.answers.forEach(
+        (answer, index) => {
 
-        button.className =
-            "answer";
+            const button =
+                document.createElement(
+                    "button"
+                );
 
-        button.textContent =
-            answer;
 
-        button.onclick = () =>
-            checkAnswer(index, button);
+            button.className =
+                "answer";
 
-        answersElement.appendChild(button);
 
-    });
+            button.textContent =
+                answer;
+
+
+            button.onclick = () =>
+                checkAnswer(
+                    index,
+                    button
+                );
+
+
+            answersElement.appendChild(
+                button
+            );
+
+        }
+    );
+
 
     updateProgress();
 
     startTimer();
 }
 
+
+/* =====================================================
+   TIMER
+===================================================== */
 
 function startTimer() {
 
@@ -1302,6 +1414,7 @@ function startTimer() {
         "timer-warning"
     );
 
+
     timerInterval =
         setInterval(() => {
 
@@ -1310,53 +1423,84 @@ function startTimer() {
             timerElement.textContent =
                 timeLeft + "s";
 
+
             if (timeLeft <= 5) {
 
                 timerElement.classList.add(
                     "timer-warning"
                 );
+
             }
+
 
             if (timeLeft <= 0) {
 
-                clearInterval(timerInterval);
+                clearInterval(
+                    timerInterval
+                );
 
                 timeOut();
+
             }
 
         }, 1000);
 }
 
 
-function checkAnswer(index, button) {
+/* =====================================================
+   CHECK ANSWER
+===================================================== */
+
+function checkAnswer(
+    index,
+    button
+) {
 
     if (answered) return;
 
     answered = true;
 
-    clearInterval(timerInterval);
+    clearInterval(
+        timerInterval
+    );
+
 
     const q =
         questions[currentQuestion];
 
+
     const allAnswers =
-        document.querySelectorAll(".answer");
+        document.querySelectorAll(
+            ".answer"
+        );
+
 
     allAnswers.forEach(btn => {
-        btn.classList.add("disabled");
+
+        btn.classList.add(
+            "disabled"
+        );
+
     });
+
 
     if (index === q.correct) {
 
-        button.classList.add("correct");
+        button.classList.add(
+            "correct"
+        );
+
 
         score += 100;
+
 
         scoreElement.textContent =
             score;
 
+
         feedbackElement.className =
             "feedback show correct-feedback";
+
 
         feedbackElement.innerHTML =
             "✓ <strong>Correct!</strong> " +
@@ -1364,22 +1508,37 @@ function checkAnswer(index, button) {
 
     } else {
 
-        button.classList.add("wrong");
+        button.classList.add(
+            "wrong"
+        );
+
 
         allAnswers[q.correct]
-            .classList.add("correct");
+            .classList.add(
+                "correct"
+            );
+
 
         feedbackElement.className =
             "feedback show wrong-feedback";
 
+
         feedbackElement.innerHTML =
             "✕ <strong>Not quite!</strong> " +
             q.explanation;
+
     }
 
-    nextButton.classList.add("show");
+
+    nextButton.classList.add(
+        "show"
+    );
 }
 
+
+/* =====================================================
+   TIME OUT
+===================================================== */
 
 function timeOut() {
 
@@ -1387,132 +1546,318 @@ function timeOut() {
 
     answered = true;
 
+
     const q =
         questions[currentQuestion];
 
+
     const allAnswers =
-        document.querySelectorAll(".answer");
+        document.querySelectorAll(
+            ".answer"
+        );
+
 
     allAnswers.forEach(btn => {
-        btn.classList.add("disabled");
+
+        btn.classList.add(
+            "disabled"
+        );
+
     });
 
+
     allAnswers[q.correct]
-        .classList.add("correct");
+        .classList.add(
+            "correct"
+        );
+
 
     feedbackElement.className =
         "feedback show wrong-feedback";
+
 
     feedbackElement.innerHTML =
         "⏱️ <strong>Time's up!</strong> " +
         q.explanation;
 
-    nextButton.classList.add("show");
+
+    nextButton.classList.add(
+        "show"
+    );
 }
 
+
+/* =====================================================
+   NEXT QUESTION
+===================================================== */
 
 function nextQuestion() {
 
     currentQuestion++;
 
-    if (currentQuestion >= questions.length) {
+
+    if (
+        currentQuestion >=
+        questions.length
+    ) {
 
         finishGame();
 
         return;
     }
 
+
     loadQuestion();
 }
 
 
+/* =====================================================
+   PROGRESS
+===================================================== */
+
 function updateProgress() {
 
     const progress =
-        (currentQuestion / questions.length) * 100;
+        (
+            currentQuestion /
+            questions.length
+        ) * 100;
+
 
     progressBar.style.width =
         progress + "%";
+
 
     progressText.textContent =
         Math.round(progress) + "%";
 }
 
 
+/* =====================================================
+   SAVE SCORE TO SUPABASE
+===================================================== */
+
+async function saveScore(
+    finalScore
+) {
+
+    const {
+        data: userData,
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+
+    if (
+        userError ||
+        !userData.user
+    ) {
+
+        console.log(
+            "❌ User belum login."
+        );
+
+        return;
+    }
+
+
+    const correctAnswers =
+        Math.round(
+            finalScore / 10
+        );
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("quiz_scores")
+        .insert([{
+
+            user_id:
+                userData.user.id,
+
+            score:
+                correctAnswers,
+
+            "total questions":
+                questions.length,
+
+            unit:
+                "Unit 5",
+
+            activity:
+                "Detective"
+
+        }]);
+
+
+    if (error) {
+
+        console.log(
+            "❌ Gagal simpan markah Detective"
+        );
+
+        console.log(
+            "Code:",
+            error.code
+        );
+
+        console.log(
+            "Message:",
+            error.message
+        );
+
+        console.log(
+            "Details:",
+            error.details
+        );
+
+        console.log(
+            "Hint:",
+            error.hint
+        );
+
+    } else {
+
+        console.log(
+            "✅ Markah Unit 5 Detective berjaya disimpan!"
+        );
+
+    }
+}
+
+
+/* =====================================================
+   FINISH GAME
+===================================================== */
+
 function finishGame() {
 
-    clearInterval(timerInterval);
+    clearInterval(
+        timerInterval
+    );
 
-    document.getElementById("questionArea")
-        .style.display = "none";
 
-    document.getElementById("result")
-        .classList.add("show");
+    document.getElementById(
+        "questionArea"
+    ).style.display = "none";
 
-    progressBar.style.width = "100%";
 
-    progressText.textContent = "100%";
+    document.getElementById(
+        "result"
+    ).classList.add("show");
 
-    document.getElementById("finalScore")
-        .textContent = score;
+
+    progressBar.style.width =
+        "100%";
+
+
+    progressText.textContent =
+        "100%";
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        score;
+
 
     const percentage =
         Math.round(
-            (score / (questions.length * 100)) * 100
+            (
+                score /
+                (
+                    questions.length *
+                    100
+                )
+            ) * 100
         );
 
+
+    /* SAVE TO SUPABASE */
+
+    saveScore(
+        percentage
+    );
+
+
     const resultTitle =
-        document.getElementById("resultTitle");
+        document.getElementById(
+            "resultTitle"
+        );
+
 
     const resultMessage =
-        document.getElementById("resultMessage");
+        document.getElementById(
+            "resultMessage"
+        );
+
 
     const resultIcon =
-        document.getElementById("resultIcon");
+        document.getElementById(
+            "resultIcon"
+        );
 
 
     if (percentage >= 90) {
 
-        resultIcon.textContent = "🏆";
+        resultIcon.textContent =
+            "🏆";
+
 
         resultTitle.textContent =
             "Master Detective!";
+
 
         resultMessage.textContent =
             "Outstanding work! You examined every clue carefully and solved the Free-Time Mystery like a true detective.";
 
     } else if (percentage >= 70) {
 
-        resultIcon.textContent = "🕵️‍♀️";
+        resultIcon.textContent =
+            "🕵️‍♀️";
+
 
         resultTitle.textContent =
             "Great Detective Work!";
+
 
         resultMessage.textContent =
             "Excellent investigation! You found most of the clues and showed strong English skills.";
 
     } else if (percentage >= 50) {
 
-        resultIcon.textContent = "🔎";
+        resultIcon.textContent =
+            "🔎";
+
 
         resultTitle.textContent =
             "Good Investigation!";
+
 
         resultMessage.textContent =
             "You found some important clues. Keep practising and your detective skills will become even stronger.";
 
     } else {
 
-        resultIcon.textContent = "🗂️";
+        resultIcon.textContent =
+            "🗂️";
+
 
         resultTitle.textContent =
             "Case Still Open!";
 
+
         resultMessage.textContent =
             "The mystery needs another investigation. Review Unit 5 and try the case again!";
+
     }
+
 }
 
+
+/* =====================================================
+   RESTART
+===================================================== */
 
 function restartGame() {
 
@@ -1520,18 +1865,31 @@ function restartGame() {
 
     score = 0;
 
+
     scoreElement.textContent =
         "0";
 
-    document.getElementById("result")
-        .classList.remove("show");
 
-    document.getElementById("questionArea")
-        .style.display = "block";
+    document.getElementById(
+        "result"
+    ).classList.remove(
+        "show"
+    );
+
+
+    document.getElementById(
+        "questionArea"
+    ).style.display =
+        "block";
+
 
     loadQuestion();
 }
 
+
+/* =====================================================
+   START GAME
+===================================================== */
 
 loadQuestion();
 
@@ -1539,3 +1897,4 @@ loadQuestion();
 
 </body>
 </html>
+```
