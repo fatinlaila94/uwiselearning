@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Unit 7 - Free Time | SmartLearn Online</title>
+<title>Unit 7 - Get Dressed! | SmartLearn Online</title>
 
 <style>
 *{
@@ -317,6 +317,7 @@ body{
 .balloon:hover{
     transform:translateY(-12px) scale(1.05);
 }
+
 .balloon-wrap:nth-child(1) .balloon{
     background:linear-gradient(145deg,#fb7185,#e11d48);
 }
@@ -522,7 +523,7 @@ body{
             SMARTLEARN ONLINE
         </div>
 
-        <h1>🎈 Free Time</h1>
+        <h1>🎈 Get Dressed!</h1>
 
         <p>
             Pop the correct balloon and test your English!
@@ -551,6 +552,7 @@ body{
         <div class="quiz-header">
 
             <div>
+
                 <div class="quiz-title">
                     🎈 Balloon Pop Quiz
                 </div>
@@ -558,6 +560,7 @@ body{
                 <div class="quiz-subtitle">
                     Choose the correct answer before the time runs out!
                 </div>
+
             </div>
 
             <div class="timer-box">
@@ -612,7 +615,7 @@ body{
             <div
                 class="question"
                 id="question">
-                What do you do in your free time?
+                Which one is a jacket?
             </div>
 
             <div class="instruction">
@@ -674,7 +677,7 @@ body{
 <footer class="footer">
 
     © 2026 SmartLearn Online
-    • Unit 7 — Free Time
+    • Unit 7 — Get Dressed!
 
 </footer>
 
@@ -683,114 +686,119 @@ body{
 
 const questions = [
 
+    /* ================= VOCABULARY ================= */
+
     {
-        question: "What do you do in your free time?",
+        question: "Which one is a jacket?",
         answers: [
-            "I play football",
-            "I am a teacher",
-            "I am seven",
-            "It's Monday"
+            "🧥 Jacket",
+            "🧢 Cap",
+            "🧦 Socks",
+            "👟 Shoes"
         ],
         correct: 0
     },
 
     {
-        question: "Which one is a hobby?",
+        question: "Which one are shoes?",
         answers: [
-            "Swimming",
-            "Bedroom",
-            "Kitchen",
-            "Pencil"
-        ],
-        correct: 0
-    },
-
-    {
-        question: "Sarah likes ______ books.",
-        answers: [
-            "read",
-            "reading",
-            "reads",
-            "readed"
-        ],
-        correct: 1
-    },
-
-    {
-        question: "Which activity uses a ball?",
-        answers: [
-            "Drawing",
-            "Reading",
-            "Playing football",
-            "Singing"
+            "👕 T-shirt",
+            "👖 Jeans",
+            "👟 Shoes",
+            "🧢 Cap"
         ],
         correct: 2
     },
 
     {
-        question: "\"I like drawing.\" What does the person like?",
+        question: "Which one is a skirt?",
         answers: [
-            "Cooking",
-            "Drawing",
-            "Swimming",
-            "Dancing"
-        ],
-        correct: 1
-    },
-
-    {
-        question: "Which hobby can you do with music?",
-        answers: [
-            "Dancing",
-            "Reading",
-            "Drawing",
-            "Collecting stamps"
+            "👗 Skirt",
+            "🧥 Jacket",
+            "🧦 Socks",
+            "👖 Trousers"
         ],
         correct: 0
     },
 
     {
-        question: "\"I like swimming.\" Where can you swim?",
+        question: "Which one is a cap?",
         answers: [
-            "Swimming pool",
-            "Library",
-            "Classroom",
-            "Kitchen"
-        ],
-        correct: 0
-    },
-
-    {
-        question: "Which hobby uses a pencil?",
-        answers: [
-            "Swimming",
-            "Drawing",
-            "Cycling",
-            "Dancing"
+            "👟 Shoes",
+            "🧢 Cap",
+            "👕 T-shirt",
+            "🩳 Shorts"
         ],
         correct: 1
     },
 
     {
-        question: "Complete: I like ___ football.",
+        question: "Which one are socks?",
         answers: [
-            "play",
-            "plays",
-            "playing",
-            "played"
+            "🧦 Socks",
+            "🧥 Jacket",
+            "🧢 Cap",
+            "👖 Jeans"
         ],
-        correct: 2
+        correct: 0
+    },
+
+
+    /* ================= GRAMMAR ================= */
+
+    {
+        question: "Do you like this hat?",
+        answers: [
+            "Yes, I do.",
+            "Yes, I am.",
+            "Yes, he is.",
+            "No, she isn't."
+        ],
+        correct: 0
     },
 
     {
-        question: "Which one is NOT a hobby?",
+        question: "Do you like these shoes?",
         answers: [
-            "Reading",
-            "Dancing",
-            "Swimming",
-            "Sleeping in a bedroom"
+            "Yes, I do.",
+            "Yes, I am.",
+            "Yes, she is.",
+            "No, he isn't."
         ],
-        correct: 3
+        correct: 0
+    },
+
+    {
+        question: "Complete: Olivia's ______ a red sweater.",
+        answers: [
+            "wear",
+            "wearing",
+            "wears",
+            "wear"
+        ],
+        correct: 1
+    },
+
+    {
+        question: "Is she wearing a blue T-shirt?",
+        answers: [
+            "Yes, she is.",
+            "Yes, she do.",
+            "Yes, she does.",
+            "No, she don't."
+        ],
+        correct: 0
+    },
+
+    {
+        question: "Is he wearing a cap?",
+        answers: [
+            "Yes, he is.",
+            "Yes, he do.",
+            "Yes, he does.",
+            "No, he aren't."
+        ],
+        correct: 0
     }
 
 ];
@@ -1005,6 +1013,7 @@ function showResult(){
 
     clearInterval(timerInterval);
 
+
     document.getElementById("quizArea").style.display =
         "none";
 
@@ -1028,7 +1037,7 @@ function showResult(){
             "🏆";
 
         document.getElementById("resultMessage").textContent =
-            "Perfect! You are a Free Time Master! 🌟";
+            "Perfect! You are a Get Dressed Master! 🌟";
 
     }
 

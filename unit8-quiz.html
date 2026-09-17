@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit 8 Quiz - The Robot</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    color: #1e293b;
+
+    background:
+        radial-gradient(circle at 10% 10%, rgba(124,58,237,.15), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(59,130,246,.13), transparent 30%),
+        linear-gradient(135deg,#f5f3ff,#eef2ff,#f8fafc);
+
+    overflow-x: hidden;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(135deg,#4f46e5,#7c3aed);
+
+    color: white;
+
+    padding: 55px 20px 95px;
+
+    text-align: center;
+
+    box-shadow: 0 15px 40px rgba(79,70,229,.25);
+}
+
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,.10);
+}
+
+.hero::before {
+    width: 220px;
+    height: 220px;
+    top: -100px;
+    left: -70px;
+}
+
+.hero::after {
+    width: 280px;
+    height: 280px;
+    right: -100px;
+    bottom: -150px;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.unit-pill {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 50px;
+
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.3);
+
+    backdrop-filter: blur(10px);
+
+    font-size: 14px;
+    font-weight: bold;
+
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: 44px;
+}
+
+.hero p {
+    margin: 12px 0 0;
+    font-size: 17px;
+    opacity: .9;
+}
+
+.container {
+    width: 92%;
+    max-width: 900px;
+
+    margin: -45px auto 60px;
+
+    position: relative;
+    z-index: 5;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    text-decoration: none;
+
+    color: #5b21b6;
+
+    background: rgba(255,255,255,.92);
+
+    border: 1px solid #ddd6fe;
+
+    padding: 12px 18px;
+
+    border-radius: 14px;
+
+    font-weight: bold;
+
+    margin-bottom: 22px;
+
+    box-shadow: 0 8px 20px rgba(15,23,42,.08);
+
+    transition: .3s ease;
+}
+
+.back-btn:hover {
+    transform: translateX(-5px);
+
+    background: linear-gradient(135deg,#6c63ff,#8b5cf6);
+
+    color: white;
+
+    border-color: transparent;
+}
+
+.quiz-box {
+    position: relative;
+
+    background: rgba(255,255,255,.88);
+
+    backdrop-filter: blur(18px);
+
+    border: 1px solid rgba(255,255,255,.8);
+
+    border-radius: 30px;
+
+    padding: 38px;
+
+    box-shadow:
+        0 25px 60px rgba(15,23,42,.10),
+        0 5px 15px rgba(79,70,229,.05);
+
+    overflow: hidden;
+}
+
+.quiz-box::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 5px;
+
+    background:
+        linear-gradient(90deg,#4f46e5,#8b5cf6,#06b6d4);
+}
+
+.quiz-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+}
+
+.question-badge,
+.topic-badge {
+    padding: 10px 15px;
+
+    border-radius: 12px;
+
+    font-weight: bold;
+
+    font-size: 14px;
+}
+
+.question-badge {
+    background: #f5f3ff;
+    color: #6d28d9;
+}
+
+.topic-badge {
+    background: linear-gradient(135deg,#ede9fe,#dbeafe);
+    color: #4338ca;
+}
+
+.progress-area {
+    margin-bottom: 28px;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 13px;
+
+    color: #64748b;
+
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 9px;
+
+    background: #e2e8f0;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 10%;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(90deg,#4f46e5,#8b5cf6,#06b6d4);
+
+    transition: width .5s ease;
+}
+
+.question {
+    font-size: 28px;
+
+    font-weight: 800;
+
+    line-height: 1.4;
+
+    margin-bottom: 28px;
+
+    color: #172554;
+}
+
+.answers {
+    display: grid;
+    gap: 14px;
+}
+
+.answer-btn {
+    position: relative;
+
+    width: 100%;
+
+    border: 2px solid #e2e8f0;
+
+    background: rgba(255,255,255,.9);
+
+    padding: 17px 20px;
+
+    border-radius: 17px;
+
+    text-align: left;
+
+    font-size: 17px;
+
+    color: #334155;
+
+    cursor: pointer;
+
+    transition: all .25s ease;
+
+    overflow: hidden;
+}
+
+.answer-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+
+    border-color: #8b5cf6;
+
+    background: #faf8ff;
+
+    box-shadow:
+        0 10px 25px rgba(108,99,255,.12);
+}
+
+.answer-btn strong {
+    color: #6c63ff;
+    margin-right: 7px;
+}
+
+.answer-btn.correct {
+    background: #dcfce7;
+
+    border-color: #22c55e;
+
+    color: #166534;
+
+    animation: correctPop .4s ease;
+}
+
+.answer-btn.wrong {
+    background: #fee2e2;
+
+    border-color: #ef4444;
+
+    color: #991b1b;
+
+    animation: shake .4s ease;
+}
+
+.answer-btn:disabled {
+    cursor: default;
+}
+
+@keyframes correctPop {
+
+    0% { transform: scale(1); }
+
+    50% { transform: scale(1.02); }
+
+    100% { transform: scale(1); }
+
+}
+
+@keyframes shake {
+
+    0%,100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-6px);
+    }
+
+    75% {
+        transform: translateX(6px);
+    }
+
+}
+
+.feedback {
+    display: none;
+
+    margin-top: 24px;
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    animation: slideUp .35s ease;
+}
+
+@keyframes slideUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+.feedback.correct-box {
+    background:
+        linear-gradient(135deg,#f0fdf4,#dcfce7);
+
+    border: 1px solid #bbf7d0;
+
+    border-left: 6px solid #22c55e;
+}
+
+.feedback.wrong-box {
+    background:
+        linear-gradient(135deg,#fef2f2,#fee2e2);
+
+    border: 1px solid #fecaca;
+
+    border-left: 6px solid #ef4444;
+}
+
+.feedback h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+}
+
+.explanation {
+    line-height: 1.6;
+    color: #475569;
+}
+
+.next-btn {
+    display: none;
+
+    width: 100%;
+
+    margin-top: 24px;
+
+    padding: 16px;
+
+    border: none;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(135deg,#4f46e5,#7c3aed);
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(79,70,229,.25);
+
+    transition: .25s ease;
+}
+
+.next-btn:hover {
+    transform: translateY(-3px);
+}
+
+.result {
+    display: none;
+
+    text-align: center;
+
+    padding: 25px 10px 10px;
+}
+
+.result-icon {
+    width: 125px;
+    height: 125px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 35px;
+
+    background:
+        linear-gradient(135deg,#ede9fe,#dbeafe);
+
+    font-size: 65px;
+
+    box-shadow:
+        0 15px 35px rgba(79,70,229,.15);
+
+    animation:
+        trophyBounce 1.2s ease infinite alternate;
+}
+
+@keyframes trophyBounce {
+
+    from {
+        transform: translateY(0) rotate(-3deg);
+    }
+
+    to {
+        transform: translateY(-8px) rotate(3deg);
+    }
+
+}
+
+.result h2 {
+    margin: 10px 0;
+
+    color: #5b21b6;
+
+    font-size: 34px;
+}
+
+.result p {
+    color: #64748b;
+}
+
+.score-card {
+    display: inline-block;
+
+    margin: 20px 0;
+
+    padding: 18px 35px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(135deg,#4f46e5,#8b5cf6);
+
+    color: white;
+
+    box-shadow:
+        0 15px 30px rgba(79,70,229,.25);
+}
+
+.score {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.restart-btn {
+    border: none;
+
+    padding: 15px 32px;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(135deg,#06b6d4,#3b82f6);
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .25s ease;
+}
+
+.restart-btn:hover {
+    transform: translateY(-3px);
+}
+
+@media (max-width:600px) {
+
+    .hero {
+        padding: 40px 18px 80px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .container {
+        width: 94%;
+        margin-top: -35px;
+    }
+
+    .quiz-box {
+        padding: 28px 18px;
+        border-radius: 24px;
+    }
+
+    .quiz-top {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .question-badge,
+    .topic-badge {
+        text-align: center;
+    }
+
+    .question {
+        font-size: 22px;
+    }
+
+    .answer-btn {
+        font-size: 16px;
+        padding: 15px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+
+<div class="hero-content">
+
+<div class="unit-pill">
+🤖 Unit 8 — The Robot
+</div>
+
+<h1>🤖 Unit 8 Quiz</h1>
+
+<p>
+Super Minds Year 2 • The Robot
+</p>
+
+</div>
+
+</div>
+
+
+<div class="container">
+
+<a href="./unit8y2.html" class="back-btn">
+← Back to Unit 8 Games
+</a>
+
+
+<div class="quiz-box">
+
+<div id="quizArea">
+
+<div class="quiz-top">
+
+<div class="question-badge" id="progress">
+Question 1 of 10
+</div>
+
+<div class="topic-badge">
+🤖 Robot Challenge
+</div>
+
+</div>
+
+
+<div class="progress-area">
+
+<div class="progress-text">
+
+<span>Quiz Progress</span>
+
+<span id="progressPercent">
+10%
+</span>
+
+</div>
+
+<div class="progress-bar">
+
+<div
+class="progress-fill"
+id="progressFill">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="question" id="question">
+Question goes here
+</div>
+
+
+<div class="answers" id="answers"></div>
+
+
+<div class="feedback" id="feedback">
+
+<h3 id="feedbackTitle"></h3>
+
+<div
+class="explanation"
+id="explanation">
+</div>
+
+</div>
+
+
+<button
+class="next-btn"
+id="nextBtn"
+onclick="nextQuestion()">
+
+Next Question →
+
+</button>
+
+</div>
+
+
+<div class="result" id="result">
+
+<div class="result-icon">
+🏆
+</div>
+
+<h2>
+Quiz Completed!
+</h2>
+
+<div class="score-card">
+
+<div
+class="score"
+id="finalScore">
+
+Your Score: 0 / 10
+
+</div>
+
+</div>
+
+<p>
+Amazing! You completed the robot challenge! 🚀
+</p>
+
+<button
+class="restart-btn"
+onclick="restartQuiz()">
+
+🔄 Try Again
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+{
+question: "Which body part is at the top of your body?",
+answers: [
+"Foot",
+"Knee",
+"Head",
+"Fingers"
+],
+correct: 2,
+explanation: "The head is at the top of the body."
+},
+
+{
+question: "Which body part do you use to walk?",
+answers: [
+"Fingers",
+"Legs",
+"Head",
+"Arms"
+],
+correct: 1,
+explanation: "We use our legs to walk."
+},
+
+{
+question: "Which body part has five fingers?",
+answers: [
+"Head",
+"Knee",
+"Foot",
+"Hand"
+],
+correct: 3,
+explanation: "A hand has five fingers."
+},
+
+{
+question: "Which body part is between your foot and leg?",
+answers: [
+"Knee",
+"Head",
+"Fingers",
+"Hand"
+],
+correct: 0,
+explanation: "The knee is part of the leg."
+},
+
+{
+question: "Can you stand on one leg?",
+answers: [
+"Yes, I do.",
+"Yes, I am.",
+"Yes, I can.",
+"Yes, I have."
+],
+correct: 2,
+explanation: "For “Can you...?”, we answer “Yes, I can” or “No, I can’t.”"
+},
+
+{
+question: "Can you swim?",
+answers: [
+"No, I can't.",
+"No, I don't.",
+"No, I amn't.",
+"No, I haven't."
+],
+correct: 0,
+explanation: "The correct negative answer to “Can you...?” is “No, I can't.”"
+},
+
+{
+question: "Which sentence is correct?",
+answers: [
+"I can skip.",
+"I can skipping.",
+"I can skips.",
+"I can to skip."
+],
+correct: 0,
+explanation: "After “can”, we use the base form of the verb: “I can skip.”"
+},
+
+{
+question: "She ___ ride a bike.",
+answers: [
+"can to",
+"can",
+"cans",
+"can is"
+],
+correct: 1,
+explanation: "We say “She can ride a bike.”"
+},
+
+{
+question: "Which body part do you use to clap?",
+answers: [
+"Head",
+"Knees",
+"Toes",
+"Hands"
+],
+correct: 3,
+explanation: "We use our hands to clap."
+},
+
+{
+question: "Which sentence is correct?",
+answers: [
+"He can't touch his toes.",
+"He can't touching his toes.",
+"He can't touches his toes.",
+"He can't to touch his toes."
+],
+correct: 0,
+explanation: "After “can't”, we use the base form: “touch.”"
+}
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+
+function loadQuestion() {
+
+answered = false;
+
+const questionData =
+questions[currentQuestion];
+
+document.getElementById("progress").textContent =
+"Question " +
+(currentQuestion + 1) +
+" of " +
+questions.length;
+
+const percentage =
+((currentQuestion + 1) / questions.length) * 100;
+
+document.getElementById("progressPercent").textContent =
+percentage + "%";
+
+document.getElementById("progressFill").style.width =
+percentage + "%";
+
+document.getElementById("question").textContent =
+questionData.question;
+
+const answersContainer =
+document.getElementById("answers");
+
+answersContainer.innerHTML = "";
+
+questionData.answers.forEach(
+(answer,index) => {
+
+const button =
+document.createElement("button");
+
+button.className = "answer-btn";
+
+button.innerHTML =
+"<strong>" +
+String.fromCharCode(65 + index) +
+".</strong> " +
+answer;
+
+button.onclick = function() {
+checkAnswer(index,button);
+};
+
+answersContainer.appendChild(button);
+
+}
+);
+
+document.getElementById("feedback").style.display =
+"none";
+
+document.getElementById("nextBtn").style.display =
+"none";
+
+}
+
+
+function checkAnswer(selectedIndex,selectedButton) {
+
+if (answered) return;
+
+answered = true;
+
+const questionData =
+questions[currentQuestion];
+
+const allButtons =
+document.querySelectorAll(".answer-btn");
+
+allButtons.forEach(button => {
+button.disabled = true;
+});
+
+if (selectedIndex === questionData.correct) {
+
+score++;
+
+selectedButton.classList.add("correct");
+
+document.getElementById("feedback").className =
+"feedback correct-box";
+
+document.getElementById("feedbackTitle").textContent =
+"✅ Correct!";
+
+} else {
+
+selectedButton.classList.add("wrong");
+
+allButtons[questionData.correct]
+.classList.add("correct");
+
+document.getElementById("feedback").className =
+"feedback wrong-box";
+
+document.getElementById("feedbackTitle").textContent =
+"❌ Try again!";
+
+}
+
+document.getElementById("explanation").textContent =
+questionData.explanation;
+
+document.getElementById("feedback").style.display =
+"block";
+
+document.getElementById("nextBtn").style.display =
+"block";
+
+if (currentQuestion === questions.length - 1) {
+
+document.getElementById("nextBtn").textContent =
+"See My Score 🏆";
+
+}
+
+}
+
+
+function nextQuestion() {
+
+currentQuestion++;
+
+if (currentQuestion < questions.length) {
+
+loadQuestion();
+
+} else {
+
+showResult();
+
+}
+
+}
+
+
+function showResult() {
+
+document.getElementById("quizArea").style.display =
+"none";
+
+document.getElementById("result").style.display =
+"block";
+
+document.getElementById("finalScore").textContent =
+"Your Score: " +
+score +
+" / " +
+questions.length;
+
+}
+
+
+function restartQuiz() {
+
+currentQuestion = 0;
+score = 0;
+
+document.getElementById("quizArea").style.display =
+"block";
+
+document.getElementById("result").style.display =
+"none";
+
+loadQuestion();
+
+}
+
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

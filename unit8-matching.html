@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit 8 Matching - SmartLearn Online</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(circle at 10% 10%, rgba(124, 58, 237, 0.15), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.13), transparent 30%),
+        linear-gradient(135deg, #f5f3ff, #eef2ff, #f8fafc);
+
+    color: #1e293b;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    text-align: center;
+    padding: 55px 20px 90px;
+    border-radius: 0 0 45px 45px;
+    box-shadow: 0 15px 40px rgba(79, 70, 229, 0.25);
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    top: -110px;
+    left: -70px;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+    right: -100px;
+    bottom: -190px;
+}
+
+.unit-pill {
+    display: inline-block;
+    padding: 9px 20px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(10px);
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero p {
+    font-size: 17px;
+    opacity: 0.92;
+    position: relative;
+    z-index: 2;
+}
+
+.container {
+    width: 92%;
+    max-width: 1000px;
+    margin: -45px auto 60px;
+    position: relative;
+    z-index: 3;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #5b21b6;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(124,58,237,0.15);
+    padding: 12px 20px;
+    border-radius: 14px;
+    font-weight: bold;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    transform: translateX(-5px);
+    box-shadow: 0 12px 28px rgba(79,70,229,0.3);
+}
+
+.game-card {
+    position: relative;
+    background: rgba(255,255,255,0.78);
+    backdrop-filter: blur(18px);
+    border-radius: 30px;
+    padding: 32px;
+    box-shadow: 0 20px 60px rgba(30,41,59,0.12);
+    overflow: hidden;
+}
+
+.game-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed, #06b6d4);
+}
+
+.game-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.topic-badge {
+    padding: 10px 17px;
+    border-radius: 20px;
+    background: #ede9fe;
+    color: #6d28d9;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.score-box {
+    padding: 11px 18px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+    color: #4f46e5;
+    font-weight: bold;
+    box-shadow: inset 0 0 0 1px rgba(124,58,237,0.08);
+}
+
+.instruction {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.instruction h2 {
+    font-size: 28px;
+    margin-bottom: 9px;
+}
+
+.instruction p {
+    color: #64748b;
+    font-size: 15px;
+}
+
+.progress-container {
+    margin-bottom: 30px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: bold;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed, #06b6d4);
+    transition: width 0.5s ease;
+}
+
+.match-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+}
+
+.column-title {
+    text-align: center;
+    margin-bottom: 14px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #64748b;
+    letter-spacing: 0.5px;
+}
+
+.match-card {
+    min-height: 115px;
+    border-radius: 22px;
+    border: 2px solid transparent;
+    background: white;
+    box-shadow: 0 8px 25px rgba(15,23,42,0.08);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease, background 0.3s ease;
+}
+
+.match-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.match-card:hover::before {
+    transform: scaleX(1);
+}
+
+.match-card:hover {
+    transform: translateY(-6px);
+    border-color: #c4b5fd;
+    box-shadow: 0 15px 35px rgba(79,70,229,0.18);
+}
+
+.picture-card {
+    flex-direction: column;
+    gap: 7px;
+}
+
+.picture-card .emoji {
+    font-size: 58px;
+    transition: transform 0.3s ease;
+}
+
+.picture-card:hover .emoji {
+    transform: scale(1.15) rotate(4deg);
+}
+
+.picture-label {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: bold;
+}
+
+.word-card {
+    font-size: 19px;
+    font-weight: bold;
+    color: #334155;
+    letter-spacing: 0.5px;
+}
+
+.word-card.selected,
+.picture-card.selected {
+    border-color: #7c3aed;
+    background: #f5f3ff;
+    transform: scale(1.03);
+    box-shadow: 0 12px 30px rgba(124,58,237,0.2);
+}
+
+.match-card.correct {
+    border-color: #22c55e;
+    background: #f0fdf4;
+    animation: correctPop 0.5s ease;
+}
+
+.match-card.matched {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+    transform: scale(0.97);
+}
+
+@keyframes correctPop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+    100% { transform: scale(1); }
+}
+
+.match-card.wrong {
+    border-color: #ef4444;
+    background: #fef2f2;
+    animation: shake 0.45s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-7px); }
+    75% { transform: translateX(7px); }
+}
+
+.feedback {
+    margin-top: 18px;
+    padding: 15px 18px;
+    border-radius: 16px;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+    animation: slideUp 0.3s ease;
+}
+
+.feedback.show {
+    display: block;
+}
+
+.feedback.correct-feedback {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.feedback.wrong-feedback {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result {
+    display: none;
+    text-align: center;
+    padding: 35px 10px 20px;
+}
+
+.result.show {
+    display: block;
+    animation: resultAppear 0.6s ease;
+}
+
+@keyframes resultAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.trophy {
+    font-size: 80px;
+    animation: trophyFloat 2s infinite ease-in-out;
+}
+
+@keyframes trophyFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.result h2 {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+.result p {
+    color: #64748b;
+    margin-bottom: 22px;
+}
+
+.final-score {
+    display: inline-block;
+    padding: 18px 35px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    box-shadow: 0 12px 30px rgba(79,70,229,0.25);
+    margin-bottom: 22px;
+}
+
+.restart-btn {
+    display: block;
+    margin: auto;
+    border: none;
+    cursor: pointer;
+    padding: 14px 27px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 10px 25px rgba(59,130,246,0.25);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.restart-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 30px rgba(59,130,246,0.35);
+}
+
+@media (max-width: 650px) {
+
+    .hero {
+        padding: 45px 18px 80px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+
+    .container {
+        width: 94%;
+    }
+
+    .game-card {
+        padding: 20px;
+    }
+
+    .game-top {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .topic-badge,
+    .score-box {
+        text-align: center;
+    }
+
+    .match-area {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .match-card {
+        min-height: 100px;
+    }
+
+    .instruction h2 {
+        font-size: 23px;
+    }
+
+    .picture-card .emoji {
+        font-size: 50px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+    <div class="unit-pill">
+        ⭐ UNIT 8
+    </div>
+
+    <h1>Matching Challenge</h1>
+
+    <p>The Robot</p>
+
+</section>
+
+<div class="container">
+
+    <a href="unit8y2.html" class="back-btn">
+        ← Go Back
+    </a>
+
+    <div class="game-card">
+
+        <div class="game-top">
+
+            <div class="topic-badge">
+                🤖 The Robot
+            </div>
+
+            <div class="score-box">
+                ⭐ Score:
+                <span id="score">0</span>
+                / 8
+            </div>
+
+        </div>
+
+        <div id="game">
+
+            <div class="instruction">
+
+                <h2>
+                    🔗 Match the Pictures!
+                </h2>
+
+                <p>
+                    Choose a picture and match it with the correct word.
+                </p>
+
+            </div>
+
+            <div class="progress-container">
+
+                <div class="progress-info">
+
+                    <span>
+                        Matching Progress
+                    </span>
+
+                    <span id="progressText">
+                        0 / 8
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        id="progressFill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+            <div class="match-area">
+
+                <div>
+
+                    <div class="column-title">
+                        🖼️ PICTURES
+                    </div>
+
+                    <div class="match-card picture-card" data-match="head" onclick="selectPicture(this)">
+                        <div class="emoji">🤖</div>
+                        <div class="picture-label">Picture 1</div>
+                    </div>
+
+                    <div class="match-card picture-card" data-match="arm" onclick="selectPicture(this)">
+                        <div class="emoji">💪</div>
+                        <div class="picture-label">Picture 2</div>
+                    </div>
+
+
+                    <div class="match-card picture-card" data-match="hand" onclick="selectPicture(this)">
+                        <div class="emoji">✋</div>
+                        <div class="picture-label">Picture 4</div>
+                    </div>
+
+                    <div class="match-card picture-card" data-match="leg" onclick="selectPicture(this)">
+                        <div class="emoji">🦿</div>
+                        <div class="picture-label">Picture 6</div>
+                    </div>
+
+                    <div class="match-card picture-card" data-match="toes" onclick="selectPicture(this)">
+                        <div class="emoji">🦶</div>
+                        <div class="picture-label">Picture 7</div>
+                    </div>
+
+                    <div class="match-card picture-card" data-match="foot" onclick="selectPicture(this)">
+                        <div class="emoji">👣</div>
+                        <div class="picture-label">Picture 8</div>
+                    </div>
+
+                </div>
+
+                <div>
+
+                    <div class="column-title">
+                        🔤 WORDS
+                    </div>
+
+                    <div class="match-card word-card" data-match="leg" onclick="selectWord(this)">
+                        LEG
+                    </div>
+
+                    <div class="match-card word-card" data-match="head" onclick="selectWord(this)">
+                        HEAD
+                    </div>
+
+                    <div class="match-card word-card" data-match="toes" onclick="selectWord(this)">
+                        TOES
+                    </div>
+
+                    <div class="match-card word-card" data-match="arm" onclick="selectWord(this)">
+                        ARM
+                    </div>
+
+                    <div class="match-card word-card" data-match="hand" onclick="selectWord(this)">
+                        HAND
+                    </div>
+
+                    <div class="match-card word-card" data-match="foot" onclick="selectWord(this)">
+                        FOOT
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="feedback" class="feedback"></div>
+
+        </div>
+
+        <div id="result" class="result">
+
+            <div class="trophy">
+                🏆
+            </div>
+
+            <h2>
+                Amazing! 🎉
+            </h2>
+
+            <p>
+                You matched all the robot body parts!
+            </p>
+
+            <div class="final-score">
+
+                ⭐
+                <span id="finalScore">
+                    0
+                </span>
+                / 8
+
+            </div>
+
+            <button class="restart-btn" onclick="restartGame()">
+                🔄 Play Again
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+let selectedPicture = null;
+let selectedWord = null;
+
+let score = 0;
+
+let matchedPairs = 0;
+
+const totalPairs = 8;
+
+
+function selectPicture(card) {
+
+    if (card.classList.contains("matched")) {
+        return;
+    }
+
+    document
+        .querySelectorAll(".picture-card")
+        .forEach(item => {
+            item.classList.remove("selected");
+        });
+
+    card.classList.add("selected");
+
+    selectedPicture = card;
+
+    checkMatch();
+}
+
+
+function selectWord(card) {
+
+    if (card.classList.contains("matched")) {
+        return;
+    }
+
+    document
+        .querySelectorAll(".word-card")
+        .forEach(item => {
+            item.classList.remove("selected");
+        });
+
+    card.classList.add("selected");
+
+    selectedWord = card;
+
+    checkMatch();
+}
+
+
+function checkMatch() {
+
+    if (!selectedPicture || !selectedWord) {
+        return;
+    }
+
+    const pictureAnswer =
+        selectedPicture.dataset.match;
+
+    const wordAnswer =
+        selectedWord.dataset.match;
+
+    const feedback =
+        document.getElementById("feedback");
+
+
+    if (pictureAnswer === wordAnswer) {
+
+        score++;
+
+        matchedPairs++;
+
+        selectedPicture.classList.remove("selected");
+        selectedWord.classList.remove("selected");
+
+        selectedPicture.classList.add("correct");
+        selectedWord.classList.add("correct");
+
+        feedback.textContent =
+            "✨ Correct! Excellent matching!";
+
+        feedback.className =
+            "feedback show correct-feedback";
+
+        document.getElementById("score").textContent = score;
+
+        updateProgress();
+
+        setTimeout(() => {
+
+            selectedPicture.classList.add("matched");
+            selectedWord.classList.add("matched");
+
+        }, 450);
+
+        selectedPicture = null;
+        selectedWord = null;
+
+        if (matchedPairs === totalPairs) {
+
+            setTimeout(showResult, 900);
+
+        }
+
+    }
+
+    else {
+
+        selectedPicture.classList.add("wrong");
+        selectedWord.classList.add("wrong");
+
+        feedback.textContent =
+            "💡 Try again! Find the matching word.";
+
+        feedback.className =
+            "feedback show wrong-feedback";
+
+        setTimeout(() => {
+
+            if (selectedPicture) {
+                selectedPicture.classList.remove("wrong");
+                selectedPicture.classList.remove("selected");
+            }
+
+            if (selectedWord) {
+                selectedWord.classList.remove("wrong");
+                selectedWord.classList.remove("selected");
+            }
+
+            selectedPicture = null;
+            selectedWord = null;
+
+        }, 650);
+
+    }
+
+}
+
+
+function updateProgress() {
+
+    const percentage =
+        (matchedPairs / totalPairs) * 100;
+
+    document
+        .getElementById("progressFill")
+        .style.width =
+        percentage + "%";
+
+    document
+        .getElementById("progressText")
+        .textContent =
+        matchedPairs + " / " + totalPairs;
+}
+
+
+function showResult() {
+
+    document
+        .getElementById("game")
+        .style.display = "none";
+
+    document
+        .getElementById("result")
+        .classList
+        .add("show");
+
+    document
+        .getElementById("finalScore")
+        .textContent = score;
+}
+
+
+function restartGame() {
+
+    location.reload();
+
+}
+
+</script>
+
+</body>
+</html>

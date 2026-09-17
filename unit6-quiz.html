@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Unit 5 Quiz - Free Time</title>
+    <title>Unit 6 Quiz - The Old House</title>
 
     <style>
         * {
@@ -23,10 +23,6 @@
             overflow-x: hidden;
         }
 
-        /* =========================
-           HEADER
-        ========================= */
-
         .hero {
             position: relative;
             overflow: hidden;
@@ -42,7 +38,7 @@
             content: "";
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.10);
+            background: rgba(255,255,255,0.10);
         }
 
         .hero::before {
@@ -68,8 +64,8 @@
             display: inline-block;
             padding: 9px 18px;
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.16);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.3);
             backdrop-filter: blur(10px);
             font-size: 14px;
             font-weight: bold;
@@ -88,10 +84,6 @@
             opacity: 0.9;
         }
 
-        /* =========================
-           CONTAINER
-        ========================= */
-
         .container {
             width: 92%;
             max-width: 900px;
@@ -106,38 +98,33 @@
             gap: 8px;
             text-decoration: none;
             color: #5b21b6;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255,255,255,0.92);
             border: 1px solid #ddd6fe;
             padding: 12px 18px;
             border-radius: 14px;
             font-weight: bold;
             margin-bottom: 22px;
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+            box-shadow: 0 8px 20px rgba(15,23,42,0.08);
             transition: 0.3s ease;
         }
 
         .back-btn:hover {
             transform: translateX(-5px);
-            background: linear-gradient(135deg, #6c63ff, #8b5cf6);
+            background: linear-gradient(135deg,#6c63ff,#8b5cf6);
             color: white;
             border-color: transparent;
-            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.3);
         }
-
-        /* =========================
-           QUIZ CARD
-        ========================= */
 
         .quiz-box {
             position: relative;
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255,255,255,0.88);
             backdrop-filter: blur(18px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255,255,255,0.8);
             border-radius: 30px;
             padding: 38px;
             box-shadow:
-                0 25px 60px rgba(15, 23, 42, 0.10),
-                0 5px 15px rgba(79, 70, 229, 0.05);
+                0 25px 60px rgba(15,23,42,0.10),
+                0 5px 15px rgba(79,70,229,0.05);
             overflow: hidden;
         }
 
@@ -148,12 +135,8 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, #4f46e5, #8b5cf6, #06b6d4);
+            background: linear-gradient(90deg,#4f46e5,#8b5cf6,#06b6d4);
         }
-
-        /* =========================
-           TOP INFO
-        ========================= */
 
         .quiz-top {
             display: flex;
@@ -163,27 +146,23 @@
             margin-bottom: 18px;
         }
 
+        .question-badge,
+        .topic-badge {
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
         .question-badge {
             background: #f5f3ff;
             color: #6d28d9;
-            padding: 10px 15px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 14px;
         }
 
         .topic-badge {
-            background: linear-gradient(135deg, #ede9fe, #dbeafe);
+            background: linear-gradient(135deg,#ede9fe,#dbeafe);
             color: #4338ca;
-            padding: 10px 15px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 14px;
         }
-
-        /* =========================
-           PROGRESS
-        ========================= */
 
         .progress-area {
             margin-bottom: 28px;
@@ -209,13 +188,9 @@
             height: 100%;
             width: 10%;
             border-radius: 20px;
-            background: linear-gradient(90deg, #4f46e5, #8b5cf6, #06b6d4);
+            background: linear-gradient(90deg,#4f46e5,#8b5cf6,#06b6d4);
             transition: width 0.5s ease;
         }
-
-        /* =========================
-           QUESTION
-        ========================= */
 
         .question {
             font-size: 28px;
@@ -224,10 +199,6 @@
             margin-bottom: 28px;
             color: #172554;
         }
-
-        /* =========================
-           ANSWERS
-        ========================= */
 
         .answers {
             display: grid;
@@ -238,7 +209,7 @@
             position: relative;
             width: 100%;
             border: 2px solid #e2e8f0;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255,255,255,0.9);
             padding: 17px 20px;
             border-radius: 17px;
             text-align: left;
@@ -256,7 +227,7 @@
             top: 0;
             height: 100%;
             width: 4px;
-            background: linear-gradient(180deg, #6c63ff, #8b5cf6);
+            background: linear-gradient(180deg,#6c63ff,#8b5cf6);
             transform: scaleY(0);
             transition: 0.25s ease;
         }
@@ -265,7 +236,7 @@
             transform: translateY(-3px);
             border-color: #8b5cf6;
             background: #faf8ff;
-            box-shadow: 0 10px 25px rgba(108, 99, 255, 0.12);
+            box-shadow: 0 10px 25px rgba(108,99,255,0.12);
         }
 
         .answer-btn:hover:not(:disabled)::before {
@@ -284,10 +255,6 @@
             animation: correctPop 0.4s ease;
         }
 
-        .answer-btn.correct strong {
-            color: #16a34a;
-        }
-
         .answer-btn.wrong {
             background: #fee2e2;
             border-color: #ef4444;
@@ -295,41 +262,21 @@
             animation: shake 0.4s ease;
         }
 
-        .answer-btn.wrong strong {
-            color: #dc2626;
-        }
-
         .answer-btn:disabled {
             cursor: default;
         }
 
         @keyframes correctPop {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.02);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
         @keyframes shake {
-            0%, 100% {
-                transform: translateX(0);
-            }
-            25% {
-                transform: translateX(-6px);
-            }
-            75% {
-                transform: translateX(6px);
-            }
+            0%,100% { transform: translateX(0); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
         }
-
-        /* =========================
-           FEEDBACK
-        ========================= */
 
         .feedback {
             display: none;
@@ -351,13 +298,13 @@
         }
 
         .feedback.correct-box {
-            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            background: linear-gradient(135deg,#f0fdf4,#dcfce7);
             border: 1px solid #bbf7d0;
             border-left: 6px solid #22c55e;
         }
 
         .feedback.wrong-box {
-            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            background: linear-gradient(135deg,#fef2f2,#fee2e2);
             border: 1px solid #fecaca;
             border-left: 6px solid #ef4444;
         }
@@ -372,10 +319,6 @@
             color: #475569;
         }
 
-        /* =========================
-           NEXT BUTTON
-        ========================= */
-
         .next-btn {
             display: none;
             width: 100%;
@@ -383,23 +326,18 @@
             padding: 16px;
             border: none;
             border-radius: 16px;
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            background: linear-gradient(135deg,#4f46e5,#7c3aed);
             color: white;
             font-size: 17px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.25);
+            box-shadow: 0 10px 25px rgba(79,70,229,0.25);
             transition: all 0.25s ease;
         }
 
         .next-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.35);
         }
-
-        /* =========================
-           RESULT
-        ========================= */
 
         .result {
             display: none;
@@ -415,19 +353,15 @@
             align-items: center;
             justify-content: center;
             border-radius: 35px;
-            background: linear-gradient(135deg, #ede9fe, #dbeafe);
+            background: linear-gradient(135deg,#ede9fe,#dbeafe);
             font-size: 65px;
-            box-shadow: 0 15px 35px rgba(79, 70, 229, 0.15);
+            box-shadow: 0 15px 35px rgba(79,70,229,0.15);
             animation: trophyBounce 1.2s ease infinite alternate;
         }
 
         @keyframes trophyBounce {
-            from {
-                transform: translateY(0) rotate(-3deg);
-            }
-            to {
-                transform: translateY(-8px) rotate(3deg);
-            }
+            from { transform: translateY(0) rotate(-3deg); }
+            to { transform: translateY(-8px) rotate(3deg); }
         }
 
         .result h2 {
@@ -438,7 +372,6 @@
 
         .result p {
             color: #64748b;
-            font-size: 16px;
         }
 
         .score-card {
@@ -446,9 +379,9 @@
             margin: 20px 0;
             padding: 18px 35px;
             border-radius: 20px;
-            background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+            background: linear-gradient(135deg,#4f46e5,#8b5cf6);
             color: white;
-            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.25);
+            box-shadow: 0 15px 30px rgba(79,70,229,0.25);
         }
 
         .score {
@@ -460,36 +393,25 @@
             border: none;
             padding: 15px 32px;
             border-radius: 15px;
-            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            background: linear-gradient(135deg,#06b6d4,#3b82f6);
             color: white;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: 0.25s ease;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25);
         }
 
         .restart-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.35);
         }
 
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 600px) {
-
+        @media (max-width:600px) {
             .hero {
                 padding: 40px 18px 80px;
             }
 
             .hero h1 {
                 font-size: 32px;
-            }
-
-            .hero p {
-                font-size: 15px;
             }
 
             .container {
@@ -530,39 +452,30 @@
 
 <body>
 
-<!-- =========================
-     PREMIUM HEADER
-========================= -->
-
 <div class="hero">
-
     <div class="hero-content">
 
         <div class="unit-pill">
-            🎮 Unit 5 — Free Time
+            🏚️ Unit 6 — The Old House
         </div>
 
-        <h1>🧠 Unit 5 Quiz</h1>
+        <h1>🏚️ Unit 6 Quiz</h1>
 
         <p>
-            Super Minds Year 2 • Free Time
+            Super Minds Year 2 • The Old House
         </p>
 
     </div>
-
 </div>
 
 
 <div class="container">
 
-    <a href="./unit5y2.html" class="back-btn">
-        ← Back to Unit 5 Games
+    <a href="./unit6y2.html" class="back-btn">
+        ← Back to Unit 6 Games
     </a>
 
-
     <div class="quiz-box">
-
-        <!-- QUIZ AREA -->
 
         <div id="quizArea">
 
@@ -573,45 +486,35 @@
                 </div>
 
                 <div class="topic-badge">
-                    🎯 Free Time Challenge
+                    🏠 Old House Challenge
                 </div>
 
             </div>
 
-
             <div class="progress-area">
 
                 <div class="progress-text">
-
                     <span>Quiz Progress</span>
 
                     <span id="progressPercent">
                         10%
                     </span>
-
                 </div>
 
                 <div class="progress-bar">
-
                     <div
                         class="progress-fill"
                         id="progressFill">
                     </div>
-
                 </div>
 
             </div>
-
 
             <div class="question" id="question">
                 Question goes here
             </div>
 
-
-            <div class="answers" id="answers">
-                <!-- Answers will appear here -->
-            </div>
-
+            <div class="answers" id="answers"></div>
 
             <div class="feedback" id="feedback">
 
@@ -624,7 +527,6 @@
 
             </div>
 
-
             <button
                 class="next-btn"
                 id="nextBtn"
@@ -636,8 +538,6 @@
 
         </div>
 
-
-        <!-- RESULT AREA -->
 
         <div class="result" id="result">
 
@@ -662,7 +562,7 @@
             </div>
 
             <p>
-                Great job! Keep learning and playing! 🚀
+                Amazing house explorer! Keep learning! 🚀
             </p>
 
             <button
@@ -685,123 +585,123 @@
 const questions = [
 
     {
-        question: "What do you do in your free time?",
+        question: "Which room do you sleep in?",
         answers: [
-            "I play basketball.",
-            "I am basketball.",
-            "I basketball play.",
-            "I do basketball."
+            "Bedroom",
+            "Kitchen",
+            "Bathroom",
+            "Hall"
         ],
         correct: 0,
-        explanation: "We say “I play basketball” when talking about the activity."
+        explanation: "We sleep in the bedroom."
     },
 
     {
-        question: "Do you like swimming?",
+        question: "Where do you cook food?",
         answers: [
-            "Yes, I do.",
-            "Yes, I am.",
-            "Yes, I like.",
-            "Yes, I can."
+            "Kitchen",
+            "Bedroom",
+            "Cellar",
+            "Stairs"
         ],
         correct: 0,
-        explanation: "For questions starting with “Do you…?”, we answer “Yes, I do” or “No, I don’t.”"
+        explanation: "We cook food in the kitchen."
     },
 
     {
-        question: "Which activity uses a bicycle?",
+        question: "Where do you wash your hands?",
         answers: [
-            "Go swimming",
-            "Ride a bike",
-            "Watch TV",
-            "Play basketball"
+            "Bathroom",
+            "Dining room",
+            "Bedroom",
+            "Hall"
+        ],
+        correct: 0,
+        explanation: "We wash our hands in the bathroom."
+    },
+
+    {
+        question: "There ___ a monster in the house.",
+        answers: [
+            "is",
+            "are",
+            "am",
+            "be"
+        ],
+        correct: 0,
+        explanation: "We use “There is” with one thing."
+    },
+
+    {
+        question: "There ___ four cats in the kitchen.",
+        answers: [
+            "is",
+            "are",
+            "am",
+            "be"
         ],
         correct: 1,
-        explanation: "We use a bicycle when we ride a bike."
+        explanation: "We use “There are” with more than one thing."
     },
 
     {
-        question: "Which activity can you do in a swimming pool?",
+        question: "Is there a plane in the garden?",
         answers: [
-            "Go swimming",
-            "Ride a bike",
-            "Watch TV",
-            "Play computer games"
+            "Yes, there is.",
+            "Yes, there are.",
+            "Yes, it are.",
+            "Yes, they is."
         ],
         correct: 0,
-        explanation: "We go swimming in a swimming pool."
+        explanation: "For “Is there...?”, we answer “Yes, there is” or “No, there isn’t.”"
     },
 
     {
-        question: "What do you use to play computer games?",
+        question: "Are there any rats in the cellar?",
         answers: [
-            "A computer",
-            "A bicycle",
-            "A basketball",
-            "A swimming pool"
+            "No, there aren't.",
+            "No, there isn't.",
+            "No, they isn't.",
+            "No, it aren't."
         ],
         correct: 0,
-        explanation: "We use a computer to play computer games."
+        explanation: "For “Are there any...?”, we use “there are” or “there aren’t.”"
     },
 
     {
-        question: "Which activity is a sport?",
+        question: "How many bedrooms are there?",
         answers: [
-            "Watch TV",
-            "Play basketball",
-            "Read a book",
-            "Listen to music"
-        ],
-        correct: 1,
-        explanation: "Basketball is a sport."
-    },
-
-    {
-        question: "I practise ______.",
-        answers: [
-            "taekwondo",
-            "a bike",
-            "TV",
-            "swimming pool"
+            "There are three bedrooms.",
+            "There is three bedrooms.",
+            "It is three bedrooms.",
+            "They are a bedroom."
         ],
         correct: 0,
-        explanation: "We say “practise taekwondo.”"
+        explanation: "With a plural number, we use “There are...”"
     },
 
     {
-        question: "Do you play computer games?",
+        question: "Which room is usually used for eating dinner?",
         answers: [
-            "No, I don't.",
-            "No, I amn't.",
-            "No, I can't.",
-            "No, I not."
+            "Dining room",
+            "Bathroom",
+            "Bedroom",
+            "Cellar"
         ],
         correct: 0,
-        explanation: "The correct negative answer to “Do you…?” is “No, I don't.”"
+        explanation: "A dining room is a room where people eat meals."
     },
 
     {
-        question: "Which sentence is correct?",
+        question: "Where are the stairs?",
         answers: [
-            "I ride a bike.",
-            "I ride bike a.",
-            "I a bike ride.",
-            "I riding a bike."
+            "They are inside the house.",
+            "It is inside the house.",
+            "There is a kitchen.",
+            "They is a bedroom."
         ],
         correct: 0,
-        explanation: "The correct sentence is “I ride a bike.”"
-    },
-
-    {
-        question: "Which activity can you do at home?",
-        answers: [
-            "Play computer games",
-            "Swim in the sea",
-            "Ride a bike on the road",
-            "Play basketball at school"
-        ],
-        correct: 0,
-        explanation: "You can play computer games at home."
+        explanation: "“Stairs” is plural, so we say “They are...”"
     }
 
 ];
@@ -812,10 +712,6 @@ let score = 0;
 let answered = false;
 
 
-/* =========================
-   LOAD QUESTION
-========================= */
-
 function loadQuestion() {
 
     answered = false;
@@ -823,17 +719,11 @@ function loadQuestion() {
     const questionData =
         questions[currentQuestion];
 
-
-    /* Question number */
-
     document.getElementById("progress").textContent =
         "Question " +
         (currentQuestion + 1) +
         " of " +
         questions.length;
-
-
-    /* Progress percentage */
 
     const percentage =
         ((currentQuestion + 1) / questions.length) * 100;
@@ -844,29 +734,21 @@ function loadQuestion() {
     document.getElementById("progressFill").style.width =
         percentage + "%";
 
-
-    /* Question */
-
     document.getElementById("question").textContent =
         questionData.question;
-
-
-    /* Answers */
 
     const answersContainer =
         document.getElementById("answers");
 
     answersContainer.innerHTML = "";
 
-
     questionData.answers.forEach(
-        (answer, index) => {
+        (answer,index) => {
 
             const button =
                 document.createElement("button");
 
-            button.className =
-                "answer-btn";
+            button.className = "answer-btn";
 
             button.innerHTML =
                 "<strong>" +
@@ -874,162 +756,91 @@ function loadQuestion() {
                 ".</strong> " +
                 answer;
 
-
             button.onclick = function() {
 
-                checkAnswer(
-                    index,
-                    button
-                );
+                checkAnswer(index,button);
 
             };
-
 
             answersContainer.appendChild(button);
 
         }
     );
 
-
     document.getElementById("feedback").style.display =
         "none";
 
-
     document.getElementById("nextBtn").style.display =
         "none";
-
 }
 
 
-/* =========================
-   CHECK ANSWER
-========================= */
+function checkAnswer(selectedIndex,selectedButton) {
 
-function checkAnswer(
-    selectedIndex,
-    selectedButton
-) {
-
-    if (answered) {
-        return;
-    }
+    if (answered) return;
 
     answered = true;
-
 
     const questionData =
         questions[currentQuestion];
 
-
     const allButtons =
         document.querySelectorAll(".answer-btn");
 
-
     allButtons.forEach(button => {
-
         button.disabled = true;
-
     });
 
-
-    if (
-        selectedIndex ===
-        questionData.correct
-    ) {
+    if (selectedIndex === questionData.correct) {
 
         score++;
 
+        selectedButton.classList.add("correct");
 
-        selectedButton.classList.add(
-            "correct"
-        );
-
-
-        document.getElementById(
-            "feedback"
-        ).className =
+        document.getElementById("feedback").className =
             "feedback correct-box";
 
-
-        document.getElementById(
-            "feedbackTitle"
-        ).textContent =
+        document.getElementById("feedbackTitle").textContent =
             "✅ Correct!";
 
     } else {
 
-        selectedButton.classList.add(
-            "wrong"
-        );
+        selectedButton.classList.add("wrong");
 
+        allButtons[questionData.correct]
+            .classList.add("correct");
 
-        allButtons[
-            questionData.correct
-        ].classList.add(
-            "correct"
-        );
-
-
-        document.getElementById(
-            "feedback"
-        ).className =
+        document.getElementById("feedback").className =
             "feedback wrong-box";
 
-
-        document.getElementById(
-            "feedbackTitle"
-        ).textContent =
+        document.getElementById("feedbackTitle").textContent =
             "❌ Try again!";
 
     }
 
-
-    document.getElementById(
-        "explanation"
-    ).textContent =
+    document.getElementById("explanation").textContent =
         questionData.explanation;
 
-
-    document.getElementById(
-        "feedback"
-    ).style.display =
+    document.getElementById("feedback").style.display =
         "block";
 
-
-    document.getElementById(
-        "nextBtn"
-    ).style.display =
+    document.getElementById("nextBtn").style.display =
         "block";
 
+    if (currentQuestion === questions.length - 1) {
 
-    if (
-        currentQuestion ===
-        questions.length - 1
-    ) {
-
-        document.getElementById(
-            "nextBtn"
-        ).textContent =
+        document.getElementById("nextBtn").textContent =
             "See My Score 🏆";
 
     }
-
 }
 
-
-/* =========================
-   NEXT QUESTION
-========================= */
 
 function nextQuestion() {
 
     currentQuestion++;
 
-
-    if (
-        currentQuestion <
-        questions.length
-    ) {
+    if (currentQuestion < questions.length) {
 
         loadQuestion();
 
@@ -1038,70 +849,39 @@ function nextQuestion() {
         showResult();
 
     }
-
 }
 
 
-/* =========================
-   SHOW RESULT
-========================= */
-
 function showResult() {
 
-    document.getElementById(
-        "quizArea"
-    ).style.display =
+    document.getElementById("quizArea").style.display =
         "none";
 
-
-    document.getElementById(
-        "result"
-    ).style.display =
+    document.getElementById("result").style.display =
         "block";
 
-
-    document.getElementById(
-        "finalScore"
-    ).textContent =
+    document.getElementById("finalScore").textContent =
         "Your Score: " +
         score +
         " / " +
         questions.length;
-
 }
 
-
-/* =========================
-   RESTART QUIZ
-========================= */
 
 function restartQuiz() {
 
     currentQuestion = 0;
-
     score = 0;
 
-
-    document.getElementById(
-        "quizArea"
-    ).style.display =
+    document.getElementById("quizArea").style.display =
         "block";
 
-
-    document.getElementById(
-        "result"
-    ).style.display =
+    document.getElementById("result").style.display =
         "none";
 
-
     loadQuestion();
-
 }
 
-
-/* =========================
-   START
-========================= */
 
 loadQuestion();
 

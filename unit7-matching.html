@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit 7 Matching - SmartLearn Online</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(circle at 10% 10%, rgba(124, 58, 237, 0.15), transparent 30%),
+        radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.13), transparent 30%),
+        linear-gradient(135deg, #f5f3ff, #eef2ff, #f8fafc);
+    color: #1e1b4b;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: white;
+    text-align: center;
+    padding: 55px 20px 95px;
+    border-radius: 0 0 45px 45px;
+}
+
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+}
+
+.hero::before {
+    width: 180px;
+    height: 180px;
+    top: -70px;
+    left: -50px;
+}
+
+.hero::after {
+    width: 230px;
+    height: 230px;
+    right: -80px;
+    bottom: -120px;
+}
+
+.unit-pill {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero h1 {
+    margin: 5px 0 10px;
+    font-size: clamp(34px, 6vw, 58px);
+    position: relative;
+    z-index: 2;
+}
+
+.hero p {
+    margin: 0;
+    font-size: 17px;
+    opacity: 0.92;
+    position: relative;
+    z-index: 2;
+}
+
+/* ================= CONTAINER ================= */
+
+.container {
+    width: 92%;
+    max-width: 1000px;
+    margin: -45px auto 60px;
+    position: relative;
+    z-index: 5;
+}
+
+/* ================= BACK BUTTON ================= */
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #5b21b6;
+    background: rgba(255,255,255,0.92);
+    border: 2px solid #ddd6fe;
+    padding: 11px 18px;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    transition: 0.3s;
+    box-shadow: 0 8px 20px rgba(76,29,149,0.08);
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, #6d28d9, #4f46e5);
+    color: white;
+    transform: translateX(-5px);
+}
+
+/* ================= GAME CARD ================= */
+
+.game-card {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,0.86);
+    backdrop-filter: blur(18px);
+    border-radius: 30px;
+    padding: 30px;
+    box-shadow: 0 25px 60px rgba(76,29,149,0.14);
+}
+
+.game-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed, #ec4899);
+}
+
+/* ================= GAME HEADER ================= */
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.game-header h2 {
+    margin: 0;
+    font-size: 26px;
+}
+
+.score-box {
+    background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+    color: #5b21b6;
+    padding: 12px 18px;
+    border-radius: 18px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* ================= PROGRESS ================= */
+
+.progress-area {
+    margin-bottom: 22px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    height: 12px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+    transition: width 0.4s ease;
+}
+
+/* ================= INSTRUCTION ================= */
+
+.instruction {
+    background: linear-gradient(135deg, #f5f3ff, #eef2ff);
+    border: 1px solid #ddd6fe;
+    border-radius: 20px;
+    padding: 17px 20px;
+    margin-bottom: 28px;
+    text-align: center;
+    color: #4c1d95;
+    font-weight: bold;
+}
+
+/* ================= MATCHING AREA ================= */
+
+.matching-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.column-title {
+    text-align: center;
+    margin-bottom: 14px;
+    font-size: 17px;
+    font-weight: bold;
+    color: #4338ca;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+/* ================= MATCH CARDS ================= */
+
+.match-card {
+    position: relative;
+    width: 100%;
+    height: 110px;
+    min-height: 110px;
+    border-radius: 20px;
+    background: white;
+    border: 2px solid #ede9fe;
+    box-shadow: 0 8px 20px rgba(76,29,149,0.08);
+    cursor: pointer;
+    transition: 0.3s ease;
+    overflow: hidden;
+}
+
+.match-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, #6366f1, #a855f7);
+}
+
+.match-card:hover {
+    transform: translateY(-5px) scale(1.015);
+    border-color: #a78bfa;
+    box-shadow: 0 15px 30px rgba(99,102,241,0.18);
+}
+
+.match-card.selected {
+    border-color: #7c3aed;
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    transform: scale(1.02);
+}
+
+.match-card.correct {
+    border-color: #22c55e;
+    background: #f0fdf4;
+    animation: correctPop 0.45s ease;
+}
+
+.match-card.wrong {
+    border-color: #ef4444;
+    background: #fef2f2;
+    animation: shake 0.4s ease;
+}
+
+.match-card.disabled {
+    pointer-events: none;
+}
+
+.card-content {
+    width: 100%;
+    height: 100%;
+    min-height: 110px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 18px;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+/* ================= TROUSERS ================= */
+
+.trousers {
+    position: relative;
+    width: 76px;
+    height: 76px;
+}
+
+.trouser-waist {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    width: 56px;
+    height: 18px;
+    background: #15803d;
+    border-radius: 8px 8px 4px 4px;
+}
+
+.trouser-leg {
+    position: absolute;
+    top: 14px;
+    width: 29px;
+    height: 62px;
+    background:
+        repeating-linear-gradient(
+            135deg,
+            #22c55e 0px,
+            #22c55e 8px,
+            #166534 9px,
+            #166534 13px
+        );
+    box-shadow: inset 0 3px 7px rgba(255,255,255,0.25);
+}
+
+.trouser-leg.left {
+    left: 9px;
+    border-radius: 4px 4px 8px 10px;
+    transform: rotate(2deg);
+}
+
+.trouser-leg.right {
+    right: 9px;
+    border-radius: 4px 4px 10px 8px;
+    transform: rotate(-2deg);
+}
+
+.trouser-pocket {
+    position: absolute;
+    top: 22px;
+    width: 10px;
+    height: 15px;
+    border: 2px solid rgba(255,255,255,0.65);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 3;
+}
+
+.trouser-pocket.left {
+    left: 17px;
+}
+
+.trouser-pocket.right {
+    right: 17px;
+}
+
+/* ================= FEEDBACK ================= */
+
+.feedback {
+    position: fixed;
+    left: 50%;
+    bottom: 25px;
+    transform: translate(-50%, 120px);
+    padding: 15px 25px;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    opacity: 0;
+    transition: 0.35s ease;
+    z-index: 100;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+.feedback.show {
+    transform: translate(-50%, 0);
+    opacity: 1;
+}
+
+.feedback.correct-feedback {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.feedback.wrong-feedback {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+
+/* ================= RESULT ================= */
+
+.result {
+    display: none;
+    text-align: center;
+    padding: 35px 15px 10px;
+}
+
+.trophy {
+    font-size: 75px;
+    animation: trophyBounce 1s infinite alternate;
+}
+
+.result h2 {
+    font-size: 32px;
+    margin: 10px 0;
+}
+
+.final-score {
+    font-size: 22px;
+    color: #6d28d9;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.restart-btn {
+    border: none;
+    padding: 14px 28px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 10px 25px rgba(99,102,241,0.25);
+}
+
+.restart-btn:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(99,102,241,0.35);
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes correctPop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.06);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-7px);
+    }
+
+    50% {
+        transform: translateX(7px);
+    }
+
+    75% {
+        transform: translateX(-5px);
+    }
+}
+
+@keyframes trophyBounce {
+    from {
+        transform: translateY(0) rotate(-4deg);
+    }
+
+    to {
+        transform: translateY(-10px) rotate(4deg);
+    }
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 700px) {
+
+    .hero {
+        padding: 45px 18px 85px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .game-card {
+        padding: 22px 16px;
+    }
+
+    .game-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .matching-area {
+        grid-template-columns: 1fr;
+    }
+
+    .match-card {
+        height: 100px;
+        min-height: 100px;
+    }
+
+    .card-content {
+        height: 100%;
+        min-height: 100px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="unit-pill">
+        UNIT 7 • SUPER MINDS
+    </div>
+
+    <h1>Get Dressed! 👕</h1>
+
+    <p>Match the clothes with the correct words!</p>
+
+</section>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+    <a href="unit7y2.html" class="back-btn">
+        ← Go Back
+    </a>
+
+    <div class="game-card">
+
+        <div class="game-header">
+
+            <h2>👕 Clothing Match</h2>
+
+            <div class="score-box">
+                ⭐ Score: <span id="score">0</span>
+            </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress-area">
+
+            <div class="progress-info">
+                <span>Matching Progress</span>
+                <span id="progressText">0 / 8</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+        </div>
+
+
+        <!-- INSTRUCTION -->
+
+        <div class="instruction">
+            💡 Click one picture and one word to make a match!
+        </div>
+
+
+        <!-- MATCHING -->
+
+        <div class="matching-area">
+
+            <!-- PICTURES -->
+
+            <div>
+
+                <div class="column-title">
+                    👕 Pictures
+                </div>
+
+                <div class="cards" id="imageCards">
+
+                    <!-- JEANS -->
+
+                    <div class="match-card image-card" data-answer="jeans">
+
+                        <div class="card-content">
+
+                            <span style="font-size:68px;">
+                                👖
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- JACKET -->
+
+                    <div class="match-card image-card" data-answer="jacket">
+
+                        <div class="card-content">
+
+                            <span style="font-size:68px;">
+                                🧥
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- TROUSERS -->
+
+                    <div class="match-card image-card" data-answer="trousers">
+
+                        <div class="card-content">
+
+                            <div class="trousers">
+
+                                <div class="trouser-waist"></div>
+
+                                <div class="trouser-leg left"></div>
+                                <div class="trouser-leg right"></div>
+
+                                <div class="trouser-pocket left"></div>
+                                <div class="trouser-pocket right"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SHORTS -->
+
+                    <div class="match-card image-card" data-answer="shorts">
+
+                        <div class="card-content">
+
+                            <span style="font-size:68px;">
+                                🩳
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CAP -->
+
+                    <div class="match-card image-card" data-answer="cap">
+
+                        <div class="card-content">
+
+                            <span style="font-size:68px;">
+                                🧢
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SHOES -->
+
+                    <div class="match-card image-card" data-answer="shoes">
+
+                        <div class="card-content">
+
+                            <span style="font-size:68px;">
+                                👟
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SOCKS -->
+
+                    <div class="match-card image-card" data-answer="socks">
+
+                        <div class="card-content">
+
+                            <span style="font-size:68px;">
+                                🧦
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- T-SHIRT -->
+
+                    <div class="match-card image-card" data-answer="t-shirt">
+
+                        <div class="card-content">
+
+                            <span style="font-size:68px;">
+                                👕
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- WORDS -->
+
+            <div>
+
+                <div class="column-title">
+                    🔤 Words
+                </div>
+
+                <div class="cards" id="wordCards">
+
+                    <div class="match-card word-card" data-answer="socks">
+                        <div class="card-content">
+                            Socks
+                        </div>
+                    </div>
+
+                    <div class="match-card word-card" data-answer="trousers">
+                        <div class="card-content">
+                            Trousers
+                        </div>
+                    </div>
+
+                    <div class="match-card word-card" data-answer="jacket">
+                        <div class="card-content">
+                            Jacket
+                        </div>
+                    </div>
+
+                    <div class="match-card word-card" data-answer="jeans">
+                        <div class="card-content">
+                            Jeans
+                        </div>
+                    </div>
+
+                    <div class="match-card word-card" data-answer="cap">
+                        <div class="card-content">
+                            Cap
+                        </div>
+                    </div>
+
+                    <div class="match-card word-card" data-answer="shoes">
+                        <div class="card-content">
+                            Shoes
+                        </div>
+                    </div>
+
+                    <div class="match-card word-card" data-answer="t-shirt">
+                        <div class="card-content">
+                            T-shirt
+                        </div>
+                    </div>
+
+                    <div class="match-card word-card" data-answer="shorts">
+                        <div class="card-content">
+                            Shorts
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESULT -->
+
+        <div class="result" id="result">
+
+            <div class="trophy">
+                🏆
+            </div>
+
+            <h2>Great Job!</h2>
+
+            <div class="final-score">
+                You matched
+                <span id="finalScore">0</span>
+                / 8!
+            </div>
+
+            <button class="restart-btn" onclick="restartGame()">
+                🔄 Play Again
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- FEEDBACK -->
+
+<div class="feedback" id="feedback"></div>
+
+
+<script>
+
+let selectedImage = null;
+let selectedWord = null;
+
+let score = 0;
+let matched = 0;
+
+const totalItems = 8;
+
+const imageCards = document.querySelectorAll(".image-card");
+const wordCards = document.querySelectorAll(".word-card");
+
+const scoreDisplay = document.getElementById("score");
+const progressText = document.getElementById("progressText");
+const progressFill = document.getElementById("progressFill");
+const feedback = document.getElementById("feedback");
+
+
+// ================= IMAGE CLICK =================
+
+imageCards.forEach(card => {
+
+    card.addEventListener("click", function() {
+
+        if (this.classList.contains("disabled")) return;
+
+        imageCards.forEach(item => {
+            item.classList.remove("selected");
+        });
+
+        this.classList.add("selected");
+
+        selectedImage = this;
+
+        checkMatch();
+
+    });
+
+});
+
+
+// ================= WORD CLICK =================
+
+wordCards.forEach(card => {
+
+    card.addEventListener("click", function() {
+
+        if (this.classList.contains("disabled")) return;
+
+        wordCards.forEach(item => {
+            item.classList.remove("selected");
+        });
+
+        this.classList.add("selected");
+
+        selectedWord = this;
+
+        checkMatch();
+
+    });
+
+});
+
+
+// ================= CHECK MATCH =================
+
+function checkMatch() {
+
+    if (!selectedImage || !selectedWord) return;
+
+    const imageAnswer = selectedImage.dataset.answer;
+    const wordAnswer = selectedWord.dataset.answer;
+
+    if (imageAnswer === wordAnswer) {
+
+        score++;
+        matched++;
+
+        selectedImage.classList.remove("selected");
+        selectedWord.classList.remove("selected");
+
+        selectedImage.classList.add("correct", "disabled");
+        selectedWord.classList.add("correct", "disabled");
+
+        showFeedback("🎉 Correct! Great job!", true);
+
+        scoreDisplay.textContent = score;
+
+        updateProgress();
+
+        selectedImage = null;
+        selectedWord = null;
+
+        if (matched === totalItems) {
+
+            setTimeout(showResult, 800);
+
+        }
+
+    } else {
+
+        selectedImage.classList.add("wrong");
+        selectedWord.classList.add("wrong");
+
+        showFeedback("❌ Try again!", false);
+
+        setTimeout(() => {
+
+            if (selectedImage) {
+                selectedImage.classList.remove(
+                    "selected",
+                    "wrong"
+                );
+            }
+
+            if (selectedWord) {
+                selectedWord.classList.remove(
+                    "selected",
+                    "wrong"
+                );
+            }
+
+            selectedImage = null;
+            selectedWord = null;
+
+        }, 550);
+
+    }
+
+}
+
+
+// ================= PROGRESS =================
+
+function updateProgress() {
+
+    progressText.textContent =
+        matched + " / " + totalItems;
+
+    const percentage =
+        (matched / totalItems) * 100;
+
+    progressFill.style.width =
+        percentage + "%";
+
+}
+
+
+// ================= FEEDBACK =================
+
+function showFeedback(message, correct) {
+
+    feedback.textContent = message;
+
+    feedback.className =
+        "feedback show ";
+
+    if (correct) {
+
+        feedback.classList.add(
+            "correct-feedback"
+        );
+
+    } else {
+
+        feedback.classList.add(
+            "wrong-feedback"
+        );
+
+    }
+
+    setTimeout(() => {
+
+        feedback.classList.remove("show");
+
+    }, 1000);
+
+}
+
+
+// ================= RESULT =================
+
+function showResult() {
+
+    document.querySelector(
+        ".matching-area"
+    ).style.display = "none";
+
+    document.querySelector(
+        ".instruction"
+    ).style.display = "none";
+
+    document.getElementById(
+        "result"
+    ).style.display = "block";
+
+    document.getElementById(
+        "finalScore"
+    ).textContent = score;
+
+}
+
+
+// ================= RESTART =================
+
+function restartGame() {
+
+    score = 0;
+    matched = 0;
+
+    selectedImage = null;
+    selectedWord = null;
+
+    scoreDisplay.textContent = "0";
+
+    progressText.textContent =
+        "0 / " + totalItems;
+
+    progressFill.style.width = "0%";
+
+    document.querySelector(
+        ".matching-area"
+    ).style.display = "grid";
+
+    document.querySelector(
+        ".instruction"
+    ).style.display = "block";
+
+    document.getElementById(
+        "result"
+    ).style.display = "none";
+
+
+    imageCards.forEach(card => {
+
+        card.classList.remove(
+            "selected",
+            "correct",
+            "wrong",
+            "disabled"
+        );
+
+    });
+
+
+    wordCards.forEach(card => {
+
+        card.classList.remove(
+            "selected",
+            "correct",
+            "wrong",
+            "disabled"
+        );
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
