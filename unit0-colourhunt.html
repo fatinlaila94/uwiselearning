@@ -895,8 +895,8 @@ objects:[
 },
 
 {
-title:"Find the orange Friend",
-instruction:"Find the orange object!",
+title:"Find the Orange Friend",
+instruction:"Find the ORANGE object!",
 targetColor:"orange",
 objects:[
 ["🔴","red"],
@@ -906,7 +906,7 @@ objects:[
 ["🟣","purple"],
 ["🟠","orange"]
 ]
-},
+}
 
 ];
 
@@ -942,6 +942,8 @@ START
 
 function startGame(){
 
+console.log("=== START GAME CALLED ===");
+
 playerName=
 document
 .getElementById("playerName")
@@ -974,6 +976,7 @@ document.getElementById("gameScreen")
 
 updateStats();
 loadMission();
+
 }
 
 
@@ -988,15 +991,15 @@ clearInterval(timerInterval);
 if(lives<=0){
 
 gameOver();
-return;
 
+return;
 }
 
 if(currentMission>=missions.length){
 
 finishGame();
-return;
 
+return;
 }
 
 answered=false;
@@ -1032,6 +1035,7 @@ updateProgress();
 createObjects();
 
 startTimer();
+
 }
 
 
@@ -1055,7 +1059,7 @@ let objects=
 ()=>Math.random()-.5
 );
 
-objects.forEach((item,index)=>{
+objects.forEach((item)=>{
 
 const object=
 document.createElement("div");
@@ -1092,6 +1096,7 @@ object.addEventListener(
 area.appendChild(object);
 
 });
+
 }
 
 
@@ -1102,75 +1107,13 @@ SELECT
 function selectObject(object){
 
 if(!gameActive||answered){
+
 return;
+
 }
 
 const mission=
 missions[currentMission];
-
-
-/* NUMBER */
-
-if(mission.targetNumber){
-
-if(
-object.dataset.type==="star"||
-object.dataset.type==="heart"||
-object.dataset.type==="rainbow"
-){
-
-selectedCount++;
-
-object.classList.add("correct");
-
-addXP(10);
-
-score+=20;
-
-updateStats();
-
-if(
-selectedCount>=
-mission.targetNumber
-){
-
-answered=true;
-
-clearInterval(
-timerInterval
-);
-
-streak++;
-
-score+=50;
-
-addXP(30);
-
-showSuccess();
-
-setTimeout(
-nextMission,
-900
-);
-
-}
-
-}else{
-
-object.classList.add("wrong");
-
-loseLife();
-
-streak=0;
-
-updateStats();
-
-updateCombo();
-
-}
-
-return;
-}
 
 
 /* COLOUR */
@@ -1182,9 +1125,7 @@ mission.targetColor
 
 answered=true;
 
-clearInterval(
-timerInterval
-);
+clearInterval(timerInterval);
 
 object.classList.add("correct");
 
@@ -1220,6 +1161,7 @@ updateStats();
 updateCombo();
 
 }
+
 }
 
 
@@ -1236,9 +1178,11 @@ message.innerHTML=
 "✨ Great job! Next mission...";
 
 updateStats();
+
 updateCombo();
 
 playSound("correct");
+
 }
 
 
@@ -1249,7 +1193,9 @@ LIFE
 function loseLife(){
 
 if(lives<=0){
+
 return;
+
 }
 
 lives--;
@@ -1286,9 +1232,7 @@ if(lives<=0){
 
 gameActive=false;
 
-clearInterval(
-timerInterval
-);
+clearInterval(timerInterval);
 
 message.innerHTML=
 "💔 All your lives are gone!";
@@ -1297,7 +1241,9 @@ setTimeout(
 gameOver,
 900
 );
+
 }
+
 }
 
 
@@ -1318,11 +1264,10 @@ setInterval(()=>{
 
 if(!gameActive){
 
-clearInterval(
-timerInterval
-);
+clearInterval(timerInterval);
 
 return;
+
 }
 
 timeLeft--;
@@ -1331,15 +1276,14 @@ updateTimer();
 
 if(timeLeft<=0){
 
-clearInterval(
-timerInterval
-);
+clearInterval(timerInterval);
 
 timeUp();
 
 }
 
 },1000);
+
 }
 
 
@@ -1356,13 +1300,16 @@ document.getElementById(
 )
 .textContent=
 timeLeft;
+
 }
 
 
 function timeUp(){
 
 if(answered||!gameActive){
+
 return;
+
 }
 
 message.className=
@@ -1378,12 +1325,16 @@ if(lives>0){
 setTimeout(
 ()=>{
 if(gameActive){
+
 loadMission();
+
 }
 },
 800
 );
+
 }
+
 }
 
 
@@ -1394,14 +1345,15 @@ AUTO NEXT MISSION
 function nextMission(){
 
 if(!gameActive){
+
 return;
+
 }
 
 currentMission++;
 
 if(
-currentMission>=
-missions.length
+currentMission>=missions.length
 ){
 
 finishGame();
@@ -1411,6 +1363,7 @@ finishGame();
 loadMission();
 
 }
+
 }
 
 
@@ -1460,6 +1413,7 @@ document.getElementById(
 )
 .textContent=
 getLevel();
+
 }
 
 
@@ -1478,6 +1432,7 @@ currentMission/
 missions.length*
 100
 )+"%";
+
 }
 
 
@@ -1495,6 +1450,7 @@ Math.min(
 streak*25,
 100
 )+"%";
+
 }
 
 
@@ -1531,6 +1487,7 @@ void popup.offsetWidth;
 popup.classList.add("show");
 
 updateStats();
+
 }
 
 
@@ -1541,15 +1498,19 @@ LEVEL
 function getLevel(){
 
 if(score>=700)
+
 return"Super Friend";
 
 if(score>=450)
+
 return"Friend Hero";
 
 if(score>=250)
+
 return"Friend Explorer";
 
 return"Beginner";
+
 }
 
 
@@ -1561,15 +1522,14 @@ function gameOver(){
 
 gameActive=false;
 
-clearInterval(
-timerInterval
-);
+clearInterval(timerInterval);
 
 showResult(
 "💔",
 "Game Over",
 "Don't worry! Try again and become a Super Friend!"
 );
+
 }
 
 
@@ -1587,7 +1547,8 @@ clearInterval(timerInterval);
 
 document.getElementById(
 "progressBar"
-).style.width="100%";
+)
+.style.width="100%";
 
 createConfetti();
 
@@ -1595,7 +1556,7 @@ playSound("win");
 
 console.log("=== ABOUT TO SAVE SCORE ===");
 
-const saved =
+const saved=
 await saveScoreToSupabase();
 
 console.log(
@@ -1609,7 +1570,6 @@ showResult(
 "You completed Unit 0 – Friends!"
 );
 
-}
 }
 
 
@@ -1678,6 +1638,7 @@ document.getElementById(
 "resultLevel"
 )
 .textContent=getLevel();
+
 }
 
 
@@ -1687,7 +1648,9 @@ SUPABASE SAVE SCORE
 
 async function saveScoreToSupabase(){
 
-console.log("=== SAVE SCORE FUNCTION CALLED ===");
+console.log(
+"=== SAVE SCORE FUNCTION CALLED ==="
+);
 
 try{
 
@@ -1695,23 +1658,6 @@ let userId=
 localStorage.getItem("user_id")||
 localStorage.getItem("userId")||
 null;
-
-
-/*
-TABLE:
-quiz_scores
-
-COLUMNS:
-id
-user_id
-created_at
-quiz_scores
-unit
-activity
-score
-
-NO total_questions
-*/
 
 const data={
 
@@ -1733,7 +1679,6 @@ score:
 score
 
 };
-
 
 console.log(
 "Sending score to Supabase:",
@@ -1773,6 +1718,13 @@ body:
 JSON.stringify(data)
 
 }
+
+);
+
+
+console.log(
+"Supabase HTTP status:",
+response.status
 );
 
 
@@ -1787,6 +1739,7 @@ errorText
 );
 
 return false;
+
 }
 
 
@@ -1807,6 +1760,7 @@ error
 return false;
 
 }
+
 }
 
 
@@ -1837,6 +1791,7 @@ gameActive=true;
 updateStats();
 
 loadMission();
+
 }
 
 
@@ -1903,6 +1858,7 @@ setTimeout(
 );
 
 }
+
 }
 
 
@@ -1919,6 +1875,7 @@ window.AudioContext||
 window.webkitAudioContext;
 
 if(!AudioContext)
+
 return;
 
 const ctx=
@@ -1939,16 +1896,19 @@ ctx.destination
 if(type==="correct"){
 
 oscillator.frequency.value=700;
+
 gain.gain.value=.07;
 
 }else if(type==="wrong"){
 
 oscillator.frequency.value=180;
+
 gain.gain.value=.05;
 
 }else{
 
 oscillator.frequency.value=900;
+
 gain.gain.value=.06;
 
 }
