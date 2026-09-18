@@ -1,0 +1,2509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Unit 8 - The Robot | SmartLearn Online</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+
+    background:
+        radial-gradient(circle at 10% 10%, rgba(139,92,246,0.10), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(108,99,255,0.10), transparent 30%),
+        #f8f7ff;
+
+    color: #2d2d3a;
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 430px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5b4df5,
+            #6c63ff,
+            #8b5cf6,
+            #a78bfa
+        );
+
+    color: white;
+    padding: 80px 20px;
+
+    text-align: center;
+
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    background: rgba(255,255,255,0.09);
+
+    border-radius: 50%;
+
+    top: -190px;
+    left: -130px;
+
+    animation: floatCircle 7s ease-in-out infinite;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 330px;
+    height: 330px;
+
+    background: rgba(255,255,255,0.09);
+
+    border-radius: 50%;
+
+    bottom: -180px;
+    right: -100px;
+
+    animation: floatCircle 9s ease-in-out infinite reverse;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    max-width: 900px;
+
+    margin: auto;
+
+    animation: heroEnter 1s ease;
+}
+
+.small-title {
+    font-size: 14px;
+
+    letter-spacing: 4px;
+
+    font-weight: bold;
+
+    opacity: .9;
+
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    font-size: 58px;
+
+    margin: 10px 0;
+
+    text-shadow:
+        0 8px 25px rgba(0,0,0,.15);
+
+    animation: titleFloat 4s ease-in-out infinite;
+}
+
+.hero p {
+    font-size: 19px;
+
+    margin: 20px auto;
+
+    max-width: 680px;
+
+    line-height: 1.7;
+
+    opacity: .95;
+}
+
+.unit-badge {
+    display: inline-block;
+
+    background: rgba(255,255,255,.17);
+
+    border: 1px solid rgba(255,255,255,.28);
+
+    backdrop-filter: blur(10px);
+
+    padding: 12px 24px;
+
+    border-radius: 50px;
+
+    margin-top: 15px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.12);
+
+    transition: .35s ease;
+}
+
+.unit-badge:hover {
+    transform:
+        translateY(-5px)
+        scale(1.04);
+
+    background:
+        rgba(255,255,255,.25);
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes heroEnter {
+
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+@keyframes titleFloat {
+
+    0%,100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+}
+
+@keyframes floatCircle {
+
+    0%,100% {
+        transform:
+            translate(0,0)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translate(20px,25px)
+            scale(1.08);
+    }
+
+}
+
+@keyframes floatIcon {
+
+    0%,100% {
+        transform:
+            translateY(0)
+            rotate(0deg);
+    }
+
+    50% {
+        transform:
+            translateY(-10px)
+            rotate(3deg);
+    }
+
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    max-width: 1150px;
+
+    margin: auto;
+
+    padding: 50px 20px;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-btn {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    text-decoration: none;
+
+    color: #6c63ff;
+
+    font-weight: bold;
+
+    margin-bottom: 35px;
+
+    padding: 13px 22px;
+
+    border-radius: 14px;
+
+    background: rgba(255,255,255,.9);
+
+    border:
+        1px solid rgba(108,99,255,.08);
+
+    box-shadow:
+        0 8px 25px rgba(108,99,255,.09);
+
+    transition: all .35s ease;
+}
+
+.back-btn:hover {
+
+    transform:
+        translateX(-7px)
+        translateY(-2px);
+
+    box-shadow:
+        0 14px 30px rgba(108,99,255,.18);
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.intro-card {
+
+    background: rgba(255,255,255,.95);
+
+    padding: 40px;
+
+    border-radius: 28px;
+
+    box-shadow:
+        0 15px 40px rgba(44,39,100,.07),
+        0 2px 8px rgba(0,0,0,.03);
+
+    margin-bottom: 55px;
+
+    border:
+        1px solid rgba(108,99,255,.07);
+
+    position: relative;
+
+    overflow: hidden;
+
+    transition: .4s ease;
+}
+
+.intro-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    border-radius: 50%;
+
+    background: #eeeaff;
+
+    right: -70px;
+    top: -70px;
+}
+
+.intro-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        0 22px 50px rgba(108,99,255,.12);
+}
+
+.intro-label {
+
+    color: #6c63ff;
+
+    font-weight: bold;
+
+    font-size: 13px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+
+    position: relative;
+}
+
+.intro-card h2 {
+
+    margin-top: 5px;
+
+    font-size: 32px;
+
+    position: relative;
+}
+
+.intro-card p {
+
+    font-size: 17px;
+
+    line-height: 1.8;
+
+    color: #555;
+
+    margin-top: 15px;
+
+    position: relative;
+}
+
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-title {
+
+    font-size: 31px;
+
+    margin: 55px 0 28px;
+
+    color: #35354a;
+
+    position: relative;
+}
+
+.section-title span {
+
+    color: #6c63ff;
+
+    margin-right: 8px;
+}
+
+.section-title::after {
+
+    content: "";
+
+    display: block;
+
+    width: 55px;
+
+    height: 4px;
+
+    border-radius: 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #6c63ff,
+            #a78bfa
+        );
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   EXPLORE CARD
+========================= */
+
+.house-card {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    background: white;
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 15px 40px rgba(44,39,100,.08);
+
+    margin-bottom: 55px;
+
+    border:
+        1px solid rgba(108,99,255,.06);
+
+    transition:
+        all .45s ease;
+}
+
+.house-card:hover {
+
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        0 25px 55px rgba(108,99,255,.16);
+}
+
+.house-image {
+
+    min-height: 370px;
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255,255,255,.75),
+            transparent 38%
+        ),
+        linear-gradient(
+            135deg,
+            #ede9fe,
+            #ddd6fe
+        );
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 115px;
+
+    letter-spacing: 10px;
+
+    animation:
+        floatIcon 4s ease-in-out infinite;
+}
+
+.house-info {
+
+    padding: 45px;
+}
+
+.house-info h3 {
+
+    font-size: 30px;
+
+    margin-top: 0;
+
+    color: #6c63ff;
+}
+
+.house-info p {
+
+    line-height: 1.8;
+
+    color: #555;
+
+    margin-top: 15px;
+}
+
+
+/* =========================
+   POINTS
+========================= */
+
+.house-points {
+
+    margin-top: 25px;
+}
+
+.house-point {
+
+    padding: 13px 16px;
+
+    background: #f7f5ff;
+
+    border-radius: 14px;
+
+    margin-bottom: 11px;
+
+    transition:
+        all .3s ease;
+
+    border:
+        1px solid transparent;
+}
+
+.house-point:hover {
+
+    transform:
+        translateX(7px);
+
+    background: #eeeaff;
+
+    border-color:
+        rgba(108,99,255,.1);
+}
+
+
+/* =========================
+   VOCABULARY
+========================= */
+
+.vocab-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 22px;
+}
+
+.vocab-card {
+
+    background:
+        rgba(255,255,255,.97);
+
+    padding: 28px 15px;
+
+    border-radius: 22px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 28px rgba(44,39,100,.06);
+
+    border:
+        1px solid rgba(108,99,255,.05);
+
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease,
+        border-color .4s ease;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.vocab-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 90px;
+    height: 90px;
+
+    background: #f0edff;
+
+    border-radius: 50%;
+
+    top: -45px;
+    right: -35px;
+
+    transition: .4s ease;
+}
+
+.vocab-card:hover {
+
+    transform:
+        translateY(-12px)
+        scale(1.025);
+
+    box-shadow:
+        0 20px 40px rgba(108,99,255,.15);
+
+    border-color:
+        rgba(108,99,255,.15);
+}
+
+.vocab-card:hover::before {
+
+    transform:
+        scale(1.8);
+}
+
+.vocab-icon {
+
+    font-size: 55px;
+
+    min-height: 70px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    position: relative;
+
+    z-index: 2;
+
+    transition: .4s ease;
+}
+
+.vocab-card:hover .vocab-icon {
+
+    transform:
+        translateY(-7px)
+        scale(1.08);
+}
+
+.vocab-word {
+
+    font-size: 19px;
+
+    font-weight: bold;
+
+    margin-top: 15px;
+
+    color: #35354a;
+
+    position: relative;
+}
+
+.vocab-meaning {
+
+    font-size: 14px;
+
+    color: #777;
+
+    margin-top: 7px;
+
+    position: relative;
+}
+
+
+/* =========================
+   GRAMMAR CARDS
+========================= */
+
+.position-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 22px;
+}
+
+.position-card {
+
+    background: white;
+
+    border-radius: 22px;
+
+    padding: 30px;
+
+    text-align: center;
+
+    box-shadow:
+        0 10px 28px rgba(44,39,100,.06);
+
+    border:
+        1px solid rgba(108,99,255,.05);
+
+    transition: .4s ease;
+}
+
+.position-card:hover {
+
+    transform:
+        translateY(-10px);
+
+    box-shadow:
+        0 20px 40px rgba(108,99,255,.14);
+}
+
+.position-visual {
+
+    font-size: 58px;
+
+    margin-bottom: 15px;
+
+    animation:
+        floatIcon 4s ease-in-out infinite;
+}
+
+.position-card h3 {
+
+    color: #6c63ff;
+
+    margin-bottom: 10px;
+
+    font-size: 22px;
+}
+
+.position-card p {
+
+    color: #666;
+
+    line-height: 1.7;
+}
+
+
+/* =========================
+   GRAMMAR DETAIL
+========================= */
+
+.grammar-card {
+
+    background: white;
+
+    padding: 32px;
+
+    border-radius: 24px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 10px 30px rgba(44,39,100,.06);
+
+    border:
+        1px solid rgba(108,99,255,.05);
+
+    transition: .4s ease;
+}
+
+.grammar-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        0 20px 40px rgba(108,99,255,.12);
+}
+
+.grammar-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 23px;
+
+    font-weight: bold;
+
+    color: #6c63ff;
+
+    margin-bottom: 15px;
+}
+
+.grammar-icon {
+
+    font-size: 32px;
+}
+
+.grammar-card p {
+
+    color: #555;
+
+    line-height: 1.8;
+}
+
+.rule-box {
+
+    background: #f5f3ff;
+
+    border-left:
+        5px solid #6c63ff;
+
+    padding: 19px;
+
+    border-radius: 12px;
+
+    line-height: 1.8;
+
+    margin: 18px 0;
+
+    transition: .3s ease;
+}
+
+.rule-box:hover {
+
+    background: #eeeaff;
+
+    transform:
+        translateX(5px);
+}
+
+.example {
+
+    background: #fafafa;
+
+    padding: 17px;
+
+    border-radius: 12px;
+
+    margin-top: 10px;
+
+    line-height: 1.9;
+}
+
+
+/* =========================
+   SENTENCE BOX
+========================= */
+
+.sentence-box {
+
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(255,255,255,.12),
+            transparent 25%
+        ),
+        linear-gradient(
+            135deg,
+            #5b4df5,
+            #6c63ff,
+            #8b5cf6
+        );
+
+    color: white;
+
+    padding: 38px;
+
+    border-radius: 28px;
+
+    margin-bottom: 45px;
+
+    box-shadow:
+        0 20px 45px rgba(108,99,255,.18);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.sentence-box::after {
+
+    content: "🤖";
+
+    position: absolute;
+
+    right: 35px;
+    top: 25px;
+
+    font-size: 40px;
+
+    animation:
+        floatIcon 3s ease-in-out infinite;
+}
+
+.sentence-box h3 {
+
+    margin-top: 0;
+
+    font-size: 26px;
+}
+
+.sentence {
+
+    background:
+        rgba(255,255,255,.13);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    padding: 16px;
+
+    border-radius: 14px;
+
+    margin: 11px 0;
+
+    font-size: 18px;
+
+    transition: .3s ease;
+}
+
+.sentence:hover {
+
+    transform:
+        translateX(8px);
+
+    background:
+        rgba(255,255,255,.2);
+}
+
+
+/* =========================
+   CONVERSATION
+========================= */
+
+.conversation {
+
+    background: white;
+
+    padding: 32px;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 10px 30px rgba(44,39,100,.06);
+
+    margin-bottom: 50px;
+
+    border:
+        1px solid rgba(108,99,255,.05);
+}
+
+.speech {
+
+    padding: 16px 20px;
+
+    border-radius: 16px;
+
+    margin: 13px 0;
+
+    line-height: 1.7;
+
+    transition: .35s ease;
+}
+
+.speech:hover {
+
+    transform:
+        translateX(7px);
+}
+
+.speaker-a {
+
+    background: #f0edff;
+}
+
+.speaker-b {
+
+    background: #f5f5f5;
+}
+
+.speaker {
+
+    font-weight: bold;
+
+    color: #6c63ff;
+
+    margin-bottom: 3px;
+}
+
+
+/* =========================
+   READING
+========================= */
+
+.reading-card {
+
+    background: white;
+
+    padding: 38px;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 10px 30px rgba(44,39,100,.06);
+
+    margin-bottom: 50px;
+
+    border:
+        1px solid rgba(108,99,255,.05);
+
+    transition: .4s ease;
+}
+
+.reading-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        0 20px 40px rgba(108,99,255,.12);
+}
+
+.reading-title {
+
+    color: #6c63ff;
+
+    font-size: 25px;
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+}
+
+.reading-text {
+
+    line-height: 2;
+
+    font-size: 17px;
+
+    color: #555;
+}
+
+
+/* =========================
+   COMMON MISTAKES
+========================= */
+
+.mistakes {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 22px;
+}
+
+.mistake-card {
+
+    background: white;
+
+    padding: 27px;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 10px 28px rgba(44,39,100,.06);
+
+    border:
+        1px solid rgba(108,99,255,.05);
+
+    transition: .4s ease;
+}
+
+.mistake-card:hover {
+
+    transform:
+        translateY(-8px);
+
+    box-shadow:
+        0 20px 40px rgba(108,99,255,.12);
+}
+
+.wrong {
+
+    color: #e74c3c;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+.correct {
+
+    color: #27ae60;
+
+    font-weight: bold;
+
+    margin-top: 13px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+
+    text-align: center;
+
+    padding: 38px 20px;
+
+    background: #2d2d3a;
+
+    color: white;
+
+    margin-top: 60px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .vocab-grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .position-grid {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .house-card {
+        grid-template-columns:
+            1fr;
+    }
+
+    .house-image {
+        min-height: 300px;
+    }
+
+    .mistakes {
+        grid-template-columns:
+            1fr;
+    }
+
+    .hero h1 {
+        font-size: 46px;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .hero {
+        min-height: 380px;
+
+        padding:
+            60px 15px;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .container {
+        padding:
+            35px 15px;
+    }
+
+    .vocab-grid {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 14px;
+    }
+
+    .vocab-card {
+        padding:
+            22px 10px;
+    }
+
+    .vocab-icon {
+        font-size: 45px;
+    }
+
+    .position-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .intro-card,
+    .house-info,
+    .grammar-card,
+    .reading-card,
+    .conversation {
+        padding: 25px;
+    }
+
+    .house-image {
+        min-height: 250px;
+
+        font-size: 80px;
+    }
+
+    .section-title {
+        font-size: 27px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="small-title">
+            SMARTLEARN ONLINE
+        </div>
+
+        <h1>
+            🤖 The Robot
+        </h1>
+
+        <p>
+            Learn about robots, body parts and actions in English.
+        </p>
+
+        <div class="unit-badge">
+            UNIT 8 • YEAR 2 ENGLISH
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<div class="container">
+
+
+<!-- =========================
+     BACK
+========================= -->
+
+<a href="year2.html" class="back-btn">
+    ← Go Back to Year 2
+</a>
+
+
+
+<!-- =========================
+     INTRO
+========================= -->
+
+<div class="intro-card">
+
+    <div class="intro-label">
+        WELCOME TO UNIT 8
+    </div>
+
+    <h2>
+        🤖 Meet the Robot!
+    </h2>
+
+    <p>
+        Welcome to <strong>The Robot!</strong> 🤖
+        In this unit, we learn about robots,
+        their body parts and the things they can do.
+    </p>
+
+    <p>
+        We will learn new vocabulary,
+        describe robots, practise simple sentences
+        and talk about actions.
+    </p>
+
+
+    <div class="house-points">
+
+        <div class="house-point">
+            🎯 <strong>Learning Outcome 1:</strong>
+            Identify and name common body parts.
+        </div>
+
+        <div class="house-point">
+            🎯 <strong>Learning Outcome 2:</strong>
+            Use simple English to describe a robot.
+        </div>
+
+        <div class="house-point">
+            🎯 <strong>Learning Outcome 3:</strong>
+            Use <strong>can</strong> and
+            <strong>can't</strong> to talk about abilities.
+        </div>
+
+        <div class="house-point">
+            🎯 <strong>Learning Outcome 4:</strong>
+            Use <strong>Here</strong>,
+            <strong>Here are</strong> and
+            <strong>Here's</strong>.
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     EXPLORE
+========================= -->
+
+<h2 class="section-title">
+    <span>01</span>
+    Explore
+</h2>
+
+
+<div class="house-card">
+
+    <div class="house-image">
+        🤖
+    </div>
+
+
+    <div class="house-info">
+
+        <h3>
+            Meet My Robot!
+        </h3>
+
+        <p>
+            This is a robot.
+            A robot has got a head,
+            eyes, ears, a nose, a mouth,
+            arms, hands, legs and feet.
+        </p>
+
+        <p>
+            We can use simple English sentences
+            to describe a robot and talk about
+            what people and robots can do.
+        </p>
+
+
+        <div class="house-points">
+
+            <div class="house-point">
+                🤖 <strong>Robot</strong>
+            </div>
+
+            <div class="house-point">
+                👀 <strong>Eyes</strong>
+            </div>
+
+            <div class="house-point">
+                👂 <strong>Ears</strong>
+            </div>
+
+            <div class="house-point">
+                🦾 <strong>Arms</strong>
+            </div>
+
+            <div class="house-point">
+                🦵 <strong>Legs</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     VOCABULARY
+========================= -->
+
+<h2 class="section-title">
+    <span>02</span>
+    Vocabulary
+</h2>
+
+
+<div class="vocab-grid">
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            🤖
+        </div>
+
+        <div class="vocab-word">
+            Robot
+        </div>
+
+        <div class="vocab-meaning">
+            robot
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            👤
+        </div>
+
+        <div class="vocab-word">
+            Head
+        </div>
+
+        <div class="vocab-meaning">
+            kepala
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            👀
+        </div>
+
+        <div class="vocab-word">
+            Eyes
+        </div>
+
+        <div class="vocab-meaning">
+            mata
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            👂
+        </div>
+
+        <div class="vocab-word">
+            Ears
+        </div>
+
+        <div class="vocab-meaning">
+            telinga
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            👃
+        </div>
+
+        <div class="vocab-word">
+            Nose
+        </div>
+
+        <div class="vocab-meaning">
+            hidung
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            👄
+        </div>
+
+        <div class="vocab-word">
+            Mouth
+        </div>
+
+        <div class="vocab-meaning">
+            mulut
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            🦾
+        </div>
+
+        <div class="vocab-word">
+            Arms
+        </div>
+
+        <div class="vocab-meaning">
+            lengan
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            ✋
+        </div>
+
+        <div class="vocab-word">
+            Hands
+        </div>
+
+        <div class="vocab-meaning">
+            tangan
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            🦵
+        </div>
+
+        <div class="vocab-word">
+            Legs
+        </div>
+
+        <div class="vocab-meaning">
+            kaki
+        </div>
+
+    </div>
+
+
+    <div class="vocab-card">
+
+        <div class="vocab-icon">
+            🦶
+        </div>
+
+        <div class="vocab-word">
+            Feet
+        </div>
+
+        <div class="vocab-meaning">
+            tapak kaki
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     GRAMMAR OVERVIEW
+========================= -->
+
+<h2 class="section-title">
+    <span>03</span>
+    Grammar
+</h2>
+
+
+<div class="position-grid">
+
+
+    <div class="position-card">
+
+        <div class="position-visual">
+            🙋
+        </div>
+
+        <h3>
+            I can / I can't
+        </h3>
+
+        <p>
+            Talk about what you
+            can and cannot do.
+        </p>
+
+    </div>
+
+
+    <div class="position-card">
+
+        <div class="position-visual">
+            👦
+        </div>
+
+        <h3>
+            He can / He can't
+        </h3>
+
+        <p>
+            Talk about what
+            a boy can or can't do.
+        </p>
+
+    </div>
+
+
+    <div class="position-card">
+
+        <div class="position-visual">
+            👧
+        </div>
+
+        <h3>
+            She can / She can't
+        </h3>
+
+        <p>
+            Talk about what
+            a girl can or can't do.
+        </p>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     CAN / CAN'T
+========================= -->
+
+<h2 class="section-title">
+    <span>04</span>
+    Can & Can't
+</h2>
+
+
+<div class="grammar-card">
+
+    <div class="grammar-heading">
+
+        <div class="grammar-icon">
+            🙋
+        </div>
+
+        I can / I can't
+
+    </div>
+
+
+    <p>
+        Use <strong>I can</strong> to say
+        what you are able to do.
+        Use <strong>I can't</strong> to say
+        what you are not able to do.
+    </p>
+
+
+    <div class="rule-box">
+
+        <strong>Positive:</strong><br>
+
+        I can + verb.
+
+        <br><br>
+
+        <strong>Negative:</strong><br>
+
+        I can't + verb.
+
+    </div>
+
+
+    <div class="example">
+
+        👍 <strong>I can walk.</strong>
+        <br>
+
+        👍 <strong>I can jump.</strong>
+        <br>
+
+        👍 <strong>I can run.</strong>
+
+        <br><br>
+
+        👎 <strong>I can't fly.</strong>
+        <br>
+
+        👎 <strong>I can't swim.</strong>
+
+    </div>
+
+</div>
+
+
+
+<div class="grammar-card">
+
+    <div class="grammar-heading">
+
+        <div class="grammar-icon">
+            👦
+        </div>
+
+        He can / He can't
+
+    </div>
+
+
+    <p>
+        Use <strong>He can</strong> and
+        <strong>He can't</strong> to talk
+        about what a boy or man can do.
+    </p>
+
+
+    <div class="rule-box">
+
+        <strong>Positive:</strong><br>
+
+        He can + verb.
+
+        <br><br>
+
+        <strong>Negative:</strong><br>
+
+        He can't + verb.
+
+    </div>
+
+
+    <div class="example">
+
+        👍 <strong>He can run.</strong>
+        <br>
+
+        👍 <strong>He can jump.</strong>
+        <br>
+
+        👍 <strong>He can play football.</strong>
+
+        <br><br>
+
+        👎 <strong>He can't fly.</strong>
+        <br>
+
+        👎 <strong>He can't swim.</strong>
+
+    </div>
+
+</div>
+
+
+
+<div class="grammar-card">
+
+    <div class="grammar-heading">
+
+        <div class="grammar-icon">
+            👧
+        </div>
+
+        She can / She can't
+
+    </div>
+
+
+    <p>
+        Use <strong>She can</strong> and
+        <strong>She can't</strong> to talk
+        about what a girl or woman can do.
+    </p>
+
+
+    <div class="rule-box">
+
+        <strong>Positive:</strong><br>
+
+        She can + verb.
+
+        <br><br>
+
+        <strong>Negative:</strong><br>
+
+        She can't + verb.
+
+    </div>
+
+
+    <div class="example">
+
+        👍 <strong>She can run.</strong>
+        <br>
+
+        👍 <strong>She can dance.</strong>
+        <br>
+
+        👍 <strong>She can jump.</strong>
+
+        <br><br>
+
+        👎 <strong>She can't fly.</strong>
+        <br>
+
+        👎 <strong>She can't swim.</strong>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     HERE
+========================= -->
+
+<h2 class="section-title">
+    <span>05</span>
+    Here • Here are • Here's
+</h2>
+
+
+<div class="grammar-card">
+
+    <div class="grammar-heading">
+
+        <div class="grammar-icon">
+            👉
+        </div>
+
+        Here
+
+    </div>
+
+
+    <p>
+        We use <strong>Here</strong> to
+        show or point to something.
+    </p>
+
+
+    <div class="rule-box">
+
+        <strong>Here + is / are</strong>
+
+    </div>
+
+
+    <div class="example">
+
+        👉 <strong>Here is the robot.</strong>
+        <br>
+
+        👉 <strong>Here is the head.</strong>
+
+    </div>
+
+</div>
+
+
+
+<div class="grammar-card">
+
+    <div class="grammar-heading">
+
+        <div class="grammar-icon">
+            🤖
+        </div>
+
+        Here's an arm
+
+    </div>
+
+
+    <p>
+        <strong>Here's</strong> is short for
+        <strong>Here is</strong>.
+        We can use it when showing
+        one thing.
+    </p>
+
+
+    <div class="rule-box">
+
+        <strong>Here's + a/an + singular noun</strong>
+
+    </div>
+
+
+    <div class="example">
+
+        🤖 <strong>Here's an arm.</strong>
+        <br>
+
+        👂 <strong>Here's an ear.</strong>
+        <br>
+
+        👁️ <strong>Here's an eye.</strong>
+        <br>
+
+        👃 <strong>Here's a nose.</strong>
+
+    </div>
+
+</div>
+
+
+
+<div class="grammar-card">
+
+    <div class="grammar-heading">
+
+        <div class="grammar-icon">
+            👀
+        </div>
+
+        Here are
+
+    </div>
+
+
+    <p>
+        Use <strong>Here are</strong> when
+        showing two or more things.
+    </p>
+
+
+    <div class="rule-box">
+
+        <strong>Here are + plural noun</strong>
+
+    </div>
+
+
+    <div class="example">
+
+        👀 <strong>Here are two eyes.</strong>
+        <br>
+
+        👂👂 <strong>Here are two ears.</strong>
+        <br>
+
+        🦾🦾 <strong>Here are two arms.</strong>
+        <br>
+
+        🦵🦵 <strong>Here are two legs.</strong>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     LET'S MAKE A ROBOT
+========================= -->
+
+<h2 class="section-title">
+    <span>06</span>
+    Let's Make a Robot!
+</h2>
+
+
+<div class="grammar-card">
+
+    <div class="grammar-heading">
+
+        <div class="grammar-icon">
+            🤖
+        </div>
+
+        Let's make a robot
+
+    </div>
+
+
+    <p>
+        Use <strong>Let's</strong> when
+        suggesting that we do something
+        together.
+    </p>
+
+
+    <div class="rule-box">
+
+        <strong>Let's + verb</strong>
+
+    </div>
+
+
+    <div class="example">
+
+        🤖 <strong>Let's make a robot!</strong>
+        <br>
+
+        ✏️ <strong>Let's draw a robot!</strong>
+        <br>
+
+        🎨 <strong>Let's colour the robot!</strong>
+        <br>
+
+        👀 <strong>Let's add two eyes!</strong>
+        <br>
+
+        🦾 <strong>Let's add two arms!</strong>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     SENTENCE BUILDER
+========================= -->
+
+<h2 class="section-title">
+    <span>07</span>
+    Sentence Builder
+</h2>
+
+
+<div class="sentence-box">
+
+    <h3>
+        Build Your Sentences ✨
+    </h3>
+
+
+    <div class="sentence">
+        🙋 I can walk.
+    </div>
+
+    <div class="sentence">
+        🙋 I can't fly.
+    </div>
+
+    <div class="sentence">
+        👦 He can run.
+    </div>
+
+    <div class="sentence">
+        👦 He can't fly.
+    </div>
+
+    <div class="sentence">
+        👧 She can jump.
+    </div>
+
+    <div class="sentence">
+        👧 She can't swim.
+    </div>
+
+    <div class="sentence">
+        🤖 Here's an arm.
+    </div>
+
+    <div class="sentence">
+        👀 Here are two eyes.
+    </div>
+
+    <div class="sentence">
+        🤖 Let's make a robot!
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     SPEAKING
+========================= -->
+
+<h2 class="section-title">
+    <span>08</span>
+    Speaking
+</h2>
+
+
+<div class="conversation">
+
+
+    <div class="speech speaker-a">
+
+        <div class="speaker">
+            👧 A:
+        </div>
+
+        Can you walk?
+
+    </div>
+
+
+    <div class="speech speaker-b">
+
+        <div class="speaker">
+            👦 B:
+        </div>
+
+        Yes, I can.
+
+    </div>
+
+
+    <div class="speech speaker-a">
+
+        <div class="speaker">
+            👧 A:
+        </div>
+
+        Can you fly?
+
+    </div>
+
+
+    <div class="speech speaker-b">
+
+        <div class="speaker">
+            👦 B:
+        </div>
+
+        No, I can't.
+
+    </div>
+
+
+    <div class="speech speaker-a">
+
+        <div class="speaker">
+            👧 A:
+        </div>
+
+        What has he got?
+
+    </div>
+
+
+    <div class="speech speaker-b">
+
+        <div class="speaker">
+            👦 B:
+        </div>
+
+        He's got two arms.
+
+    </div>
+
+
+    <div class="speech speaker-a">
+
+        <div class="speaker">
+            👧 A:
+        </div>
+
+        What has she got?
+
+    </div>
+
+
+    <div class="speech speaker-b">
+
+        <div class="speaker">
+            👦 B:
+        </div>
+
+        She's got two legs.
+
+    </div>
+
+
+    <div class="speech speaker-a">
+
+        <div class="speaker">
+            👧 A:
+        </div>
+
+        What's this?
+
+    </div>
+
+
+    <div class="speech speaker-b">
+
+        <div class="speaker">
+            👦 B:
+        </div>
+
+        Here's an arm.
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     ROBOT TALK
+========================= -->
+
+<h2 class="section-title">
+    <span>09</span>
+    Talk About the Robot
+</h2>
+
+
+<div class="conversation">
+
+
+    <div class="speech speaker-a">
+
+        <div class="speaker">
+            👧 A:
+        </div>
+
+        Let's make a robot!
+
+    </div>
+
+
+    <div class="speech speaker-b">
+
+        <div class="speaker">
+            👦 B:
+        </div>
+
+        Yes! Great idea!
+
+    </div>
+
+
+    <div class="speech speaker-a">
+
+        <div class="speaker">
+            👧 A:
+        </div>
+
+        Here's a head.
+
+    </div>
+
+
+    <div class="speech speaker-b">
+
+        <div class="speaker">
+            👦 B:
+        </div>
+
+        Here are two eyes.
+
+    </div>
+
+
+    <div class="speech speaker-a">
+
+        <div class="speaker">
+            👧 A:
+        </div>
+
+        Here's an arm.
+
+    </div>
+
+
+    <div class="speech speaker-b">
+
+        <div class="speaker">
+            👦 B:
+        </div>
+
+        Here are two legs.
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     READING
+========================= -->
+
+<h2 class="section-title">
+    <span>10</span>
+    Reading
+</h2>
+
+
+<div class="reading-card">
+
+    <div class="reading-title">
+        🤖 My Robot
+    </div>
+
+
+    <div class="reading-text">
+
+        This is my robot.
+        <br><br>
+
+        Here is the head.
+        Here are two eyes and two ears.
+        <br><br>
+
+        Here's a mouth.
+        Here's an arm.
+        Here are two legs.
+        <br><br>
+
+        My robot can walk.
+        It can run and jump.
+        <br><br>
+
+        It can't fly.
+        <br><br>
+
+        Let's play with the robot!
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     COMMON MISTAKES
+========================= -->
+
+<h2 class="section-title">
+    <span>11</span>
+    Common Mistakes
+</h2>
+
+
+<div class="mistakes">
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ❌ Wrong:
+        </div>
+
+        I can walks.
+
+        <div class="correct">
+            ✓ Correct:
+        </div>
+
+        I can walk.
+
+    </div>
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ❌ Wrong:
+        </div>
+
+        He can runs.
+
+        <div class="correct">
+            ✓ Correct:
+        </div>
+
+        He can run.
+
+    </div>
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ❌ Wrong:
+        </div>
+
+        She can't dances.
+
+        <div class="correct">
+            ✓ Correct:
+        </div>
+
+        She can't dance.
+
+    </div>
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ❌ Wrong:
+        </div>
+
+        Here are an arm.
+
+        <div class="correct">
+            ✓ Correct:
+        </div>
+
+        Here's an arm.
+
+    </div>
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ❌ Wrong:
+        </div>
+
+        Here's two eyes.
+
+        <div class="correct">
+            ✓ Correct:
+        </div>
+
+        Here are two eyes.
+
+    </div>
+
+
+    <div class="mistake-card">
+
+        <div class="wrong">
+            ❌ Wrong:
+        </div>
+
+        Let's making a robot.
+
+        <div class="correct">
+            ✓ Correct:
+        </div>
+
+        Let's make a robot.
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<div class="footer">
+
+    © 2026 SmartLearn Online
+    • Learn • Play • Grow 🚀
+
+</div>
+
+
+</body>
+</html>
