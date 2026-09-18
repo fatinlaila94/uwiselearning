@@ -895,20 +895,18 @@ objects:[
 },
 
 {
-title:"Find Three Friends",
-instruction:"Find THREE objects!",
-targetNumber:3,
+title:"Find the orange Friend",
+instruction:"Find the orange object!",
+targetColor:"orange",
 objects:[
-["⭐","star"],
-["❤️","heart"],
-["🌈","rainbow"],
-["☀️","sun"],
-["🌸","flower"],
-["🎈","balloon"],
-["🍎","apple"],
-["🐱","cat"]
+["🔴","red"],
+["🔵","blue"],
+["🟢","green"],
+["🟡","yellow"],
+["🟣","purple"],
+["🟠","orange"]
 ]
-}
+},
 
 ];
 
@@ -1581,20 +1579,29 @@ FINISH
 
 async function finishGame(){
 
+console.log("=== FINISH GAME CALLED ===");
+
 gameActive=false;
 
-clearInterval(
-timerInterval
-);
+clearInterval(timerInterval);
 
 document.getElementById(
 "progressBar"
-)
-.style.width="100%";
+).style.width="100%";
 
 createConfetti();
 
 playSound("win");
+
+console.log("=== ABOUT TO SAVE SCORE ===");
+
+const saved =
+await saveScoreToSupabase();
+
+console.log(
+"=== SAVE RESULT ===",
+saved
+);
 
 showResult(
 "🏆",
@@ -1602,7 +1609,7 @@ showResult(
 "You completed Unit 0 – Friends!"
 );
 
-await saveScoreToSupabase();
+}
 }
 
 
@@ -1679,6 +1686,8 @@ SUPABASE SAVE SCORE
 ========================================= */
 
 async function saveScoreToSupabase(){
+
+console.log("=== SAVE SCORE FUNCTION CALLED ===");
 
 try{
 
