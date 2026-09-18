@@ -1,0 +1,2976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Mystery Toy - SmartLearn</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    font-family:"DM Sans",sans-serif;
+    color:#fff;
+    background:
+        radial-gradient(circle at 10% 10%,rgba(118,82,255,.28),transparent 30%),
+        radial-gradient(circle at 90% 20%,rgba(0,211,255,.16),transparent 28%),
+        radial-gradient(circle at 50% 100%,rgba(255,72,180,.12),transparent 35%),
+        #080914;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+    background-size:42px 42px;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:25px 0 50px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:#bfc1d2;
+    text-decoration:none;
+    font-weight:800;
+    margin-bottom:22px;
+    transition:.2s;
+}
+
+.back-btn:hover{
+    color:#fff;
+    transform:translateX(-3px);
+}
+
+/* =========================
+   START
+========================= */
+
+.start-screen{
+    min-height:78vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.start-card{
+    width:min(680px,100%);
+    padding:45px 38px;
+    text-align:center;
+    border-radius:32px;
+    border:1px solid rgba(255,255,255,.11);
+    background:rgba(15,17,34,.78);
+    backdrop-filter:blur(22px);
+    box-shadow:
+        0 35px 90px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.detective-icon{
+    width:100px;
+    height:100px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 20px;
+    border-radius:30px;
+    font-size:57px;
+    background:
+        linear-gradient(135deg,
+        rgba(126,92,255,.25),
+        rgba(0,218,255,.12));
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 20px 50px rgba(92,76,255,.2);
+}
+
+.badge{
+    display:inline-flex;
+    padding:7px 14px;
+    border-radius:999px;
+    background:rgba(121,98,255,.12);
+    border:1px solid rgba(140,120,255,.25);
+    color:#cbc4ff;
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:15px;
+}
+
+h1{
+    font-family:"Outfit",sans-serif;
+    font-size:clamp(40px,7vw,66px);
+    line-height:.98;
+    margin-bottom:15px;
+    background:linear-gradient(90deg,#fff,#bcb5ff,#76e8ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.start-subtitle{
+    max-width:530px;
+    margin:0 auto 30px;
+    color:#aeb0c4;
+    line-height:1.7;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    text-align:left;
+}
+
+.input-group label{
+    display:block;
+    color:#c7c8d7;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:8px;
+}
+
+.input-group input{
+    width:100%;
+    padding:14px 16px;
+    border-radius:15px;
+    outline:none;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.05);
+    color:#fff;
+    font:inherit;
+}
+
+.input-group input::placeholder{
+    color:#666a7e;
+}
+
+.input-group input:focus{
+    border-color:rgba(128,108,255,.7);
+    box-shadow:0 0 0 3px rgba(128,108,255,.1);
+}
+
+.start-btn{
+    width:100%;
+    margin-top:22px;
+    padding:17px;
+    border:0;
+    border-radius:16px;
+    color:#fff;
+    cursor:pointer;
+    font:800 16px "DM Sans",sans-serif;
+    background:linear-gradient(135deg,#795dff,#437dff);
+    box-shadow:0 17px 40px rgba(82,70,255,.28);
+    transition:.25s;
+}
+
+.start-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 22px 50px rgba(82,70,255,.4);
+}
+
+.error{
+    min-height:18px;
+    margin-top:10px;
+    color:#ff809b;
+    font-size:13px;
+}
+
+/* =========================
+   GAME
+========================= */
+
+.game-screen{
+    display:none;
+}
+
+.top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.game-name{
+    font-family:"Outfit",sans-serif;
+    font-size:27px;
+    font-weight:800;
+}
+
+.round-text{
+    color:#9295aa;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.timer-box{
+    min-width:82px;
+    padding:10px 15px;
+    text-align:center;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.05);
+}
+
+.timer-label{
+    display:block;
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#777b90;
+    font-weight:800;
+}
+
+.timer{
+    display:block;
+    font:800 25px "Outfit",sans-serif;
+}
+
+.timer.warning{
+    color:#ffc16e;
+}
+
+.timer.danger{
+    color:#ff6d8c;
+}
+
+.progress-wrap{
+    margin-bottom:19px;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:8px;
+    color:#85899e;
+    font-size:12px;
+}
+
+.progress{
+    height:7px;
+    border-radius:99px;
+    overflow:hidden;
+    background:rgba(255,255,255,.07);
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    border-radius:99px;
+    background:linear-gradient(90deg,#785bff,#44ddff);
+    transition:.35s;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.stat{
+    padding:14px 16px;
+    border-radius:17px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.04);
+}
+
+.stat-label{
+    color:#777b90;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+}
+
+.stat-value{
+    margin-top:3px;
+    font:800 22px "Outfit",sans-serif;
+}
+
+.game-card{
+    padding:30px;
+    border-radius:29px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(14,16,31,.79);
+    backdrop-filter:blur(20px);
+    box-shadow:0 28px 80px rgba(0,0,0,.32);
+}
+
+.mission-badge{
+    display:inline-flex;
+    padding:6px 11px;
+    border-radius:999px;
+    background:rgba(75,218,255,.08);
+    border:1px solid rgba(75,218,255,.17);
+    color:#72e2ff;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    margin-bottom:13px;
+}
+
+.mission-title{
+    font:800 clamp(25px,4vw,37px) "Outfit",sans-serif;
+    line-height:1.12;
+    margin-bottom:8px;
+}
+
+.mission-subtitle{
+    color:#999caf;
+    line-height:1.65;
+    margin-bottom:24px;
+}
+
+/* =========================
+   DETECTIVE SCENE
+========================= */
+
+.scene{
+    position:relative;
+    min-height:270px;
+    padding:20px;
+    border-radius:23px;
+    border:1px solid rgba(255,255,255,.08);
+    background:
+        radial-gradient(circle at 50% 0%,rgba(117,91,255,.12),transparent 50%),
+        rgba(255,255,255,.025);
+}
+
+.scene-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.scene-label{
+    color:#73778d;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1px;
+    text-transform:uppercase;
+}
+
+.clue-counter{
+    color:#7c81a0;
+    font-size:11px;
+}
+
+.clue-box{
+    padding:15px 17px;
+    margin-bottom:18px;
+    border-radius:16px;
+    background:rgba(112,92,255,.08);
+    border:1px solid rgba(122,105,255,.15);
+    color:#d8d5ed;
+    font-weight:700;
+    line-height:1.5;
+}
+
+.clue-box span{
+    color:#8e78ff;
+}
+
+/* =========================
+   OBJECT GRID
+========================= */
+
+.object-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.object{
+    min-height:120px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.045);
+    cursor:pointer;
+    user-select:none;
+    transition:.2s;
+}
+
+.object:hover{
+    transform:translateY(-4px);
+    background:rgba(255,255,255,.075);
+    border-color:rgba(125,106,255,.45);
+}
+
+.object-emoji{
+    font-size:42px;
+}
+
+.object-name{
+    font-size:11px;
+    font-weight:800;
+    color:#bfc1d1;
+}
+
+.object.correct{
+    border-color:#48e5a4;
+    background:rgba(72,229,164,.12);
+}
+
+.object.wrong{
+    border-color:#ff6685;
+    background:rgba(255,102,133,.1);
+}
+
+/* =========================
+   SUSPECT / CLUE
+========================= */
+
+.suspect-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.suspect{
+    padding:20px 12px;
+    text-align:center;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.04);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.suspect:hover{
+    transform:translateY(-3px);
+    border-color:rgba(123,103,255,.45);
+}
+
+.suspect-face{
+    font-size:48px;
+    margin-bottom:8px;
+}
+
+.suspect-name{
+    font-weight:800;
+    font-size:14px;
+}
+
+.suspect-clue{
+    color:#7f8298;
+    font-size:11px;
+    margin-top:4px;
+}
+
+/* =========================
+   DIALOGUE
+========================= */
+
+.dialogue{
+    padding:22px;
+    border-radius:21px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.avatar{
+    font-size:57px;
+    margin-bottom:9px;
+}
+
+.dialogue-name{
+    color:#777b91;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.dialogue-text{
+    font:700 21px "Outfit",sans-serif;
+}
+
+.answer-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.answer{
+    padding:16px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.045);
+    color:#fff;
+    cursor:pointer;
+    font:700 14px "DM Sans",sans-serif;
+    transition:.2s;
+}
+
+.answer:hover{
+    transform:translateY(-2px);
+    background:rgba(123,103,255,.1);
+    border-color:rgba(123,103,255,.4);
+}
+
+.answer.correct{
+    border-color:#4ae4a3;
+    background:rgba(74,228,163,.12);
+}
+
+.answer.wrong{
+    border-color:#ff6685;
+    background:rgba(255,102,133,.1);
+}
+
+/* =========================
+   A / AN
+========================= */
+
+.word-card{
+    text-align:center;
+    padding:22px;
+    margin-bottom:18px;
+    border-radius:20px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.word-emoji{
+    font-size:58px;
+    margin-bottom:8px;
+}
+
+.word{
+    font:800 32px "Outfit",sans-serif;
+}
+
+.word-sentence{
+    margin-top:6px;
+    color:#9195aa;
+    font-size:13px;
+}
+
+.a-an-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.a-an{
+    padding:25px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.045);
+    color:#fff;
+    cursor:pointer;
+    font:800 28px "Outfit",sans-serif;
+    transition:.2s;
+}
+
+.a-an:hover{
+    transform:translateY(-3px);
+    border-color:rgba(123,103,255,.5);
+}
+
+.a-an.correct{
+    border-color:#4ae4a3;
+    background:rgba(74,228,163,.12);
+}
+
+.a-an.wrong{
+    border-color:#ff6685;
+    background:rgba(255,102,133,.1);
+}
+
+/* =========================
+   E SOUND
+========================= */
+
+.e-hunt{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.e-word{
+    min-height:120px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:7px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.045);
+    cursor:pointer;
+    transition:.2s;
+}
+
+.e-word:hover{
+    transform:translateY(-4px);
+}
+
+.e-letter{
+    width:35px;
+    height:35px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:11px;
+    background:rgba(120,96,255,.13);
+    color:#b7aaff;
+    font:800 18px "Outfit",sans-serif;
+}
+
+.e-name{
+    font-size:12px;
+    font-weight:800;
+}
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback{
+    min-height:25px;
+    margin-top:17px;
+    text-align:center;
+    font-size:14px;
+    font-weight:800;
+}
+
+.feedback.correct{
+    color:#52e4a3;
+}
+
+.feedback.wrong{
+    color:#ff7894;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result-screen{
+    display:none;
+    min-height:75vh;
+    align-items:center;
+    justify-content:center;
+}
+
+.result-card{
+    width:min(660px,100%);
+    padding:43px 35px;
+    text-align:center;
+    border-radius:32px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(14,16,31,.83);
+    box-shadow:0 35px 95px rgba(0,0,0,.4);
+}
+
+.result-icon{
+    font-size:68px;
+    margin-bottom:10px;
+}
+
+.result-card h2{
+    font:800 39px "Outfit",sans-serif;
+    margin-bottom:7px;
+}
+
+.result-message{
+    color:#9699ae;
+    margin-bottom:25px;
+}
+
+.final-score{
+    font:800 58px "Outfit",sans-serif;
+    background:linear-gradient(90deg,#fff,#8be4ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.final-percent{
+    color:#999caf;
+    font-size:20px;
+    margin-top:3px;
+}
+
+.result-stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:25px 0;
+}
+
+.result-stat{
+    padding:16px;
+    border-radius:16px;
+    background:rgba(255,255,255,.04);
+}
+
+.result-stat span{
+    display:block;
+    color:#777b91;
+    font-size:10px;
+    text-transform:uppercase;
+    margin-bottom:4px;
+}
+
+.result-stat strong{
+    font:800 22px "Outfit",sans-serif;
+}
+
+.play-again{
+    width:100%;
+    padding:16px;
+    border:0;
+    border-radius:16px;
+    color:#fff;
+    background:linear-gradient(135deg,#785dff,#477eff);
+    cursor:pointer;
+    font:800 16px "DM Sans",sans-serif;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:700px){
+
+    .container{
+        width:94%;
+        padding-top:18px;
+    }
+
+    .start-card{
+        padding:32px 22px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .game-card{
+        padding:20px;
+    }
+
+    .object-grid,
+    .e-hunt{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .suspect-grid{
+        grid-template-columns:1fr 1fr 1fr;
+    }
+
+    .answer-grid{
+        grid-template-columns:1fr;
+    }
+
+    .top-header{
+        align-items:flex-start;
+    }
+
+    .stats{
+        gap:7px;
+    }
+
+    .stat{
+        padding:12px 9px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="unit1y2.html" class="back-btn">
+    ← Back to Let's Play
+</a>
+
+
+<!-- =================================
+     START SCREEN
+================================= -->
+
+<section class="start-screen" id="startScreen">
+
+    <div class="start-card">
+
+        <div class="detective-icon">
+            🕵️‍♀️
+        </div>
+
+        <div class="badge">
+            LET'S PLAY • DETECTIVE MISSION
+        </div>
+
+        <h1>
+            The Mystery Toy
+        </h1>
+
+        <p class="start-subtitle">
+            A toy has disappeared from the shop!
+            Follow the clues, investigate the scene,
+            talk to the characters and solve the mystery. 🔎🧸
+        </p>
+
+        <div class="form-grid">
+
+            <div class="input-group">
+
+                <label>
+                    Your Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your name"
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>
+                    Class
+                </label>
+
+                <input
+                    type="text"
+                    id="studentClass"
+                    placeholder="e.g. 2 Cemerlang"
+                >
+
+            </div>
+
+        </div>
+
+        <div
+            class="error"
+            id="startError">
+        </div>
+
+        <button
+            class="start-btn"
+            onclick="startGame()">
+
+            🔎 Start Investigation
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =================================
+     GAME SCREEN
+================================= -->
+
+<section
+    class="game-screen"
+    id="gameScreen">
+
+    <div class="top-header">
+
+        <div>
+
+            <div class="game-name">
+                🕵️ The Mystery Toy
+            </div>
+
+            <div
+                class="round-text"
+                id="roundText">
+                Case 1 of 12
+            </div>
+
+        </div>
+
+        <div class="timer-box">
+
+            <span class="timer-label">
+                Time
+            </span>
+
+            <span
+                class="timer"
+                id="timer">
+                20
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="progress-wrap">
+
+        <div class="progress-info">
+
+            <span>
+                Investigation Progress
+            </span>
+
+            <span id="progressText">
+                0%
+            </span>
+
+        </div>
+
+        <div class="progress">
+
+            <div
+                class="progress-bar"
+                id="progressBar">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Score
+            </div>
+
+            <div
+                class="stat-value"
+                id="score">
+                0
+            </div>
+
+        </div>
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Streak
+            </div>
+
+            <div
+                class="stat-value"
+                id="streak">
+                0 🔥
+            </div>
+
+        </div>
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Detective
+            </div>
+
+            <div
+                class="stat-value"
+                id="playerDisplay">
+                —
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="game-card">
+
+        <div
+            class="mission-badge"
+            id="missionBadge">
+            Investigation
+        </div>
+
+        <h2
+            class="mission-title"
+            id="missionTitle">
+            Case loading...
+        </h2>
+
+        <p
+            class="mission-subtitle"
+            id="missionSubtitle">
+            Find the missing toy.
+        </p>
+
+
+        <div id="gameArea"></div>
+
+
+        <div
+            class="feedback"
+            id="feedback">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =================================
+     RESULT SCREEN
+================================= -->
+
+<section
+    class="result-screen"
+    id="resultScreen">
+
+    <div class="result-card">
+
+        <div
+            class="result-icon"
+            id="resultIcon">
+            🏆
+        </div>
+
+        <h2 id="resultTitle">
+            Mystery Solved!
+        </h2>
+
+        <p
+            class="result-message"
+            id="resultMessage">
+            Excellent detective work!
+        </p>
+
+        <div
+            class="final-score"
+            id="finalScore">
+            0 / 12
+        </div>
+
+        <div
+            class="final-percent"
+            id="finalPercent">
+            0%
+        </div>
+
+
+        <div class="result-stats">
+
+            <div class="result-stat">
+
+                <span>
+                    Correct
+                </span>
+
+                <strong id="correctFinal">
+                    0
+                </strong>
+
+            </div>
+
+            <div class="result-stat">
+
+                <span>
+                    Best Streak
+                </span>
+
+                <strong id="bestStreakFinal">
+                    0 🔥
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="play-again"
+            onclick="location.reload()">
+
+            🔄 Solve Another Mystery
+
+        </button>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://exaohyhqllzylcfyqtge.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+
+/* =========================================
+   TOYS
+========================================= */
+
+const toys = {
+
+    teddy:{
+        name:"Teddy Bear",
+        emoji:"🧸"
+    },
+
+    ball:{
+        name:"Ball",
+        emoji:"⚽"
+    },
+
+    doll:{
+        name:"Doll",
+        emoji:"👧"
+    },
+
+    car:{
+        name:"Toy Car",
+        emoji:"🚗"
+    },
+
+    robot:{
+        name:"Robot",
+        emoji:"🤖"
+    },
+
+    kite:{
+        name:"Kite",
+        emoji:"🪁"
+    },
+
+    train:{
+        name:"Train",
+        emoji:"🚂"
+    },
+
+    blocks:{
+        name:"Blocks",
+        emoji:"🧱"
+    },
+
+    puzzle:{
+        name:"Puzzle",
+        emoji:"🧩"
+    },
+
+    drum:{
+        name:"Drum",
+        emoji:"🥁"
+    },
+
+    yoYo:{
+        name:"Yo-yo",
+        emoji:"🪀"
+    },
+
+    elephant:{
+        name:"Elephant",
+        emoji:"🐘"
+    }
+};
+
+
+/* =========================================
+   12 DIFFERENT CASES
+========================================= */
+
+const cases = [
+
+    /* 1 */
+
+    {
+        type:"search",
+
+        badge:"LO1 • Detective Search",
+
+        title:"The Teddy Bear is Missing!",
+
+        subtitle:
+        "A teddy bear disappeared from Shelf A. Search the shelf and find it.",
+
+        target:"teddy",
+
+        clue:
+        "Clue: It is soft and you can hug it."
+    },
+
+
+    /* 2 */
+
+    {
+        type:"search",
+
+        badge:"LO1 • Toy Vocabulary",
+
+        title:"A Toy Car Was Seen!",
+
+        subtitle:
+        "The shopkeeper saw a small toy with four wheels. Find it.",
+
+        target:"car",
+
+        clue:
+        "Clue: It has four wheels and can go fast."
+    },
+
+
+    /* 3 */
+
+    {
+        type:"name",
+
+        badge:"LO1 • Identify & Name",
+
+        title:"Identify the Evidence",
+
+        subtitle:
+        "The detective found this object at the crime scene. What toy is it?",
+
+        target:"kite",
+
+        options:[
+            "Kite",
+            "Ball",
+            "Doll",
+            "Robot"
+        ]
+    },
+
+
+    /* 4 */
+
+    {
+        type:"dialogue",
+
+        badge:"LO2 • Favourite Toy",
+
+        title:"Interview the Customer",
+
+        subtitle:
+        "Ask the customer about their favourite toy.",
+
+        avatar:"🧒",
+
+        question:
+        "What's your favourite toy?",
+
+        options:[
+            "My favourite toy is a robot.",
+            "I am seven.",
+            "This is my class."
+        ]
+    },
+
+
+    /* 5 */
+
+    {
+        type:"age",
+
+        badge:"LO3 • Ask & Answer Age",
+
+        title:"The Young Detective",
+
+        subtitle:
+        "A young detective is helping you. Listen carefully.",
+
+        avatar:"👧",
+
+        question:
+        "How old are you?",
+
+        options:[
+            "I'm seven.",
+            "I like dolls.",
+            "It's a ball."
+        ]
+    },
+
+
+    /* 6 */
+
+    {
+        type:"aan",
+
+        badge:"LO4 • A / AN",
+
+        title:"Check the Evidence",
+
+        subtitle:
+        "Choose the correct word before the toy name.",
+
+        target:"robot",
+
+        sentence:
+        "___ robot",
+
+        answer:"A"
+    },
+
+
+    /* 7 */
+
+    {
+        type:"esound",
+
+        badge:"LO4 • Letter Sound E",
+
+        title:"Find the /e/ Sound",
+
+        subtitle:
+        "Tap the word that begins with the letter sound /e/.",
+
+        correct:"elephant",
+
+        options:[
+            "elephant",
+            "robot",
+            "ball",
+            "kite"
+        ]
+    },
+
+
+    /* 8 */
+
+    {
+        type:"memory",
+
+        badge:"LO1 • Memory Evidence",
+
+        title:"Remember the Toys",
+
+        subtitle:
+        "Two evidence cards match. Find the matching toy pair.",
+
+        pairs:[
+            "doll",
+            "ball",
+            "robot",
+            "kite"
+        ]
+    },
+
+
+    /* 9 */
+
+    {
+        type:"suspect",
+
+        badge:"LO1 • Follow the Clue",
+
+        title:"Which Shelf Has the Toy?",
+
+        subtitle:
+        "The clue says the missing toy is near something that can fly. Choose the correct place.",
+
+        options:[
+            {
+                name:"Shelf A",
+                emoji:"🪁",
+                clue:"Near the kite"
+            },
+            {
+                name:"Shelf B",
+                emoji:"🚗",
+                clue:"Near the cars"
+            },
+            {
+                name:"Shelf C",
+                emoji:"🥁",
+                clue:"Near the drums"
+            }
+        ],
+
+        answer:0
+    },
+
+
+    /* 10 */
+
+    {
+        type:"name",
+
+        badge:"LO1 • Toy Vocabulary",
+
+        title:"Final Evidence",
+
+        subtitle:
+        "The detective found this toy behind the box. Name it.",
+
+        target:"puzzle",
+
+        options:[
+            "Puzzle",
+            "Train",
+            "Teddy Bear",
+            "Blocks"
+        ]
+    },
+
+
+    /* 11 */
+
+    {
+        type:"dialogue",
+
+        badge:"LO2 • Ask & Answer",
+
+        title:"Interview the Toy Owner",
+
+        subtitle:
+        "Choose the answer that makes sense.",
+
+        avatar:"👦",
+
+        question:
+        "What's your favourite toy?",
+
+        options:[
+            "My favourite toy is a ball.",
+            "I'm eight.",
+            "It is my school."
+        ]
+    },
+
+
+    /* 12 */
+
+    {
+        type:"aan",
+
+        badge:"LO4 • Final Grammar Case",
+
+        title:"The Final Clue",
+
+        subtitle:
+        "One last clue! Choose the correct article.",
+
+        target:"elephant",
+
+        sentence:
+        "___ elephant",
+
+        answer:"An"
+    }
+
+];
+
+
+/* =========================================
+   GAME STATE
+========================================= */
+
+let currentCase = 0;
+let score = 0;
+let streak = 0;
+let bestStreak = 0;
+
+let timeLeft = 20;
+let timerInterval;
+
+let locked = false;
+
+let studentName = "";
+let studentClass = "";
+
+
+/* =========================================
+   START
+========================================= */
+
+function startGame(){
+
+    studentName =
+        document.getElementById(
+            "studentName"
+        ).value.trim();
+
+    studentClass =
+        document.getElementById(
+            "studentClass"
+        ).value.trim();
+
+    const error =
+        document.getElementById(
+            "startError"
+        );
+
+    if(!studentName){
+
+        error.textContent =
+            "Please enter your name.";
+
+        return;
+    }
+
+    if(!studentClass){
+
+        error.textContent =
+            "Please enter your class.";
+
+        return;
+    }
+
+    error.textContent = "";
+
+    document.getElementById(
+        "playerDisplay"
+    ).textContent =
+        studentName;
+
+    document.getElementById(
+        "startScreen"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display =
+        "block";
+
+    currentCase = 0;
+    score = 0;
+    streak = 0;
+    bestStreak = 0;
+
+    updateStats();
+
+    loadCase();
+}
+
+
+/* =========================================
+   LOAD CASE
+========================================= */
+
+function loadCase(){
+
+    clearInterval(timerInterval);
+
+    locked = false;
+
+    const data =
+        cases[currentCase];
+
+    document.getElementById(
+        "roundText"
+    ).textContent =
+        `Case ${currentCase + 1} of ${cases.length}`;
+
+    const progress =
+        Math.round(
+            (currentCase / cases.length) * 100
+        );
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        `${progress}%`;
+
+    document.getElementById(
+        "progressBar"
+    ).style.width =
+        `${progress}%`;
+
+    document.getElementById(
+        "missionBadge"
+    ).textContent =
+        data.badge;
+
+    document.getElementById(
+        "missionTitle"
+    ).textContent =
+        data.title;
+
+    document.getElementById(
+        "missionSubtitle"
+    ).textContent =
+        data.subtitle;
+
+    document.getElementById(
+        "feedback"
+    ).textContent = "";
+
+    document.getElementById(
+        "feedback"
+    ).className =
+        "feedback";
+
+    document.getElementById(
+        "gameArea"
+    ).innerHTML = "";
+
+    timeLeft = 20;
+
+    updateTimer();
+
+    startTimer();
+
+
+    if(data.type === "search"){
+        renderSearch(data);
+    }
+
+    else if(data.type === "name"){
+        renderName(data);
+    }
+
+    else if(data.type === "dialogue"){
+        renderDialogue(data);
+    }
+
+    else if(data.type === "age"){
+        renderAge(data);
+    }
+
+    else if(data.type === "aan"){
+        renderAAN(data);
+    }
+
+    else if(data.type === "esound"){
+        renderESound(data);
+    }
+
+    else if(data.type === "memory"){
+        renderMemory(data);
+    }
+
+    else if(data.type === "suspect"){
+        renderSuspect(data);
+    }
+}
+
+
+/* =========================================
+   TIMER
+========================================= */
+
+function startTimer(){
+
+    timerInterval =
+        setInterval(() => {
+
+            timeLeft--;
+
+            updateTimer();
+
+            if(timeLeft <= 0){
+
+                clearInterval(timerInterval);
+
+                if(!locked){
+
+                    locked = true;
+
+                    streak = 0;
+
+                    showFeedback(
+                        "⏰ Time's up! The clue disappeared.",
+                        false
+                    );
+
+                    setTimeout(
+                        nextCase,
+                        1200
+                    );
+                }
+            }
+
+        },1000);
+}
+
+
+function updateTimer(){
+
+    const timer =
+        document.getElementById(
+            "timer"
+        );
+
+    timer.textContent =
+        timeLeft;
+
+    timer.className =
+        "timer";
+
+    if(timeLeft <= 8){
+        timer.classList.add(
+            "warning"
+        );
+    }
+
+    if(timeLeft <= 4){
+
+        timer.classList.remove(
+            "warning"
+        );
+
+        timer.classList.add(
+            "danger"
+        );
+    }
+}
+
+
+/* =========================================
+   SEARCH MISSION
+========================================= */
+
+function renderSearch(data){
+
+    const area =
+        document.getElementById(
+            "gameArea"
+        );
+
+    const ids = [
+        data.target,
+        "ball",
+        "doll",
+        "robot",
+        "train",
+        "blocks",
+        "drum",
+        "yoYo"
+    ]
+    .sort(() => Math.random() - .5)
+    .slice(0,4);
+
+    if(!ids.includes(data.target)){
+        ids[0] = data.target;
+    }
+
+    ids.sort(() => Math.random() - .5);
+
+    area.innerHTML = `
+
+        <div class="scene">
+
+            <div class="scene-top">
+
+                <div class="scene-label">
+                    🔎 Evidence Shelf
+                </div>
+
+                <div class="clue-counter">
+                    ${data.clue}
+                </div>
+
+            </div>
+
+            <div class="clue-box">
+                <span>CLUE</span><br>
+                ${data.clue.replace("Clue: ","")}
+            </div>
+
+            <div class="object-grid">
+
+                ${ids.map(id => {
+
+                    const toy = toys[id];
+
+                    return `
+
+                        <div
+                            class="object"
+                            onclick="chooseSearch(
+                                '${id}',
+                                '${data.target}',
+                                this
+                            )">
+
+                            <div class="object-emoji">
+                                ${toy.emoji}
+                            </div>
+
+                            <div class="object-name">
+                                ${toy.name}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }).join("")}
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* =========================================
+   SEARCH ANSWER
+========================================= */
+
+function chooseSearch(
+    id,
+    target,
+    element
+){
+
+    if(locked) return;
+
+    if(id === target){
+
+        locked = true;
+
+        element.classList.add(
+            "correct"
+        );
+
+        addPoint();
+
+        showFeedback(
+            "🔎 Evidence found! Excellent detective!",
+            true
+        );
+
+        setTimeout(
+            nextCase,
+            1000
+        );
+
+    }else{
+
+        element.classList.add(
+            "wrong"
+        );
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ That's not the missing toy.",
+            false
+        );
+
+        setTimeout(() => {
+
+            element.classList.remove(
+                "wrong"
+            );
+
+        },500);
+    }
+}
+
+
+/* =========================================
+   NAME MISSION
+========================================= */
+
+function renderName(data){
+
+    const toy =
+        toys[data.target];
+
+    const area =
+        document.getElementById(
+            "gameArea"
+        );
+
+    area.innerHTML = `
+
+        <div class="dialogue">
+
+            <div class="avatar">
+                ${toy.emoji}
+            </div>
+
+            <div class="dialogue-name">
+                EVIDENCE
+            </div>
+
+            <div class="dialogue-text">
+                What toy is this?
+            </div>
+
+        </div>
+
+        <div class="answer-grid">
+
+            ${data.options.map(option => `
+
+                <button
+                    class="answer"
+                    onclick="chooseName(
+                        '${option}',
+                        '${toy.name}',
+                        this
+                    )">
+
+                    ${option}
+
+                </button>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+function chooseName(
+    answer,
+    correct,
+    button
+){
+
+    if(locked) return;
+
+    if(answer === correct){
+
+        locked = true;
+
+        button.classList.add(
+            "correct"
+        );
+
+        addPoint();
+
+        showFeedback(
+            "✨ Correct! Mystery evidence identified!",
+            true
+        );
+
+        setTimeout(
+            nextCase,
+            1000
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ That's not the toy name.",
+            false
+        );
+    }
+}
+
+
+/* =========================================
+   DIALOGUE
+========================================= */
+
+function renderDialogue(data){
+
+    const area =
+        document.getElementById(
+            "gameArea"
+        );
+
+    area.innerHTML = `
+
+        <div class="dialogue">
+
+            <div class="avatar">
+                ${data.avatar}
+            </div>
+
+            <div class="dialogue-name">
+                CUSTOMER
+            </div>
+
+            <div class="dialogue-text">
+                "${data.question}"
+            </div>
+
+        </div>
+
+        <div class="answer-grid">
+
+            ${data.options.map(
+                (option,index) => `
+
+                <button
+                    class="answer"
+                    onclick="chooseDialogue(
+                        ${index},
+                        this
+                    )">
+
+                    ${option}
+
+                </button>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+function chooseDialogue(
+    index,
+    button
+){
+
+    if(locked) return;
+
+    if(index === 0){
+
+        locked = true;
+
+        button.classList.add(
+            "correct"
+        );
+
+        addPoint();
+
+        showFeedback(
+            "💬 Great answer! You solved the clue!",
+            true
+        );
+
+        setTimeout(
+            nextCase,
+            1000
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ Listen to the question carefully.",
+            false
+        );
+    }
+}
+
+
+/* =========================================
+   AGE
+========================================= */
+
+function renderAge(data){
+
+    const area =
+        document.getElementById(
+            "gameArea"
+        );
+
+    area.innerHTML = `
+
+        <div class="dialogue">
+
+            <div class="avatar">
+                ${data.avatar}
+            </div>
+
+            <div class="dialogue-name">
+                YOUNG DETECTIVE
+            </div>
+
+            <div class="dialogue-text">
+                "${data.question}"
+            </div>
+
+        </div>
+
+        <div class="answer-grid">
+
+            ${data.options.map(
+                (option,index) => `
+
+                <button
+                    class="answer"
+                    onclick="chooseAge(
+                        ${index},
+                        this
+                    )">
+
+                    ${option}
+
+                </button>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+function chooseAge(
+    index,
+    button
+){
+
+    if(locked) return;
+
+    if(index === 0){
+
+        locked = true;
+
+        button.classList.add(
+            "correct"
+        );
+
+        addPoint();
+
+        showFeedback(
+            "🎂 Correct! That's an age answer!",
+            true
+        );
+
+        setTimeout(
+            nextCase,
+            1000
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ The answer should tell the person's age.",
+            false
+        );
+    }
+}
+
+
+/* =========================================
+   A / AN
+========================================= */
+
+function renderAAN(data){
+
+    const toy =
+        toys[data.target];
+
+    const area =
+        document.getElementById(
+            "gameArea"
+        );
+
+    area.innerHTML = `
+
+        <div class="word-card">
+
+            <div class="word-emoji">
+                ${toy.emoji}
+            </div>
+
+            <div class="word">
+                ${data.sentence}
+            </div>
+
+            <div class="word-sentence">
+                Choose the correct article.
+            </div>
+
+        </div>
+
+        <div class="a-an-grid">
+
+            <button
+                class="a-an"
+                onclick="chooseAAN(
+                    'A',
+                    '${data.answer}',
+                    this
+                )">
+
+                A
+
+            </button>
+
+            <button
+                class="a-an"
+                onclick="chooseAAN(
+                    'An',
+                    '${data.answer}',
+                    this
+                )">
+
+                AN
+
+            </button>
+
+        </div>
+    `;
+}
+
+
+function chooseAAN(
+    answer,
+    correct,
+    button
+){
+
+    if(locked) return;
+
+    if(answer === correct){
+
+        locked = true;
+
+        button.classList.add(
+            "correct"
+        );
+
+        addPoint();
+
+        showFeedback(
+            "🔤 Correct! Great grammar detective!",
+            true
+        );
+
+        setTimeout(
+            nextCase,
+            1000
+        );
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ Check whether the word needs A or AN.",
+            false
+        );
+    }
+}
+
+
+/* =========================================
+   E SOUND
+========================================= */
+
+function renderESound(data){
+
+    const area =
+        document.getElementById(
+            "gameArea"
+        );
+
+    area.innerHTML = `
+
+        <div class="scene">
+
+            <div class="clue-box">
+                <span>SOUND CLUE</span><br>
+                Find the word that starts with the
+                letter sound <strong>/e/</strong>.
+            </div>
+
+            <div class="e-hunt">
+
+                ${data.options.map(
+                    option => {
+
+                        const toy =
+                            toys[option] ||
+                            {
+                                name:option,
+                                emoji:"🔤"
+                            };
+
+                        return `
+
+                            <div
+                                class="e-word"
+                                onclick="chooseESound(
+                                    '${option}',
+                                    '${data.correct}',
+                                    this
+                                )">
+
+                                <div class="e-letter">
+                                    ${option.charAt(0).toUpperCase()}
+                                </div>
+
+                                <div class="e-name">
+                                    ${toy.name}
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }).join("")}
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+function chooseESound(
+    answer,
+    correct,
+    element
+){
+
+    if(locked) return;
+
+    if(answer === correct){
+
+        locked = true;
+
+        element.style.borderColor =
+            "#4ae4a3";
+
+        element.style.background =
+            "rgba(74,228,163,.12)";
+
+        addPoint();
+
+        showFeedback(
+            "🔤 E-sound found! Excellent!",
+            true
+        );
+
+        setTimeout(
+            nextCase,
+            1000
+        );
+
+    }else{
+
+        element.style.borderColor =
+            "#ff6685";
+
+        element.style.background =
+            "rgba(255,102,133,.1)";
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ Keep searching for the /e/ sound.",
+            false
+        );
+
+        setTimeout(() => {
+
+            element.style.borderColor =
+                "";
+
+            element.style.background =
+                "";
+
+        },500);
+    }
+}
+
+
+/* =========================================
+   MEMORY
+========================================= */
+
+let firstMemory = null;
+let secondMemory = null;
+let memoryBusy = false;
+
+function renderMemory(data){
+
+    const area =
+        document.getElementById(
+            "gameArea"
+        );
+
+    let cards = [
+        ...data.pairs,
+        ...data.pairs
+    ];
+
+    cards.sort(
+        () => Math.random() - .5
+    );
+
+    firstMemory = null;
+    secondMemory = null;
+    memoryBusy = false;
+
+    area.innerHTML = `
+
+        <div class="object-grid">
+
+            ${cards.map(
+                (id,index) => `
+
+                <div
+                    class="object"
+                    id="memory-${index}"
+                    data-toy="${id}"
+                    onclick="flipMemory(${index})">
+
+                    <div class="object-emoji">
+                        ❓
+                    </div>
+
+                    <div class="object-name">
+                        Evidence
+                    </div>
+
+                </div>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+function flipMemory(index){
+
+    if(locked || memoryBusy)
+        return;
+
+    const card =
+        document.getElementById(
+            `memory-${index}`
+        );
+
+    if(!card) return;
+
+    if(card.classList.contains("matched"))
+        return;
+
+    if(card === firstMemory)
+        return;
+
+    const id =
+        card.dataset.toy;
+
+    card.querySelector(
+        ".object-emoji"
+    ).textContent =
+        toys[id].emoji;
+
+    card.querySelector(
+        ".object-name"
+    ).textContent =
+        toys[id].name;
+
+    if(!firstMemory){
+
+        firstMemory = card;
+
+        return;
+    }
+
+    secondMemory = card;
+
+    memoryBusy = true;
+
+    if(
+        firstMemory.dataset.toy ===
+        secondMemory.dataset.toy
+    ){
+
+        firstMemory.classList.add(
+            "correct"
+        );
+
+        secondMemory.classList.add(
+            "correct"
+        );
+
+        firstMemory.classList.add(
+            "matched"
+        );
+
+        secondMemory.classList.add(
+            "matched"
+        );
+
+        addPoint();
+
+        showFeedback(
+            "🧠 Perfect match! Evidence connected!",
+            true
+        );
+
+        setTimeout(
+            nextCase,
+            1000
+        );
+
+    }else{
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ Not a match. Try again!",
+            false
+        );
+
+        setTimeout(() => {
+
+            firstMemory.querySelector(
+                ".object-emoji"
+            ).textContent = "❓";
+
+            firstMemory.querySelector(
+                ".object-name"
+            ).textContent = "Evidence";
+
+            secondMemory.querySelector(
+                ".object-emoji"
+            ).textContent = "❓";
+
+            secondMemory.querySelector(
+                ".object-name"
+            ).textContent = "Evidence";
+
+            firstMemory = null;
+            secondMemory = null;
+
+            memoryBusy = false;
+
+        },700);
+    }
+}
+
+
+/* =========================================
+   SUSPECT / LOCATION
+========================================= */
+
+function renderSuspect(data){
+
+    const area =
+        document.getElementById(
+            "gameArea"
+        );
+
+    area.innerHTML = `
+
+        <div class="suspect-grid">
+
+            ${data.options.map(
+                (option,index) => `
+
+                <div
+                    class="suspect"
+                    onclick="chooseSuspect(
+                        ${index},
+                        ${data.answer},
+                        this
+                    )">
+
+                    <div class="suspect-face">
+                        ${option.emoji}
+                    </div>
+
+                    <div class="suspect-name">
+                        ${option.name}
+                    </div>
+
+                    <div class="suspect-clue">
+                        ${option.clue}
+                    </div>
+
+                </div>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+function chooseSuspect(
+    index,
+    answer,
+    element
+){
+
+    if(locked) return;
+
+    if(index === answer){
+
+        locked = true;
+
+        element.style.borderColor =
+            "#4ae4a3";
+
+        element.style.background =
+            "rgba(74,228,163,.12)";
+
+        addPoint();
+
+        showFeedback(
+            "🔎 Correct! You followed the clue!",
+            true
+        );
+
+        setTimeout(
+            nextCase,
+            1000
+        );
+
+    }else{
+
+        element.style.borderColor =
+            "#ff6685";
+
+        element.style.background =
+            "rgba(255,102,133,.1)";
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ Follow the clue carefully.",
+            false
+        );
+
+        setTimeout(() => {
+
+            element.style.borderColor =
+                "";
+
+            element.style.background =
+                "";
+
+        },500);
+    }
+}
+
+
+/* =========================================
+   POINT
+========================================= */
+
+function addPoint(){
+
+    score++;
+
+    streak++;
+
+    if(streak > bestStreak){
+        bestStreak = streak;
+    }
+
+    updateStats();
+}
+
+
+function updateStats(){
+
+    document.getElementById(
+        "score"
+    ).textContent =
+        score;
+
+    document.getElementById(
+        "streak"
+    ).textContent =
+        `${streak} 🔥`;
+}
+
+
+/* =========================================
+   FEEDBACK
+========================================= */
+
+function showFeedback(
+    message,
+    correct
+){
+
+    const feedback =
+        document.getElementById(
+            "feedback"
+        );
+
+    feedback.textContent =
+        message;
+
+    feedback.className =
+        `feedback ${
+            correct ? "correct" : "wrong"
+        }`;
+}
+
+
+/* =========================================
+   NEXT CASE
+========================================= */
+
+function nextCase(){
+
+    clearInterval(timerInterval);
+
+    currentCase++;
+
+    if(
+        currentCase >= cases.length
+    ){
+
+        finishGame();
+
+        return;
+    }
+
+    loadCase();
+}
+
+
+/* =========================================
+   FINISH GAME
+========================================= */
+
+async function finishGame(){
+
+    clearInterval(timerInterval);
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "resultScreen"
+    ).style.display =
+        "flex";
+
+    const total =
+        cases.length;
+
+    const percentage =
+        Math.round(
+            (score / total) * 100
+        );
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        `${score} / ${total}`;
+
+    document.getElementById(
+        "finalPercent"
+    ).textContent =
+        `${percentage}%`;
+
+    document.getElementById(
+        "correctFinal"
+    ).textContent =
+        score;
+
+    document.getElementById(
+        "bestStreakFinal"
+    ).textContent =
+        `${bestStreak} 🔥`;
+
+
+    let title =
+        "Keep Investigating! 🔎";
+
+    let icon =
+        "🔎";
+
+    let message =
+        "Good effort! Solve the mystery again and improve your score.";
+
+
+    if(percentage >= 90){
+
+        title =
+            "Master Detective! 🏆";
+
+        icon =
+            "🏆";
+
+        message =
+            "Amazing! You solved the mystery like a true detective!";
+
+    }
+
+    else if(percentage >= 70){
+
+        title =
+            "Mystery Solved! ⭐";
+
+        icon =
+            "⭐";
+
+        message =
+            "Great detective work! You found most of the clues.";
+
+    }
+
+    else if(percentage >= 50){
+
+        title =
+            "Good Detective Work! 💪";
+
+        icon =
+            "💪";
+
+        message =
+            "Nice effort! Keep practising your toy vocabulary.";
+
+    }
+
+
+    document.getElementById(
+        "resultTitle"
+    ).textContent =
+        title;
+
+    document.getElementById(
+        "resultIcon"
+    ).textContent =
+        icon;
+
+    document.getElementById(
+        "resultMessage"
+    ).textContent =
+        message;
+
+
+    /* ================================
+       SAVE TO SUPABASE
+    ================================= */
+
+    try{
+
+        const {
+            data: { user }
+        } =
+        await supabaseClient.auth.getUser();
+
+        const userId =
+            user ? user.id : null;
+
+
+        const { error } =
+            await supabaseClient
+                .from("quiz_scores")
+                .insert([{
+
+                    user_id:userId,
+
+                    name:studentName,
+
+                    class_name:studentClass,
+
+                    score:score,
+
+                    "total questions":total,
+
+                    unit:"Let's Play",
+
+                    activity:"The Mystery Toy"
+
+                }]);
+
+
+        if(error){
+
+            console.error(
+                "Supabase save error:",
+                error
+            );
+
+        }else{
+
+            console.log(
+                "The Mystery Toy score saved!"
+            );
+        }
+
+    }catch(error){
+
+        console.error(
+            "Supabase connection error:",
+            error
+        );
+    }
+}
+
+
+/* =========================================
+   INITIAL
+========================================= */
+
+updateStats();
+
+</script>
+
+</body>
+</html>

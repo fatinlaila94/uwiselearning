@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Toy Shop Rush - SmartLearn</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    font-family:"DM Sans",sans-serif;
+    color:#fff;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(111,76,255,.30), transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(0,210,255,.18), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(255,72,180,.15), transparent 35%),
+        #080914;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+    background-size:40px 40px;
+}
+
+.container{
+    width:min(1050px,92%);
+    margin:auto;
+    padding:28px 0 50px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:#d9d9ea;
+    text-decoration:none;
+    font-weight:700;
+    margin-bottom:22px;
+    transition:.2s;
+}
+
+.back-btn:hover{
+    color:#fff;
+    transform:translateX(-3px);
+}
+
+/* START SCREEN */
+
+.start-screen{
+    min-height:78vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.start-card{
+    width:min(650px,100%);
+    padding:45px 38px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(16,18,35,.76);
+    backdrop-filter:blur(20px);
+    border-radius:30px;
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.06);
+    text-align:center;
+}
+
+.game-icon{
+    width:92px;
+    height:92px;
+    margin:0 auto 20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:52px;
+    border-radius:26px;
+    background:linear-gradient(135deg,rgba(130,90,255,.25),rgba(0,210,255,.16));
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 15px 40px rgba(88,70,255,.2);
+}
+
+.badge{
+    display:inline-flex;
+    padding:7px 14px;
+    border-radius:999px;
+    background:rgba(120,100,255,.14);
+    border:1px solid rgba(140,120,255,.25);
+    color:#cfc7ff;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    margin-bottom:15px;
+}
+
+h1{
+    font-family:"Outfit",sans-serif;
+    font-size:clamp(38px,7vw,64px);
+    line-height:1;
+    margin-bottom:15px;
+    background:linear-gradient(90deg,#fff,#b8b4ff,#77eaff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.start-subtitle{
+    color:#aeb0c5;
+    line-height:1.7;
+    max-width:500px;
+    margin:0 auto 30px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    text-align:left;
+}
+
+.input-group label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    color:#c4c5d6;
+    margin-bottom:8px;
+}
+
+.input-group input{
+    width:100%;
+    padding:14px 16px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.1);
+    outline:none;
+    background:rgba(255,255,255,.055);
+    color:#fff;
+    font:inherit;
+}
+
+.input-group input:focus{
+    border-color:rgba(128,105,255,.75);
+    box-shadow:0 0 0 3px rgba(128,105,255,.1);
+}
+
+.start-btn{
+    width:100%;
+    margin-top:22px;
+    padding:16px 20px;
+    border:0;
+    border-radius:16px;
+    cursor:pointer;
+    color:#fff;
+    font:800 16px "DM Sans",sans-serif;
+    background:linear-gradient(135deg,#765cff,#477bff);
+    box-shadow:0 15px 35px rgba(85,75,255,.28);
+    transition:.25s;
+}
+
+.start-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 20px 45px rgba(85,75,255,.4);
+}
+
+.error{
+    color:#ff8caa;
+    font-size:13px;
+    margin-top:10px;
+}
+
+/* GAME */
+
+.game-screen{
+    display:none;
+}
+
+.top-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.game-title-small{
+    font-family:"Outfit",sans-serif;
+    font-size:26px;
+    font-weight:800;
+}
+
+.round-text{
+    color:#9fa2b8;
+    font-size:14px;
+    margin-top:4px;
+}
+
+.timer-box{
+    min-width:80px;
+    padding:11px 15px;
+    border-radius:14px;
+    text-align:center;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.timer-label{
+    display:block;
+    font-size:10px;
+    color:#85899e;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-weight:800;
+}
+
+.timer{
+    display:block;
+    font-family:"Outfit",sans-serif;
+    font-size:25px;
+    font-weight:800;
+}
+
+.timer.warning{
+    color:#ffb36b;
+}
+
+.timer.danger{
+    color:#ff6f91;
+}
+
+.progress-wrap{
+    margin-bottom:20px;
+}
+
+.progress-info{
+    display:flex;
+    justify-content:space-between;
+    color:#9295ab;
+    font-size:12px;
+    margin-bottom:8px;
+}
+
+.progress{
+    height:7px;
+    border-radius:99px;
+    background:rgba(255,255,255,.07);
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    border-radius:99px;
+    background:linear-gradient(90deg,#795bff,#43dfff);
+    transition:width .35s ease;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.stat{
+    padding:15px;
+    border-radius:17px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.stat-label{
+    font-size:11px;
+    color:#85889e;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+}
+
+.stat-value{
+    margin-top:3px;
+    font-family:"Outfit",sans-serif;
+    font-size:23px;
+    font-weight:800;
+}
+
+.game-card{
+    padding:30px;
+    border-radius:28px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(15,17,32,.78);
+    backdrop-filter:blur(20px);
+    box-shadow:0 25px 70px rgba(0,0,0,.3);
+}
+
+.mission-badge{
+    display:inline-flex;
+    padding:6px 11px;
+    border-radius:999px;
+    background:rgba(76,213,255,.09);
+    border:1px solid rgba(76,213,255,.18);
+    color:#78e5ff;
+    font-size:11px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    margin-bottom:13px;
+}
+
+.mission-title{
+    font-family:"Outfit",sans-serif;
+    font-size:clamp(25px,4vw,36px);
+    line-height:1.15;
+    margin-bottom:8px;
+}
+
+.mission-subtitle{
+    color:#999caf;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+/* TOY SHELF */
+
+.toy-shelf{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+    margin-top:20px;
+}
+
+.toy{
+    min-height:125px;
+    padding:15px 10px;
+    border-radius:19px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.09);
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    transition:.2s;
+    user-select:none;
+}
+
+.toy:hover{
+    transform:translateY(-4px);
+    background:rgba(255,255,255,.08);
+    border-color:rgba(128,113,255,.4);
+}
+
+.toy-emoji{
+    font-size:42px;
+}
+
+.toy-name{
+    font-size:12px;
+    color:#c8cad6;
+    font-weight:700;
+}
+
+.toy.correct{
+    border-color:#43e6a4;
+    background:rgba(67,230,164,.12);
+}
+
+.toy.wrong{
+    border-color:#ff6487;
+    background:rgba(255,100,135,.1);
+}
+
+.toy.disabled{
+    pointer-events:none;
+}
+
+/* MEMORY */
+
+.memory-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.memory-card{
+    aspect-ratio:1;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.1);
+    background:linear-gradient(135deg,#1c2040,#121527);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    transition:.25s;
+    user-select:none;
+}
+
+.memory-card:hover{
+    transform:scale(1.03);
+    border-color:rgba(130,110,255,.5);
+}
+
+.memory-card.hidden{
+    font-size:25px;
+}
+
+.memory-card.matched{
+    border-color:#48e4a5;
+    background:rgba(72,228,165,.1);
+}
+
+/* BASKET */
+
+.shop-layout{
+    display:grid;
+    grid-template-columns:1fr 220px;
+    gap:18px;
+}
+
+.basket{
+    min-height:230px;
+    padding:20px;
+    border-radius:22px;
+    border:1px dashed rgba(126,116,255,.5);
+    background:rgba(113,93,255,.06);
+    text-align:center;
+}
+
+.basket-icon{
+    font-size:58px;
+    margin:15px 0 8px;
+}
+
+.basket-text{
+    color:#9699ae;
+    font-size:13px;
+}
+
+.basket-items{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:5px;
+    margin-top:10px;
+    font-size:25px;
+}
+
+/* FAVOURITE */
+
+.character{
+    text-align:center;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:20px;
+    background:rgba(255,255,255,.04);
+}
+
+.character-face{
+    font-size:58px;
+    margin-bottom:8px;
+}
+
+.speech{
+    font-family:"Outfit",sans-serif;
+    font-size:21px;
+    font-weight:700;
+}
+
+.answer-buttons{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.answer-btn{
+    padding:16px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.05);
+    color:#fff;
+    cursor:pointer;
+    font:700 15px "DM Sans",sans-serif;
+    transition:.2s;
+}
+
+.answer-btn:hover{
+    transform:translateY(-2px);
+    border-color:rgba(130,110,255,.5);
+    background:rgba(130,110,255,.1);
+}
+
+.answer-btn.correct{
+    background:rgba(60,225,157,.13);
+    border-color:#42e29d;
+}
+
+.answer-btn.wrong{
+    background:rgba(255,90,120,.12);
+    border-color:#ff637f;
+}
+
+/* FEEDBACK */
+
+.feedback{
+    min-height:25px;
+    text-align:center;
+    margin-top:18px;
+    font-size:15px;
+    font-weight:800;
+}
+
+.feedback.correct{
+    color:#56e5a4;
+}
+
+.feedback.wrong{
+    color:#ff7892;
+}
+
+/* RESULT */
+
+.result-screen{
+    display:none;
+    min-height:75vh;
+    align-items:center;
+    justify-content:center;
+}
+
+.result-card{
+    width:min(650px,100%);
+    padding:42px 35px;
+    text-align:center;
+    border-radius:30px;
+    background:rgba(15,17,32,.82);
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 30px 90px rgba(0,0,0,.4);
+}
+
+.result-icon{
+    font-size:65px;
+    margin-bottom:12px;
+}
+
+.result-card h2{
+    font-family:"Outfit",sans-serif;
+    font-size:38px;
+    margin-bottom:8px;
+}
+
+.result-message{
+    color:#9da0b5;
+    margin-bottom:28px;
+}
+
+.final-score{
+    font-family:"Outfit",sans-serif;
+    font-size:58px;
+    font-weight:800;
+    background:linear-gradient(90deg,#fff,#8bdfff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.final-percent{
+    font-size:20px;
+    color:#9da0b5;
+    margin-top:4px;
+}
+
+.result-stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin:25px 0;
+}
+
+.result-stat{
+    padding:16px;
+    border-radius:16px;
+    background:rgba(255,255,255,.045);
+}
+
+.result-stat span{
+    display:block;
+    color:#85899f;
+    font-size:11px;
+    text-transform:uppercase;
+    margin-bottom:4px;
+}
+
+.result-stat strong{
+    font-family:"Outfit",sans-serif;
+    font-size:22px;
+}
+
+.play-again{
+    width:100%;
+    padding:16px;
+    border:0;
+    border-radius:16px;
+    background:linear-gradient(135deg,#765cff,#477bff);
+    color:#fff;
+    font:800 16px "DM Sans",sans-serif;
+    cursor:pointer;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+    .container{
+        width:94%;
+        padding-top:18px;
+    }
+
+    .start-card{
+        padding:32px 22px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .game-card{
+        padding:20px;
+    }
+
+    .toy-shelf{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .memory-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .shop-layout{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        gap:8px;
+    }
+
+    .stat{
+        padding:12px 9px;
+    }
+
+    .answer-buttons{
+        grid-template-columns:1fr;
+    }
+
+    .top-header{
+        align-items:flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<a href="unit1y2.html" class="back-btn">← Back to Let's Play</a>
+
+<!-- START SCREEN -->
+<section class="start-screen" id="startScreen">
+
+    <div class="start-card">
+
+        <div class="game-icon">🧸</div>
+
+        <div class="badge">LET'S PLAY • MISSION</div>
+
+        <h1>Toy Shop Rush</h1>
+
+        <p class="start-subtitle">
+            Enter the toy shop, complete different missions,
+            collect toys and become the Toy Shop Champion! 🛒✨
+        </p>
+
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label for="studentName">Your Name</label>
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your name"
+                >
+            </div>
+
+            <div class="input-group">
+                <label for="studentClass">Class</label>
+                <input
+                    type="text"
+                    id="studentClass"
+                    placeholder="e.g. 2 Cemerlang"
+                >
+            </div>
+
+        </div>
+
+        <div class="error" id="startError"></div>
+
+        <button class="start-btn" onclick="startGame()">
+            🚀 Start Mission
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- GAME SCREEN -->
+<section class="game-screen" id="gameScreen">
+
+    <div class="top-header">
+
+        <div>
+            <div class="game-title-small">🧸 Toy Shop Rush</div>
+            <div class="round-text" id="roundText">Round 1 of 12</div>
+        </div>
+
+        <div class="timer-box">
+            <span class="timer-label">Time</span>
+            <span class="timer" id="timer">20</span>
+        </div>
+
+    </div>
+
+    <div class="progress-wrap">
+
+        <div class="progress-info">
+            <span>Mission Progress</span>
+            <span id="progressText">0%</span>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-label">Score</div>
+            <div class="stat-value" id="score">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Streak</div>
+            <div class="stat-value" id="streak">0 🔥</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Player</div>
+            <div class="stat-value" id="playerDisplay">—</div>
+        </div>
+
+    </div>
+
+
+    <div class="game-card">
+
+        <div class="mission-badge" id="missionBadge">
+            Mission
+        </div>
+
+        <h2 class="mission-title" id="missionTitle">
+            Get ready!
+        </h2>
+
+        <p class="mission-subtitle" id="missionSubtitle">
+            Your mission is loading...
+        </p>
+
+        <div id="gameArea"></div>
+
+        <div class="feedback" id="feedback"></div>
+
+    </div>
+
+</section>
+
+
+<!-- RESULT SCREEN -->
+<section class="result-screen" id="resultScreen">
+
+    <div class="result-card">
+
+        <div class="result-icon" id="resultIcon">🏆</div>
+
+        <h2 id="resultTitle">Toy Shop Champion!</h2>
+
+        <p class="result-message" id="resultMessage">
+            Great job!
+        </p>
+
+        <div class="final-score" id="finalScore">
+            0 / 12
+        </div>
+
+        <div class="final-percent" id="finalPercent">
+            0%
+        </div>
+
+        <div class="result-stats">
+
+            <div class="result-stat">
+                <span>Correct</span>
+                <strong id="correctFinal">0</strong>
+            </div>
+
+            <div class="result-stat">
+                <span>Best Streak</span>
+                <strong id="bestStreakFinal">0 🔥</strong>
+            </div>
+
+        </div>
+
+        <button class="play-again" onclick="location.reload()">
+            🔄 Play Again
+        </button>
+
+    </div>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://exaohyhqllzylcfyqtge.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+
+const supabaseClient =
+supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+/* =========================================
+   GAME DATA
+========================================= */
+
+const toys = {
+
+    teddy: {
+        name:"Teddy Bear",
+        emoji:"🧸"
+    },
+
+    ball: {
+        name:"Ball",
+        emoji:"⚽"
+    },
+
+    doll: {
+        name:"Doll",
+        emoji:"👧"
+    },
+
+    car: {
+        name:"Car",
+        emoji:"🚗"
+    },
+
+    robot: {
+        name:"Robot",
+        emoji:"🤖"
+    },
+
+    kite: {
+        name:"Kite",
+        emoji:"🪁"
+    },
+
+    train: {
+        name:"Train",
+        emoji:"🚂"
+    },
+
+    blocks: {
+        name:"Blocks",
+        emoji:"🧱"
+    },
+
+    puzzle: {
+        name:"Puzzle",
+        emoji:"🧩"
+    },
+
+    yoYo: {
+        name:"Yo-yo",
+        emoji:"🪀"
+    },
+
+    drum: {
+        name:"Drum",
+        emoji:"🥁"
+    },
+
+    teddy2: {
+        name:"Toy Bear",
+        emoji:"🐻"
+    }
+};
+
+
+/* =========================================
+   12 DIFFERENT MISSIONS
+========================================= */
+
+const missions = [
+
+    {
+        type:"find",
+        badge:"LO1 • Toy Vocabulary",
+        title:"Find the Teddy Bear!",
+        subtitle:"The customer wants a teddy bear. Tap the correct toy.",
+        target:"teddy"
+    },
+
+    {
+        type:"find",
+        badge:"LO1 • Toy Vocabulary",
+        title:"Where is the Robot?",
+        subtitle:"Quick! Find the robot on the toy shelf.",
+        target:"robot"
+    },
+
+    {
+        type:"name",
+        badge:"LO1 • Identify & Name",
+        title:"What toy is this?",
+        subtitle:"Look carefully at the toy. Choose its name.",
+        target:"kite",
+        options:["Kite","Ball","Train","Doll"]
+    },
+
+    {
+        type:"memory",
+        badge:"LO1 • Toy Memory",
+        title:"Toy Memory Match",
+        subtitle:"Find the two matching toy cards.",
+        pairs:["car","ball","doll","robot"]
+    },
+
+    {
+        type:"basket",
+        badge:"LO1 • Toy Vocabulary",
+        title:"Fill the Shopping Basket",
+        subtitle:"The customer needs a car. Tap the car to put it in the basket.",
+        target:"car"
+    },
+
+    {
+        type:"name",
+        badge:"LO1 • Identify & Name",
+        title:"Toy Expert Challenge",
+        subtitle:"Which word matches this toy?",
+        target:"train",
+        options:["Train","Teddy Bear","Blocks","Yo-yo"]
+    },
+
+    {
+        type:"favourite",
+        badge:"LO2 • Favourite Toys",
+        title:"Ask About a Favourite Toy",
+        subtitle:"Read the question and choose the answer.",
+        question:"What's your favourite toy?",
+        options:["I like the ball.","I am seven.","It is a doll."]
+    },
+
+    {
+        type:"favourite",
+        badge:"LO2 • Ask & Answer",
+        title:"Toy Shop Conversation",
+        subtitle:"Complete the conversation.",
+        question:"What's your favourite toy?",
+        options:["My favourite toy is a robot.","I am eight.","This is a kite."]
+    },
+
+    {
+        type:"find",
+        badge:"LO1 • Toy Vocabulary",
+        title:"Special Delivery!",
+        subtitle:"The delivery box says: BLOCKS. Find them!",
+        target:"blocks"
+    },
+
+    {
+        type:"name",
+        badge:"LO1 • Identify & Name",
+        title:"Mystery Toy",
+        subtitle:"Can you name this toy?",
+        target:"puzzle",
+        options:["Puzzle","Doll","Drum","Car"]
+    },
+
+    {
+        type:"favourite",
+        badge:"LO2 • Simple Questions",
+        title:"Favourite Toy Check",
+        subtitle:"Choose the best answer to the question.",
+        question:"What's your favourite toy?",
+        options:["My favourite toy is a teddy bear.","I am six.","It is a train."]
+    },
+
+    {
+        type:"basket",
+        badge:"LO1 • Final Mission",
+        title:"Final Toy Hunt!",
+        subtitle:"The customer needs a yo-yo. Can you find it?",
+        target:"yoYo"
+    }
+
+];
+
+
+/* =========================================
+   GAME STATE
+========================================= */
+
+let currentRound = 0;
+let score = 0;
+let streak = 0;
+let bestStreak = 0;
+let timerInterval;
+let timeLeft = 20;
+let locked = false;
+
+let studentName = "";
+let studentClass = "";
+
+
+/* =========================================
+   START GAME
+========================================= */
+
+function startGame(){
+
+    studentName =
+        document.getElementById("studentName").value.trim();
+
+    studentClass =
+        document.getElementById("studentClass").value.trim();
+
+    const error =
+        document.getElementById("startError");
+
+    if(!studentName){
+
+        error.textContent =
+            "Please enter your name first.";
+
+        return;
+    }
+
+    if(!studentClass){
+
+        error.textContent =
+            "Please enter your class.";
+
+        return;
+    }
+
+    error.textContent = "";
+
+    document.getElementById("playerDisplay").textContent =
+        studentName;
+
+    document.getElementById("startScreen").style.display =
+        "none";
+
+    document.getElementById("gameScreen").style.display =
+        "block";
+
+    currentRound = 0;
+    score = 0;
+    streak = 0;
+    bestStreak = 0;
+
+    updateStats();
+    loadMission();
+
+}
+
+
+/* =========================================
+   LOAD MISSION
+========================================= */
+
+function loadMission(){
+
+    clearInterval(timerInterval);
+
+    locked = false;
+
+    const mission =
+        missions[currentRound];
+
+    document.getElementById("roundText").textContent =
+        `Round ${currentRound + 1} of ${missions.length}`;
+
+    document.getElementById("progressText").textContent =
+        `${Math.round((currentRound / missions.length) * 100)}%`;
+
+    document.getElementById("progressBar").style.width =
+        `${(currentRound / missions.length) * 100}%`;
+
+    document.getElementById("missionBadge").textContent =
+        mission.badge;
+
+    document.getElementById("missionTitle").textContent =
+        mission.title;
+
+    document.getElementById("missionSubtitle").textContent =
+        mission.subtitle;
+
+    document.getElementById("feedback").textContent = "";
+
+    document.getElementById("feedback").className =
+        "feedback";
+
+    const area =
+        document.getElementById("gameArea");
+
+    area.innerHTML = "";
+
+    timeLeft = 20;
+
+    updateTimer();
+
+    startTimer();
+
+
+    if(mission.type === "find"){
+        renderFindMission(mission);
+    }
+
+    else if(mission.type === "name"){
+        renderNameMission(mission);
+    }
+
+    else if(mission.type === "memory"){
+        renderMemoryMission(mission);
+    }
+
+    else if(mission.type === "basket"){
+        renderBasketMission(mission);
+    }
+
+    else if(mission.type === "favourite"){
+        renderFavouriteMission(mission);
+    }
+
+}
+
+
+/* =========================================
+   TIMER
+========================================= */
+
+function startTimer(){
+
+    timerInterval =
+        setInterval(() => {
+
+            timeLeft--;
+
+            updateTimer();
+
+            if(timeLeft <= 0){
+
+                clearInterval(timerInterval);
+
+                if(!locked){
+
+                    locked = true;
+
+                    streak = 0;
+
+                    showFeedback(
+                        "⏰ Time's up!",
+                        false
+                    );
+
+                    setTimeout(nextRound,1200);
+                }
+            }
+
+        },1000);
+}
+
+
+function updateTimer(){
+
+    const timer =
+        document.getElementById("timer");
+
+    timer.textContent =
+        timeLeft;
+
+    timer.className = "timer";
+
+    if(timeLeft <= 8){
+        timer.classList.add("warning");
+    }
+
+    if(timeLeft <= 4){
+        timer.classList.remove("warning");
+        timer.classList.add("danger");
+    }
+}
+
+
+/* =========================================
+   MISSION 1/2/9/12
+   FIND THE TOY
+========================================= */
+
+function renderFindMission(mission){
+
+    const area =
+        document.getElementById("gameArea");
+
+    const target =
+        toys[mission.target];
+
+    const ids = Object.keys(toys)
+        .sort(() => Math.random() - .5)
+        .slice(0,4);
+
+    if(!ids.includes(mission.target)){
+        ids[0] = mission.target;
+    }
+
+    ids.sort(() => Math.random() - .5);
+
+    area.innerHTML = `
+        <div class="toy-shelf">
+            ${ids.map(id => {
+
+                const toy = toys[id];
+
+                return `
+                    <div class="toy"
+                         onclick="chooseToy('${id}', '${mission.target}', this)">
+                        <div class="toy-emoji">${toy.emoji}</div>
+                        <div class="toy-name">${toy.name}</div>
+                    </div>
+                `;
+
+            }).join("")}
+        </div>
+    `;
+}
+
+
+/* =========================================
+   NAME THE TOY
+========================================= */
+
+function renderNameMission(mission){
+
+    const toy =
+        toys[mission.target];
+
+    const area =
+        document.getElementById("gameArea");
+
+    area.innerHTML = `
+
+        <div class="character">
+
+            <div class="character-face">
+                ${toy.emoji}
+            </div>
+
+            <div class="speech">
+                What is this toy?
+            </div>
+
+        </div>
+
+        <div class="answer-buttons">
+
+            ${mission.options.map(option => `
+
+                <button
+                    class="answer-btn"
+                    onclick="chooseName('${option}', '${toy.name}', this)">
+                    ${option}
+                </button>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+/* =========================================
+   MEMORY MATCH
+========================================= */
+
+let memoryFirst = null;
+let memorySecond = null;
+let memoryBusy = false;
+
+function renderMemoryMission(mission){
+
+    const area =
+        document.getElementById("gameArea");
+
+    let cards = [
+        ...mission.pairs,
+        ...mission.pairs
+    ];
+
+    cards.sort(() => Math.random() - .5);
+
+    memoryFirst = null;
+    memorySecond = null;
+    memoryBusy = false;
+
+    area.innerHTML = `
+        <div class="memory-grid">
+
+            ${cards.map((id,index) => `
+
+                <div
+                    class="memory-card hidden"
+                    id="memory-${index}"
+                    data-toy="${id}"
+                    onclick="flipMemory(${index})">
+
+                    ❓
+
+                </div>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+function flipMemory(index){
+
+    if(locked || memoryBusy) return;
+
+    const card =
+        document.getElementById(`memory-${index}`);
+
+    if(!card || card.classList.contains("matched")) return;
+
+    if(card === memoryFirst) return;
+
+    const toyId =
+        card.dataset.toy;
+
+    card.classList.remove("hidden");
+
+    card.textContent =
+        toys[toyId].emoji;
+
+    if(!memoryFirst){
+
+        memoryFirst = card;
+        return;
+    }
+
+    memorySecond = card;
+
+    memoryBusy = true;
+
+    if(memoryFirst.dataset.toy === memorySecond.dataset.toy){
+
+        memoryFirst.classList.add("matched");
+        memorySecond.classList.add("matched");
+
+        score++;
+        streak++;
+
+        if(streak > bestStreak){
+            bestStreak = streak;
+        }
+
+        updateStats();
+
+        showFeedback(
+            "✨ Match! Great memory!",
+            true
+        );
+
+        setTimeout(() => {
+
+            locked = true;
+
+            nextRound();
+
+        },900);
+
+    }else{
+
+        showFeedback(
+            "Try another pair!",
+            false
+        );
+
+        streak = 0;
+
+        setTimeout(() => {
+
+            memoryFirst.classList.add("hidden");
+            memorySecond.classList.add("hidden");
+
+            memoryFirst.textContent = "❓";
+            memorySecond.textContent = "❓";
+
+            memoryFirst = null;
+            memorySecond = null;
+
+            memoryBusy = false;
+
+        },700);
+    }
+}
+
+
+/* =========================================
+   BASKET MISSION
+========================================= */
+
+function renderBasketMission(mission){
+
+    const area =
+        document.getElementById("gameArea");
+
+    const ids = [
+        mission.target,
+        "ball",
+        "doll",
+        "teddy",
+        "train",
+        "drum"
+    ].sort(() => Math.random() - .5);
+
+    area.innerHTML = `
+
+        <div class="shop-layout">
+
+            <div>
+
+                <div class="toy-shelf">
+
+                    ${ids.slice(0,4).map(id => {
+
+                        const toy = toys[id];
+
+                        return `
+                            <div class="toy"
+                                 onclick="addToBasket('${id}', '${mission.target}', this)">
+
+                                <div class="toy-emoji">
+                                    ${toy.emoji}
+                                </div>
+
+                                <div class="toy-name">
+                                    ${toy.name}
+                                </div>
+
+                            </div>
+                        `;
+
+                    }).join("")}
+
+                </div>
+
+            </div>
+
+            <div class="basket">
+
+                <div class="basket-icon">
+                    🛒
+                </div>
+
+                <div class="basket-text">
+                    Shopping Basket
+                </div>
+
+                <div class="basket-items"
+                     id="basketItems">
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+function addToBasket(id,target,element){
+
+    if(locked) return;
+
+    if(id === target){
+
+        locked = true;
+
+        element.classList.add("correct");
+
+        document.getElementById("basketItems").innerHTML =
+            toys[id].emoji;
+
+        score++;
+        streak++;
+
+        if(streak > bestStreak){
+            bestStreak = streak;
+        }
+
+        updateStats();
+
+        showFeedback(
+            "🛒 Correct! Into the basket!",
+            true
+        );
+
+        setTimeout(nextRound,1000);
+
+    }else{
+
+        element.classList.add("wrong");
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ That's not the toy!",
+            false
+        );
+
+        setTimeout(() => {
+
+            element.classList.remove("wrong");
+
+        },500);
+    }
+}
+
+
+/* =========================================
+   FAVOURITE TOY
+========================================= */
+
+function renderFavouriteMission(mission){
+
+    const area =
+        document.getElementById("gameArea");
+
+    area.innerHTML = `
+
+        <div class="character">
+
+            <div class="character-face">
+                🧒
+            </div>
+
+            <div class="speech">
+                "${mission.question}"
+            </div>
+
+        </div>
+
+        <div class="answer-buttons">
+
+            ${mission.options.map((option,index) => `
+
+                <button
+                    class="answer-btn"
+                    onclick="chooseFavourite(${index}, this)">
+                    ${option}
+                </button>
+
+            `).join("")}
+
+        </div>
+    `;
+}
+
+
+function chooseFavourite(index,button){
+
+    if(locked) return;
+
+    const correct =
+        index === 0;
+
+    if(correct){
+
+        locked = true;
+
+        button.classList.add("correct");
+
+        score++;
+        streak++;
+
+        if(streak > bestStreak){
+            bestStreak = streak;
+        }
+
+        updateStats();
+
+        showFeedback(
+            "💖 Perfect answer!",
+            true
+        );
+
+        setTimeout(nextRound,1000);
+
+    }else{
+
+        button.classList.add("wrong");
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "Not quite. Look at the question!",
+            false
+        );
+    }
+}
+
+
+/* =========================================
+   FIND TOY ANSWER
+========================================= */
+
+function chooseToy(id,target,element){
+
+    if(locked) return;
+
+    if(id === target){
+
+        locked = true;
+
+        element.classList.add("correct");
+
+        score++;
+        streak++;
+
+        if(streak > bestStreak){
+            bestStreak = streak;
+        }
+
+        updateStats();
+
+        showFeedback(
+            "🎯 Correct! You found it!",
+            true
+        );
+
+        setTimeout(nextRound,1000);
+
+    }else{
+
+        element.classList.add("wrong");
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ Try another toy!",
+            false
+        );
+
+        setTimeout(() => {
+
+            element.classList.remove("wrong");
+
+        },500);
+    }
+}
+
+
+/* =========================================
+   NAME ANSWER
+========================================= */
+
+function chooseName(answer,correct,button){
+
+    if(locked) return;
+
+    if(answer === correct){
+
+        locked = true;
+
+        button.classList.add("correct");
+
+        score++;
+        streak++;
+
+        if(streak > bestStreak){
+            bestStreak = streak;
+        }
+
+        updateStats();
+
+        showFeedback(
+            "✨ Yes! That's right!",
+            true
+        );
+
+        setTimeout(nextRound,1000);
+
+    }else{
+
+        button.classList.add("wrong");
+
+        streak = 0;
+
+        updateStats();
+
+        showFeedback(
+            "❌ Not that one!",
+            false
+        );
+    }
+}
+
+
+/* =========================================
+   FEEDBACK
+========================================= */
+
+function showFeedback(message,isCorrect){
+
+    const feedback =
+        document.getElementById("feedback");
+
+    feedback.textContent =
+        message;
+
+    feedback.className =
+        "feedback " +
+        (isCorrect ? "correct" : "wrong");
+}
+
+
+/* =========================================
+   STATS
+========================================= */
+
+function updateStats(){
+
+    document.getElementById("score").textContent =
+        score;
+
+    document.getElementById("streak").textContent =
+        `${streak} 🔥`;
+}
+
+
+/* =========================================
+   NEXT ROUND
+========================================= */
+
+function nextRound(){
+
+    clearInterval(timerInterval);
+
+    currentRound++;
+
+    if(currentRound >= missions.length){
+
+        finishGame();
+
+        return;
+    }
+
+    loadMission();
+}
+
+
+/* =========================================
+   FINISH GAME
+========================================= */
+
+async function finishGame(){
+
+    clearInterval(timerInterval);
+
+    document.getElementById("gameScreen").style.display =
+        "none";
+
+    document.getElementById("resultScreen").style.display =
+        "flex";
+
+    const total =
+        missions.length;
+
+    const percentage =
+        Math.round((score / total) * 100);
+
+    document.getElementById("finalScore").textContent =
+        `${score} / ${total}`;
+
+    document.getElementById("finalPercent").textContent =
+        `${percentage}%`;
+
+    document.getElementById("correctFinal").textContent =
+        score;
+
+    document.getElementById("bestStreakFinal").textContent =
+        `${bestStreak} 🔥`;
+
+
+    let title = "Keep Practising! 🌱";
+    let icon = "🌱";
+    let message = "Good try! Play again and beat your score.";
+
+    if(percentage >= 90){
+
+        title = "Toy Shop Champion! 🏆";
+        icon = "🏆";
+        message = "Amazing! You really know your toys!";
+
+    }else if(percentage >= 70){
+
+        title = "Great Job! ⭐";
+        icon = "⭐";
+        message = "Fantastic work! You're getting better!";
+
+    }else if(percentage >= 50){
+
+        title = "Nice Try! 💪";
+        icon = "💪";
+        message = "Good effort! One more round can make you even better.";
+    }
+
+    document.getElementById("resultTitle").textContent =
+        title;
+
+    document.getElementById("resultIcon").textContent =
+        icon;
+
+    document.getElementById("resultMessage").textContent =
+        message;
+
+
+    /* =====================================
+       SAVE TO SUPABASE
+    ===================================== */
+
+    try{
+
+        const {
+            data: { user }
+        } = await supabaseClient.auth.getUser();
+
+        const userId =
+            user ? user.id : null;
+
+        const { error } =
+            await supabaseClient
+                .from("quiz_scores")
+                .insert([{
+
+                    user_id: userId,
+
+                    name: studentName,
+
+                    class_name: studentClass,
+
+                    score: score,
+
+                    "total questions": total,
+
+                    unit: "Let's Play",
+
+                    activity: "Toy Shop Rush"
+
+                }]);
+
+
+        if(error){
+
+            console.error(
+                "Supabase save error:",
+                error
+            );
+
+        }else{
+
+            console.log(
+                "Toy Shop Rush score saved!"
+            );
+        }
+
+    }catch(error){
+
+        console.error(
+            "Supabase connection error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   INITIAL UI
+========================================= */
+
+updateStats();
+
+</script>
+
+</body>
+</html>

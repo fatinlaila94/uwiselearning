@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>At School Quiz - SmartLearn</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:'DM Sans',sans-serif;
+    color:#fff;
+    background:
+        radial-gradient(circle at top left, rgba(99,102,241,.22), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(168,85,247,.18), transparent 35%),
+        linear-gradient(135deg,#080b18,#11162b 50%,#080b18);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:25px;
+}
+
+.container{
+    width:100%;
+    max-width:760px;
+}
+
+/* BACK BUTTON */
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    color:#cbd5e1;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:18px;
+    padding:9px 15px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.04);
+    border-radius:12px;
+    transition:.25s;
+}
+
+.back-btn:hover{
+    color:#fff;
+    background:rgba(255,255,255,.08);
+    transform:translateX(-2px);
+}
+
+/* MAIN CARD */
+
+.card{
+    background:rgba(15,23,42,.78);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:28px;
+    padding:32px;
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.04);
+    backdrop-filter:blur(20px);
+}
+
+/* START SCREEN */
+
+.start-screen{
+    text-align:center;
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 14px;
+    border-radius:30px;
+    background:rgba(99,102,241,.12);
+    border:1px solid rgba(129,140,248,.25);
+    color:#a5b4fc;
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:18px;
+}
+
+.start-screen h1{
+    font-family:'Outfit',sans-serif;
+    font-size:42px;
+    margin:0 0 10px;
+    letter-spacing:-1px;
+}
+
+.subtitle{
+    color:#94a3b8;
+    font-size:15px;
+    line-height:1.6;
+    margin-bottom:28px;
+}
+
+/* FORM */
+
+.form-group{
+    text-align:left;
+    margin-bottom:17px;
+}
+
+.form-group label{
+    display:block;
+    font-size:13px;
+    font-weight:700;
+    color:#cbd5e1;
+    margin-bottom:8px;
+}
+
+.form-group input{
+    width:100%;
+    padding:14px 16px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.05);
+    color:#fff;
+    outline:none;
+    font-family:inherit;
+    font-size:14px;
+    transition:.2s;
+}
+
+.form-group input::placeholder{
+    color:#64748b;
+}
+
+.form-group input:focus{
+    border-color:rgba(129,140,248,.6);
+    background:rgba(255,255,255,.07);
+    box-shadow:0 0 0 3px rgba(99,102,241,.08);
+}
+
+/* BUTTON */
+
+.start-btn{
+    width:100%;
+    border:none;
+    border-radius:15px;
+    padding:15px;
+    margin-top:7px;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:800;
+    color:#fff;
+    cursor:pointer;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    box-shadow:0 12px 30px rgba(99,102,241,.25);
+    transition:.25s;
+}
+
+.start-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 35px rgba(99,102,241,.35);
+}
+
+/* GAME */
+
+.game-screen{
+    display:none;
+}
+
+.top-info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.unit-label{
+    color:#a5b4fc;
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:.5px;
+}
+
+.question-number{
+    color:#94a3b8;
+    font-size:13px;
+    font-weight:700;
+}
+
+/* PROGRESS */
+
+.progress-wrap{
+    width:100%;
+    height:7px;
+    border-radius:20px;
+    background:rgba(255,255,255,.07);
+    overflow:hidden;
+    margin-bottom:25px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    border-radius:20px;
+    background:linear-gradient(90deg,#6366f1,#a855f7);
+    transition:.4s ease;
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-bottom:25px;
+}
+
+.stat{
+    padding:14px;
+    border-radius:16px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.stat-title{
+    font-size:11px;
+    color:#64748b;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+}
+
+.stat-value{
+    margin-top:4px;
+    font-family:'Outfit',sans-serif;
+    font-size:20px;
+    font-weight:800;
+}
+
+/* TIMER */
+
+.timer-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:18px;
+}
+
+.timer{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:'Outfit',sans-serif;
+    font-size:20px;
+    font-weight:800;
+    background:rgba(99,102,241,.1);
+    border:2px solid rgba(129,140,248,.35);
+    box-shadow:0 0 25px rgba(99,102,241,.12);
+}
+
+/* LO */
+
+.lo-badge{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:8px;
+    background:rgba(168,85,247,.1);
+    color:#c4b5fd;
+    font-size:11px;
+    font-weight:800;
+    margin-bottom:13px;
+    border:1px solid rgba(168,85,247,.18);
+}
+
+/* QUESTION */
+
+.question{
+    font-family:'Outfit',sans-serif;
+    font-size:27px;
+    line-height:1.3;
+    font-weight:700;
+    text-align:center;
+    margin:0 auto 25px;
+    max-width:600px;
+}
+
+/* ANSWERS */
+
+.answers{
+    display:grid;
+    gap:12px;
+}
+
+.answer-btn{
+    width:100%;
+    padding:16px 18px;
+    border-radius:15px;
+    border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.035);
+    color:#e2e8f0;
+    text-align:left;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.answer-btn:hover:not(:disabled){
+    background:rgba(99,102,241,.1);
+    border-color:rgba(129,140,248,.35);
+    transform:translateY(-1px);
+}
+
+.answer-btn.correct{
+    background:rgba(34,197,94,.12);
+    border-color:rgba(34,197,94,.55);
+    color:#86efac;
+}
+
+.answer-btn.wrong{
+    background:rgba(239,68,68,.12);
+    border-color:rgba(239,68,68,.55);
+    color:#fca5a5;
+}
+
+.answer-btn:disabled{
+    cursor:default;
+}
+
+/* FEEDBACK */
+
+.feedback{
+    min-height:27px;
+    text-align:center;
+    margin-top:18px;
+    font-size:14px;
+    font-weight:800;
+}
+
+.feedback.correct-text{
+    color:#86efac;
+}
+
+.feedback.wrong-text{
+    color:#fca5a5;
+}
+
+/* RESULT */
+
+.result-screen{
+    display:none;
+    text-align:center;
+}
+
+.result-icon{
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    margin:0 auto 20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+    background:rgba(99,102,241,.12);
+    border:1px solid rgba(129,140,248,.25);
+}
+
+.result-screen h2{
+    font-family:'Outfit',sans-serif;
+    font-size:36px;
+    margin:0 0 8px;
+}
+
+.result-name{
+    color:#94a3b8;
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+.final-score{
+    font-family:'Outfit',sans-serif;
+    font-size:58px;
+    font-weight:800;
+    margin:8px 0;
+    background:linear-gradient(135deg,#a5b4fc,#d8b4fe);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.score-label{
+    color:#64748b;
+    font-size:13px;
+    font-weight:700;
+}
+
+.result-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin:25px 0;
+}
+
+.result-box{
+    padding:17px;
+    border-radius:16px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.result-box strong{
+    display:block;
+    font-family:'Outfit',sans-serif;
+    font-size:23px;
+    margin-bottom:3px;
+}
+
+.result-box span{
+    font-size:11px;
+    color:#64748b;
+    font-weight:700;
+}
+
+.retry-btn{
+    width:100%;
+    border:none;
+    padding:15px;
+    border-radius:15px;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    color:#fff;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.retry-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    body{
+        padding:15px;
+    }
+
+    .card{
+        padding:22px;
+        border-radius:22px;
+    }
+
+    .start-screen h1{
+        font-size:34px;
+    }
+
+    .question{
+        font-size:23px;
+    }
+
+    .final-score{
+        font-size:50px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="unit1y2.html" class="back-btn">
+        ← Back
+    </a>
+
+    <div class="card">
+
+        <!-- START SCREEN -->
+
+        <div class="start-screen" id="startScreen">
+
+            <div class="badge">
+                ✦ SMARTLEARN MISSION
+            </div>
+
+            <h1>At School</h1>
+
+            <p class="subtitle">
+                Test your English skills with classroom objects,
+                questions, instructions and the letter sound <b>/a/</b>.
+            </p>
+
+            <div class="form-group">
+                <label>Student Name</label>
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter your name"
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>Class</label>
+                <input
+                    type="text"
+                    id="studentClass"
+                    placeholder="Enter your class"
+                    autocomplete="off"
+                >
+            </div>
+
+            <button class="start-btn" onclick="startGame()">
+                Start Mission →
+            </button>
+
+        </div>
+
+
+        <!-- GAME SCREEN -->
+
+        <div class="game-screen" id="gameScreen">
+
+            <div class="top-info">
+
+                <div class="unit-label">
+                    AT SCHOOL
+                </div>
+
+                <div class="question-number" id="questionNumber">
+                    Question 1 / 12
+                </div>
+
+            </div>
+
+            <div class="progress-wrap">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <div class="stat-title">Score</div>
+                    <div class="stat-value" id="scoreDisplay">
+                        0 / 12
+                    </div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">Streak</div>
+                    <div class="stat-value" id="streakDisplay">
+                        🔥 0
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="timer-wrap">
+                <div class="timer" id="timer">
+                    20
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+
+                <div class="lo-badge" id="loBadge">
+                    LO1 • Classroom Objects
+                </div>
+
+            </div>
+
+            <h2 class="question" id="questionText">
+                Question
+            </h2>
+
+            <div class="answers" id="answersContainer"></div>
+
+            <div class="feedback" id="feedback"></div>
+
+        </div>
+
+
+        <!-- RESULT SCREEN -->
+
+        <div class="result-screen" id="resultScreen">
+
+            <div class="result-icon">
+                🏆
+            </div>
+
+            <h2>Mission Complete!</h2>
+
+            <div class="result-name" id="resultName">
+                Student
+            </div>
+
+            <div class="final-score" id="finalPercentage">
+                100%
+            </div>
+
+            <div class="score-label">
+                FINAL SCORE
+            </div>
+
+            <div class="result-grid">
+
+                <div class="result-box">
+                    <strong id="finalMarks">
+                        12 / 12
+                    </strong>
+                    <span>MARKS</span>
+                </div>
+
+                <div class="result-box">
+                    <strong id="finalStreak">
+                        🔥 12
+                    </strong>
+                    <span>BEST STREAK</span>
+                </div>
+
+            </div>
+
+            <button class="retry-btn" onclick="location.reload()">
+                Play Again ↻
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+    "https://exaohyhqllzylcfyqtge.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================
+   QUESTIONS
+========================= */
+
+const questions = [
+
+    {
+        lo:"LO1 • Classroom Objects",
+        question:"Which object do you use to write?",
+        answers:[
+            "Pencil",
+            "Ruler",
+            "Book",
+            "Chair"
+        ],
+        correct:0
+    },
+
+    {
+        lo:"LO1 • Classroom Objects",
+        question:"Which object can you use to draw a straight line?",
+        answers:[
+            "Book",
+            "Ruler",
+            "Pencil",
+            "Bag"
+        ],
+        correct:1
+    },
+
+    {
+        lo:"LO1 • Classroom Objects",
+        question:"Which object do you read?",
+        answers:[
+            "Chair",
+            "Ruler",
+            "Book",
+            "Pencil"
+        ],
+        correct:2
+    },
+
+    {
+        lo:"LO2 • Questions & Answers",
+        question:"What is this? ✏️",
+        answers:[
+            "It is a pencil.",
+            "It is a ruler.",
+            "It is a book.",
+            "It is a chair."
+        ],
+        correct:0
+    },
+
+    {
+        lo:"LO2 • Questions & Answers",
+        question:"What is this? 📏",
+        answers:[
+            "It is a bag.",
+            "It is a ruler.",
+            "It is a pencil.",
+            "It is a book."
+        ],
+        correct:1
+    },
+
+    {
+        lo:"LO2 • Questions & Answers",
+        question:"Is this your book?",
+        answers:[
+            "Yes, it is.",
+            "Open your book.",
+            "It is a ruler.",
+            "No, pencil."
+        ],
+        correct:0
+    },
+
+    {
+        lo:"LO3 • Classroom Instructions",
+        question:"“Open your book, please.” What should you do?",
+        answers:[
+            "Close your book.",
+            "Open your book.",
+            "Take your bag.",
+            "Stand outside."
+        ],
+        correct:1
+    },
+
+    {
+        lo:"LO3 • Classroom Instructions",
+        question:"Which sentence is a classroom instruction?",
+        answers:[
+            "It is a pencil.",
+            "What is this?",
+            "Open your book, please.",
+            "I have a ruler."
+        ],
+        correct:2
+    },
+
+    {
+        lo:"LO3 • Classroom Instructions",
+        question:"“Close your book, please.” What should you do?",
+        answers:[
+            "Open your book.",
+            "Close your book.",
+            "Read your bag.",
+            "Draw a ruler."
+        ],
+        correct:1
+    },
+
+    {
+        lo:"LO4 • Letter Sound /a/",
+        question:"Which word begins with the /a/ sound?",
+        answers:[
+            "Apple",
+            "Book",
+            "Cat",
+            "Dog"
+        ],
+        correct:0
+    },
+
+    {
+        lo:"LO4 • Letter Sound /a/",
+        question:"Which word starts with the /a/ sound?",
+        answers:[
+            "Arm",
+            "Pen",
+            "Ruler",
+            "Chair"
+        ],
+        correct:0
+    },
+
+    {
+        lo:"LO4 • Letter Sound /a/",
+        question:"Which word has the letter sound /a/ at the beginning?",
+        answers:[
+            "Apple",
+            "Book",
+            "Desk",
+            "Bag"
+        ],
+        correct:0
+    }
+
+];
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let currentQuestion = 0;
+let score = 0;
+let streak = 0;
+let bestStreak = 0;
+
+let timerInterval;
+let timeLeft = 20;
+
+let studentName = "";
+let studentClass = "";
+
+let answered = false;
+
+
+/* =========================
+   START GAME
+========================= */
+
+function startGame(){
+
+    studentName =
+        document.getElementById("studentName")
+        .value
+        .trim();
+
+    studentClass =
+        document.getElementById("studentClass")
+        .value
+        .trim();
+
+    if(!studentName){
+
+        alert("Please enter your name.");
+        return;
+
+    }
+
+    if(!studentClass){
+
+        alert("Please enter your class.");
+        return;
+
+    }
+
+    document.getElementById("startScreen")
+        .style.display = "none";
+
+    document.getElementById("gameScreen")
+        .style.display = "block";
+
+    currentQuestion = 0;
+    score = 0;
+    streak = 0;
+    bestStreak = 0;
+
+    updateScore();
+
+    loadQuestion();
+
+}
+
+
+/* =========================
+   LOAD QUESTION
+========================= */
+
+function loadQuestion(){
+
+    answered = false;
+
+    clearInterval(timerInterval);
+
+    const q =
+        questions[currentQuestion];
+
+    document.getElementById("questionNumber")
+        .textContent =
+        `Question ${currentQuestion + 1} / ${questions.length}`;
+
+    document.getElementById("progressBar")
+        .style.width =
+        `${((currentQuestion) / questions.length) * 100}%`;
+
+    document.getElementById("loBadge")
+        .textContent = q.lo;
+
+    document.getElementById("questionText")
+        .textContent = q.question;
+
+    const container =
+        document.getElementById("answersContainer");
+
+    container.innerHTML = "";
+
+    document.getElementById("feedback")
+        .textContent = "";
+
+    document.getElementById("feedback")
+        .className = "feedback";
+
+
+    q.answers.forEach((answer,index)=>{
+
+        const button =
+            document.createElement("button");
+
+        button.className = "answer-btn";
+
+        button.textContent = answer;
+
+        button.onclick =
+            () => checkAnswer(index,button);
+
+        container.appendChild(button);
+
+    });
+
+
+    startTimer();
+
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+function startTimer(){
+
+    timeLeft = 20;
+
+    const timer =
+        document.getElementById("timer");
+
+    timer.textContent = timeLeft;
+
+    timerInterval =
+        setInterval(()=>{
+
+            timeLeft--;
+
+            timer.textContent = timeLeft;
+
+            if(timeLeft <= 0){
+
+                clearInterval(timerInterval);
+
+                if(!answered){
+
+                    timeUp();
+
+                }
+
+            }
+
+        },1000);
+
+}
+
+
+/* =========================
+   TIME UP
+========================= */
+
+function timeUp(){
+
+    answered = true;
+
+    streak = 0;
+
+    const q =
+        questions[currentQuestion];
+
+    const buttons =
+        document.querySelectorAll(".answer-btn");
+
+    buttons.forEach((button,index)=>{
+
+        button.disabled = true;
+
+        if(index === q.correct){
+
+            button.classList.add("correct");
+
+        }
+
+    });
+
+    const feedback =
+        document.getElementById("feedback");
+
+    feedback.textContent =
+        "⏰ Time's up!";
+
+    feedback.className =
+        "feedback wrong-text";
+
+    updateScore();
+
+    autoNext();
+
+}
+
+
+/* =========================
+   CHECK ANSWER
+========================= */
+
+function checkAnswer(selected,button){
+
+    if(answered) return;
+
+    answered = true;
+
+    clearInterval(timerInterval);
+
+    const q =
+        questions[currentQuestion];
+
+    const buttons =
+        document.querySelectorAll(".answer-btn");
+
+    buttons.forEach(b=>{
+        b.disabled = true;
+    });
+
+
+    if(selected === q.correct){
+
+        score++;
+
+        streak++;
+
+        if(streak > bestStreak){
+
+            bestStreak = streak;
+
+        }
+
+        button.classList.add("correct");
+
+        const feedback =
+            document.getElementById("feedback");
+
+        feedback.textContent =
+            "✓ Correct! Great job!";
+
+        feedback.className =
+            "feedback correct-text";
+
+    }else{
+
+        streak = 0;
+
+        button.classList.add("wrong");
+
+        buttons[q.correct]
+            .classList.add("correct");
+
+        const feedback =
+            document.getElementById("feedback");
+
+        feedback.textContent =
+            "✕ Not quite. Keep learning!";
+
+        feedback.className =
+            "feedback wrong-text";
+
+    }
+
+
+    updateScore();
+
+    autoNext();
+
+}
+
+
+/* =========================
+   AUTO NEXT
+========================= */
+
+function autoNext(){
+
+    setTimeout(()=>{
+
+        currentQuestion++;
+
+        if(currentQuestion < questions.length){
+
+            loadQuestion();
+
+        }else{
+
+            finishGame();
+
+        }
+
+    },1200);
+
+}
+
+
+/* =========================
+   UPDATE SCORE
+========================= */
+
+function updateScore(){
+
+    document.getElementById("scoreDisplay")
+        .textContent =
+        `${score} / ${questions.length}`;
+
+    document.getElementById("streakDisplay")
+        .textContent =
+        `🔥 ${streak}`;
+
+}
+
+
+/* =========================
+   FINISH GAME
+========================= */
+
+async function finishGame(){
+
+    clearInterval(timerInterval);
+
+    document.getElementById("gameScreen")
+        .style.display = "none";
+
+    document.getElementById("resultScreen")
+        .style.display = "block";
+
+
+    /* FINAL SCORE */
+
+    const totalQuestions =
+        questions.length;
+
+    const percentage =
+        Math.round(
+            (score / totalQuestions) * 100
+        );
+
+
+    /* IMPORTANT:
+       MARKS = score / total
+       PERCENTAGE = percentage %
+    */
+
+    document.getElementById("finalMarks")
+        .textContent =
+        `${score} / ${totalQuestions}`;
+
+    document.getElementById("finalPercentage")
+        .textContent =
+        `${percentage}%`;
+
+    document.getElementById("finalStreak")
+        .textContent =
+        `🔥 ${bestStreak}`;
+
+    document.getElementById("resultName")
+        .textContent =
+        `${studentName} • ${studentClass}`;
+
+
+    /* PROGRESS 100% */
+
+    document.getElementById("progressBar")
+        .style.width = "100%";
+
+
+    /* SAVE TO SUPABASE */
+
+    await saveScore(
+        score,
+        totalQuestions,
+        percentage
+    );
+
+}
+
+
+/* =========================
+   SAVE SCORE TO SUPABASE
+========================= */
+
+async function saveScore(
+    finalScore,
+    totalQuestions,
+    percentage
+){
+
+    try{
+
+        let userId = null;
+
+
+        /* GET LOGGED-IN USER */
+
+        const {
+            data: userData
+        } =
+        await supabaseClient.auth.getUser();
+
+
+        if(userData && userData.user){
+
+            userId =
+                userData.user.id;
+
+        }
+
+
+        /* INSERT */
+
+        const { data, error } =
+            await supabaseClient
+            .from("quiz_scores")
+            .insert([{
+
+                user_id: userId,
+
+                name: studentName,
+
+                class_name: studentClass,
+
+                score: finalScore,
+
+                "total questions":
+                    totalQuestions,
+
+                unit: "At School",
+
+                activity: "Quiz"
+
+            }]);
+
+
+        if(error){
+
+            console.error(
+                "Supabase save error:",
+                error
+            );
+
+        }else{
+
+            console.log(
+                "Score successfully saved:",
+                data
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Supabase error:",
+            error
+        );
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
