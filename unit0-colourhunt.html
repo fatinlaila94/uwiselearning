@@ -1,0 +1,1971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Minds Year 1 | Unit 0 Friends Game</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:"Segoe UI",Arial,sans-serif;
+background:
+radial-gradient(circle at 10% 10%,rgba(99,102,241,.18),transparent 30%),
+radial-gradient(circle at 90% 20%,rgba(236,72,153,.15),transparent 30%),
+linear-gradient(135deg,#f8faff,#eef2ff);
+min-height:100vh;
+color:#172033;
+overflow-x:hidden
+}
+
+.back-btn{
+position:fixed;
+top:22px;
+left:22px;
+z-index:100;
+text-decoration:none;
+color:#172033;
+background:rgba(255,255,255,.9);
+padding:12px 18px;
+border-radius:14px;
+font-weight:700;
+box-shadow:0 10px 30px rgba(40,50,100,.1)
+}
+
+.page{
+width:min(1180px,94%);
+margin:auto;
+padding:80px 0 50px
+}
+
+/* START */
+
+.start-screen{
+min-height:82vh;
+display:flex;
+align-items:center;
+justify-content:center
+}
+
+.start-card{
+width:min(850px,100%);
+background:rgba(255,255,255,.88);
+border-radius:34px;
+padding:55px 35px;
+text-align:center;
+box-shadow:0 30px 80px rgba(50,60,120,.15);
+backdrop-filter:blur(20px)
+}
+
+.game-emoji{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:25px;
+margin-bottom:30px
+}
+
+.game-emoji span{
+font-size:clamp(5rem,11vw,8rem);
+line-height:1;
+display:inline-block;
+filter:drop-shadow(0 12px 12px rgba(0,0,0,.12));
+animation:floatEmoji 2.8s ease-in-out infinite
+}
+
+.game-emoji span:nth-child(2){animation-delay:.25s}
+.game-emoji span:nth-child(3){animation-delay:.5s}
+
+.eyebrow{
+font-size:.8rem;
+font-weight:900;
+letter-spacing:3px;
+text-transform:uppercase;
+color:#6366f1;
+margin-bottom:12px
+}
+
+.start-card h1{
+font-size:clamp(2.2rem,6vw,4.5rem);
+line-height:1;
+margin-bottom:18px
+}
+
+.start-card h1 span{
+background:linear-gradient(90deg,#6366f1,#ec4899);
+-webkit-background-clip:text;
+color:transparent
+}
+
+.start-description{
+max-width:620px;
+margin:auto;
+color:#667085;
+font-size:1.05rem;
+line-height:1.7
+}
+
+.player-box{
+margin:28px auto 20px;
+max-width:390px
+}
+
+.player-box input{
+width:100%;
+padding:16px 18px;
+border:2px solid #e5e7eb;
+border-radius:16px;
+font-size:1rem;
+outline:none
+}
+
+.player-box input:focus{
+border-color:#6366f1;
+box-shadow:0 0 0 4px rgba(99,102,241,.1)
+}
+
+.start-btn{
+border:none;
+cursor:pointer;
+margin-top:12px;
+padding:17px 38px;
+border-radius:18px;
+background:linear-gradient(135deg,#6366f1,#8b5cf6);
+color:white;
+font-size:1.05rem;
+font-weight:900;
+box-shadow:0 15px 35px rgba(99,102,241,.28)
+}
+
+.start-btn:hover{
+transform:translateY(-3px)
+}
+
+.start-info{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap;
+margin-top:25px
+}
+
+.info-pill{
+background:#f3f4f6;
+padding:9px 14px;
+border-radius:999px;
+color:#667085;
+font-size:.85rem;
+font-weight:700
+}
+
+/* GAME */
+
+.game-screen{
+display:none
+}
+
+.game-header{
+background:rgba(255,255,255,.9);
+border-radius:24px;
+padding:18px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+box-shadow:0 15px 40px rgba(50,60,120,.1);
+margin-bottom:18px
+}
+
+.stat{
+background:#f8f9ff;
+border-radius:17px;
+padding:13px;
+text-align:center
+}
+
+.stat-label{
+font-size:.68rem;
+text-transform:uppercase;
+letter-spacing:1px;
+font-weight:900;
+color:#98a2b3;
+margin-bottom:5px
+}
+
+.stat-value{
+font-size:1.15rem;
+font-weight:900
+}
+
+.life-lost{
+animation:lifeLost .65s ease
+}
+
+.progress-wrapper{
+background:rgba(255,255,255,.9);
+border-radius:20px;
+padding:12px 16px;
+margin-bottom:18px;
+box-shadow:0 10px 25px rgba(50,60,120,.07)
+}
+
+.progress-top{
+display:flex;
+justify-content:space-between;
+font-size:.78rem;
+font-weight:800;
+color:#667085;
+margin-bottom:8px
+}
+
+.progress-track{
+height:9px;
+background:#e9ecf5;
+border-radius:999px;
+overflow:hidden
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+border-radius:inherit;
+background:linear-gradient(90deg,#6366f1,#ec4899);
+transition:width .5s ease
+}
+
+.game-card{
+background:rgba(255,255,255,.91);
+border-radius:30px;
+padding:30px;
+box-shadow:0 25px 70px rgba(50,60,120,.12);
+min-height:570px
+}
+
+.mission-tag{
+display:inline-flex;
+padding:7px 12px;
+border-radius:999px;
+background:#eef2ff;
+color:#6366f1;
+font-weight:900;
+font-size:.75rem;
+text-transform:uppercase;
+letter-spacing:1px
+}
+
+.mission-title{
+font-size:clamp(1.8rem,4vw,3rem);
+margin-top:13px;
+margin-bottom:8px
+}
+
+.mission-instruction{
+color:#667085;
+font-size:1.05rem;
+margin-bottom:25px;
+line-height:1.6
+}
+
+.timer-wrap{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:22px
+}
+
+.timer{
+width:100%;
+height:9px;
+background:#eceef5;
+border-radius:999px;
+overflow:hidden
+}
+
+.timer-bar{
+width:100%;
+height:100%;
+background:linear-gradient(90deg,#22c55e,#f59e0b,#ef4444);
+transition:width 1s linear
+}
+
+.timer-number{
+min-width:42px;
+font-weight:900;
+text-align:right
+}
+
+.object-area{
+min-height:300px;
+border-radius:25px;
+background:
+linear-gradient(rgba(255,255,255,.65),rgba(255,255,255,.65)),
+radial-gradient(circle at 20% 20%,#dbeafe,transparent 30%),
+radial-gradient(circle at 80% 70%,#fce7f3,transparent 30%),
+#f5f7ff;
+position:relative;
+overflow:hidden;
+border:2px dashed #dfe3f1
+}
+
+.object{
+position:absolute;
+width:86px;
+height:86px;
+border-radius:22px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:2.8rem;
+cursor:pointer;
+user-select:none;
+border:3px solid rgba(255,255,255,.9);
+box-shadow:0 12px 25px rgba(30,40,80,.12);
+transition:transform .18s,filter .18s
+}
+
+.object:hover{
+transform:translateY(-7px) scale(1.08)
+}
+
+.object.correct{
+animation:correctObject .6s ease forwards
+}
+
+.object.wrong{
+animation:wrongObject .45s ease
+}
+
+.message{
+min-height:32px;
+text-align:center;
+font-weight:900;
+margin-top:18px;
+font-size:1rem
+}
+
+.message.success{color:#16a34a}
+.message.error{color:#dc2626}
+
+.combo{
+width:100%;
+max-width:280px;
+margin:14px auto 0;
+height:7px;
+background:#eceef5;
+border-radius:99px;
+overflow:hidden
+}
+
+.combo-fill{
+width:0%;
+height:100%;
+background:linear-gradient(90deg,#f59e0b,#ec4899);
+transition:.4s
+}
+
+.xp-popup{
+position:fixed;
+pointer-events:none;
+font-size:1.4rem;
+font-weight:900;
+color:#7c3aed;
+opacity:0;
+z-index:500
+}
+
+.xp-popup.show{
+animation:xpFloat 1s ease forwards
+}
+
+/* RESULT */
+
+.result-screen{
+display:none;
+min-height:80vh;
+align-items:center;
+justify-content:center
+}
+
+.result-card{
+width:min(760px,100%);
+text-align:center;
+background:rgba(255,255,255,.92);
+border-radius:34px;
+padding:50px 30px;
+box-shadow:0 30px 80px rgba(50,60,120,.16)
+}
+
+.result-badge{
+font-size:5.5rem;
+margin-bottom:15px
+}
+
+.result-card h2{
+font-size:2.7rem;
+margin-bottom:10px
+}
+
+.final-score{
+font-size:4.5rem;
+font-weight:1000;
+background:linear-gradient(90deg,#6366f1,#ec4899);
+-webkit-background-clip:text;
+color:transparent;
+margin:15px 0
+}
+
+.result-text{
+color:#667085;
+margin-bottom:28px
+}
+
+.result-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-bottom:28px
+}
+
+.result-box{
+background:#f7f8ff;
+border-radius:18px;
+padding:18px 10px
+}
+
+.result-box strong{
+display:block;
+font-size:1.35rem;
+margin-bottom:5px
+}
+
+.result-box span{
+color:#98a2b3;
+font-size:.75rem;
+text-transform:uppercase;
+font-weight:800
+}
+
+.result-buttons{
+display:flex;
+justify-content:center;
+gap:12px;
+flex-wrap:wrap
+}
+
+.result-btn{
+border:none;
+cursor:pointer;
+padding:14px 22px;
+border-radius:15px;
+font-weight:900
+}
+
+.play-again{
+color:white;
+background:linear-gradient(135deg,#6366f1,#8b5cf6)
+}
+
+.markah-btn{
+background:#eef2ff;
+color:#4f46e5
+}
+
+.confetti{
+position:fixed;
+width:9px;
+height:15px;
+top:-30px;
+z-index:1000;
+pointer-events:none;
+animation:confettiFall linear forwards
+}
+
+/* ANIMATION */
+
+@keyframes floatEmoji{
+0%,100%{transform:translateY(0) rotate(-3deg)}
+50%{transform:translateY(-13px) rotate(3deg)}
+}
+
+@keyframes lifeLost{
+0%{transform:scale(1)}
+30%{transform:scale(1.25)}
+60%{transform:scale(.9)}
+100%{transform:scale(1)}
+}
+
+@keyframes correctObject{
+0%{transform:scale(1);opacity:1}
+50%{transform:scale(1.25) rotate(8deg)}
+100%{transform:scale(0);opacity:0}
+}
+
+@keyframes wrongObject{
+0%,100%{transform:translateX(0)}
+20%,60%{transform:translateX(-10px)}
+40%,80%{transform:translateX(10px)}
+}
+
+@keyframes xpFloat{
+0%{opacity:0;transform:translateY(0) scale(.8)}
+20%{opacity:1}
+100%{opacity:0;transform:translateY(-70px) scale(1.1)}
+}
+
+@keyframes confettiFall{
+to{
+transform:translateY(110vh) rotate(720deg);
+opacity:0
+}
+}
+
+@media(max-width:760px){
+
+.game-header{
+grid-template-columns:repeat(2,1fr)
+}
+
+.game-card{
+padding:22px
+}
+
+.object-area{
+min-height:360px
+}
+
+.object{
+width:70px;
+height:70px;
+font-size:2.2rem
+}
+
+.result-grid{
+grid-template-columns:1fr
+}
+
+.game-emoji{
+gap:10px
+}
+}
+</style>
+</head>
+
+<body>
+
+<a href="year1.html" class="back-btn">
+← Back to Year 1
+</a>
+
+<div class="page">
+
+<section class="start-screen" id="startScreen">
+
+<div class="start-card">
+
+<div class="game-emoji">
+<span>🎮</span>
+<span>🎯</span>
+<span>⭐</span>
+</div>
+
+<div class="eyebrow">
+Super Minds Year 1 • Unit 0
+</div>
+
+<h1>
+Friends <span>Mission</span>
+</h1>
+
+<p class="start-description">
+Get ready to practise greetings, numbers, colours
+and simple English with your new friends!
+</p>
+
+<div class="player-box">
+
+<input
+type="text"
+id="playerName"
+placeholder="Enter your name"
+maxlength="40"
+>
+
+<button
+class="start-btn"
+onclick="startGame()"
+>
+START GAME →
+</button>
+
+</div>
+
+<div class="start-info">
+<div class="info-pill">❤️ 3 Lives</div>
+<div class="info-pill">⚡ XP</div>
+<div class="info-pill">⏱️ Timer</div>
+<div class="info-pill">🏆 Score</div>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="game-screen" id="gameScreen">
+
+<div class="game-header">
+
+<div class="stat">
+<div class="stat-label">Lives</div>
+<div class="stat-value" id="livesStat">
+❤️ ❤️ ❤️
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">Score</div>
+<div class="stat-value" id="scoreStat">
+0
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">XP</div>
+<div class="stat-value" id="xpStat">
+0 XP
+</div>
+</div>
+
+<div class="stat">
+<div class="stat-label">Streak</div>
+<div class="stat-value" id="streakStat">
+0 🔥
+</div>
+</div>
+
+</div>
+
+
+<div class="progress-wrapper">
+
+<div class="progress-top">
+<span id="missionCounter">
+Mission 1 of 5
+</span>
+
+<span id="levelStat">
+Beginner
+</span>
+</div>
+
+<div class="progress-track">
+<div
+class="progress-bar"
+id="progressBar"
+></div>
+</div>
+
+</div>
+
+
+<div class="game-card">
+
+<div
+class="mission-tag"
+id="missionTag"
+>
+Mission 1
+</div>
+
+<h2
+class="mission-title"
+id="missionTitle"
+>
+Find the Red Friend
+</h2>
+
+<p
+class="mission-instruction"
+id="missionInstruction"
+>
+Find the RED object!
+</p>
+
+<div class="timer-wrap">
+
+<div class="timer">
+<div
+class="timer-bar"
+id="timerBar"
+></div>
+</div>
+
+<div
+class="timer-number"
+id="timerNumber"
+>
+15
+</div>
+
+</div>
+
+<div
+class="object-area"
+id="objectArea"
+></div>
+
+<div class="combo">
+<div
+class="combo-fill"
+id="comboFill"
+></div>
+</div>
+
+<div
+class="message"
+id="message"
+></div>
+
+</div>
+
+</section>
+
+
+<section
+class="result-screen"
+id="resultScreen"
+>
+
+<div class="result-card">
+
+<div
+class="result-badge"
+id="resultBadge"
+>
+🏆
+</div>
+
+<h2 id="resultTitle">
+Amazing!
+</h2>
+
+<div
+class="final-score"
+id="finalScore"
+>
+0
+</div>
+
+<p
+class="result-text"
+id="resultText"
+>
+Great job!
+</p>
+
+<div class="result-grid">
+
+<div class="result-box">
+<strong id="resultXP">0</strong>
+<span>XP Earned</span>
+</div>
+
+<div class="result-box">
+<strong id="resultLives">
+❤️❤️❤️
+</strong>
+<span>Lives Left</span>
+</div>
+
+<div class="result-box">
+<strong id="resultLevel">
+Beginner
+</strong>
+<span>Level</span>
+</div>
+
+</div>
+
+<div class="result-buttons">
+
+<button
+class="result-btn play-again"
+onclick="restartGame()"
+>
+🔄 Play Again
+</button>
+
+<button
+class="result-btn markah-btn"
+onclick="window.location.href='Markah.html'"
+>
+🏆 View My Marks
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+<div
+class="xp-popup"
+id="xpPopup"
+></div>
+
+
+<script>
+
+/* =========================================
+SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+"https://exaohyhqllzylcfyqtge.supabase.co";
+
+const SUPABASE_ANON_KEY =
+"sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO8";
+
+const SUPABASE_TABLE =
+"quiz_scores";
+
+
+/* =========================================
+MISSIONS
+========================================= */
+
+const missions=[
+
+{
+title:"Find the Red Friend",
+instruction:"Find the RED object!",
+targetColor:"red",
+objects:[
+["🔴","red"],
+["🔵","blue"],
+["🟢","green"],
+["🟡","yellow"],
+["🟣","purple"],
+["🟠","orange"]
+]
+},
+
+{
+title:"Find the Blue Friend",
+instruction:"Find the BLUE object!",
+targetColor:"blue",
+objects:[
+["🔴","red"],
+["🔵","blue"],
+["🟢","green"],
+["🟡","yellow"],
+["🟣","purple"],
+["🟠","orange"]
+]
+},
+
+{
+title:"Find the Green Friend",
+instruction:"Find the GREEN object!",
+targetColor:"green",
+objects:[
+["🔴","red"],
+["🔵","blue"],
+["🟢","green"],
+["🟡","yellow"],
+["🟣","purple"],
+["🟠","orange"]
+]
+},
+
+{
+title:"Find the Yellow Friend",
+instruction:"Find the YELLOW object!",
+targetColor:"yellow",
+objects:[
+["🔴","red"],
+["🔵","blue"],
+["🟢","green"],
+["🟡","yellow"],
+["🟣","purple"],
+["🟠","orange"]
+]
+},
+
+{
+title:"Find Three Friends",
+instruction:"Find THREE objects!",
+targetNumber:3,
+objects:[
+["⭐","star"],
+["❤️","heart"],
+["🌈","rainbow"],
+["☀️","sun"],
+["🌸","flower"],
+["🎈","balloon"],
+["🍎","apple"],
+["🐱","cat"]
+]
+}
+
+];
+
+
+/* =========================================
+VARIABLES
+========================================= */
+
+let currentMission=0;
+let lives=3;
+let score=0;
+let xp=0;
+let streak=0;
+let answered=false;
+let gameActive=false;
+let timerInterval=null;
+let timeLeft=15;
+let playerName="";
+let selectedCount=0;
+
+
+/* =========================================
+ELEMENTS
+========================================= */
+
+const message=
+document.getElementById("message");
+
+
+/* =========================================
+START
+========================================= */
+
+function startGame(){
+
+playerName=
+document
+.getElementById("playerName")
+.value
+.trim();
+
+if(!playerName){
+
+alert("Please enter your name first.");
+
+return;
+}
+
+currentMission=0;
+lives=3;
+score=0;
+xp=0;
+streak=0;
+selectedCount=0;
+gameActive=true;
+
+document.getElementById("startScreen")
+.style.display="none";
+
+document.getElementById("resultScreen")
+.style.display="none";
+
+document.getElementById("gameScreen")
+.style.display="block";
+
+updateStats();
+loadMission();
+}
+
+
+/* =========================================
+LOAD MISSION
+========================================= */
+
+function loadMission(){
+
+clearInterval(timerInterval);
+
+if(lives<=0){
+
+gameOver();
+return;
+
+}
+
+if(currentMission>=missions.length){
+
+finishGame();
+return;
+
+}
+
+answered=false;
+selectedCount=0;
+
+const mission=
+missions[currentMission];
+
+document.getElementById("missionTag")
+.textContent=
+"Mission "+(currentMission+1);
+
+document.getElementById("missionCounter")
+.textContent=
+"Mission "+
+(currentMission+1)+
+" of "+
+missions.length;
+
+document.getElementById("missionTitle")
+.textContent=
+mission.title;
+
+document.getElementById("missionInstruction")
+.textContent=
+mission.instruction;
+
+message.textContent="";
+message.className="message";
+
+updateProgress();
+
+createObjects();
+
+startTimer();
+}
+
+
+/* =========================================
+OBJECTS
+========================================= */
+
+function createObjects(){
+
+const area=
+document.getElementById("objectArea");
+
+area.innerHTML="";
+
+const mission=
+missions[currentMission];
+
+let objects=
+[...mission.objects]
+.sort(
+()=>Math.random()-.5
+);
+
+objects.forEach((item,index)=>{
+
+const object=
+document.createElement("div");
+
+object.className="object";
+
+object.textContent=item[0];
+
+object.dataset.type=item[1];
+
+const maxX=
+Math.max(
+10,
+area.clientWidth-100
+);
+
+const maxY=
+Math.max(
+10,
+area.clientHeight-100
+);
+
+object.style.left=
+Math.random()*maxX+"px";
+
+object.style.top=
+Math.random()*maxY+"px";
+
+object.addEventListener(
+"click",
+()=>selectObject(object)
+);
+
+area.appendChild(object);
+
+});
+}
+
+
+/* =========================================
+SELECT
+========================================= */
+
+function selectObject(object){
+
+if(!gameActive||answered){
+return;
+}
+
+const mission=
+missions[currentMission];
+
+
+/* NUMBER */
+
+if(mission.targetNumber){
+
+if(
+object.dataset.type==="star"||
+object.dataset.type==="heart"||
+object.dataset.type==="rainbow"
+){
+
+selectedCount++;
+
+object.classList.add("correct");
+
+addXP(10);
+
+score+=20;
+
+updateStats();
+
+if(
+selectedCount>=
+mission.targetNumber
+){
+
+answered=true;
+
+clearInterval(
+timerInterval
+);
+
+streak++;
+
+score+=50;
+
+addXP(30);
+
+showSuccess();
+
+setTimeout(
+nextMission,
+900
+);
+
+}
+
+}else{
+
+object.classList.add("wrong");
+
+loseLife();
+
+streak=0;
+
+updateStats();
+
+updateCombo();
+
+}
+
+return;
+}
+
+
+/* COLOUR */
+
+if(
+object.dataset.type===
+mission.targetColor
+){
+
+answered=true;
+
+clearInterval(
+timerInterval
+);
+
+object.classList.add("correct");
+
+streak++;
+
+const bonus=
+Math.min(
+streak*10,
+50
+);
+
+score+=100+bonus;
+
+addXP(30+bonus);
+
+showSuccess();
+
+setTimeout(
+nextMission,
+850
+);
+
+}else{
+
+object.classList.add("wrong");
+
+loseLife();
+
+streak=0;
+
+updateStats();
+
+updateCombo();
+
+}
+}
+
+
+/* =========================================
+SUCCESS
+========================================= */
+
+function showSuccess(){
+
+message.className=
+"message success";
+
+message.innerHTML=
+"✨ Great job! Next mission...";
+
+updateStats();
+updateCombo();
+
+playSound("correct");
+}
+
+
+/* =========================================
+LIFE
+========================================= */
+
+function loseLife(){
+
+if(lives<=0){
+return;
+}
+
+lives--;
+
+const livesStat=
+document.getElementById(
+"livesStat"
+);
+
+livesStat.classList.add(
+"life-lost"
+);
+
+setTimeout(
+()=>{
+livesStat.classList.remove(
+"life-lost"
+);
+},
+700
+);
+
+message.className=
+"message error";
+
+message.innerHTML=
+"💔 Try again!";
+
+playSound("wrong");
+
+updateStats();
+
+if(lives<=0){
+
+gameActive=false;
+
+clearInterval(
+timerInterval
+);
+
+message.innerHTML=
+"💔 All your lives are gone!";
+
+setTimeout(
+gameOver,
+900
+);
+}
+}
+
+
+/* =========================================
+TIMER
+========================================= */
+
+function startTimer(){
+
+clearInterval(timerInterval);
+
+timeLeft=15;
+
+updateTimer();
+
+timerInterval=
+setInterval(()=>{
+
+if(!gameActive){
+
+clearInterval(
+timerInterval
+);
+
+return;
+}
+
+timeLeft--;
+
+updateTimer();
+
+if(timeLeft<=0){
+
+clearInterval(
+timerInterval
+);
+
+timeUp();
+
+}
+
+},1000);
+}
+
+
+function updateTimer(){
+
+document.getElementById(
+"timerBar"
+)
+.style.width=
+(timeLeft/15*100)+"%";
+
+document.getElementById(
+"timerNumber"
+)
+.textContent=
+timeLeft;
+}
+
+
+function timeUp(){
+
+if(answered||!gameActive){
+return;
+}
+
+message.className=
+"message error";
+
+message.innerHTML=
+"⏰ Time's up!";
+
+loseLife();
+
+if(lives>0){
+
+setTimeout(
+()=>{
+if(gameActive){
+loadMission();
+}
+},
+800
+);
+}
+}
+
+
+/* =========================================
+AUTO NEXT MISSION
+========================================= */
+
+function nextMission(){
+
+if(!gameActive){
+return;
+}
+
+currentMission++;
+
+if(
+currentMission>=
+missions.length
+){
+
+finishGame();
+
+}else{
+
+loadMission();
+
+}
+}
+
+
+/* =========================================
+STATS
+========================================= */
+
+function updateStats(){
+
+let hearts="";
+
+for(let i=0;i<3;i++){
+
+hearts+=
+i<lives
+?"❤️ "
+:"🖤 ";
+
+}
+
+document.getElementById(
+"livesStat"
+)
+.textContent=
+hearts.trim();
+
+document.getElementById(
+"scoreStat"
+)
+.textContent=
+score;
+
+document.getElementById(
+"xpStat"
+)
+.textContent=
+xp+" XP";
+
+document.getElementById(
+"streakStat"
+)
+.textContent=
+streak+" 🔥";
+
+document.getElementById(
+"levelStat"
+)
+.textContent=
+getLevel();
+}
+
+
+/* =========================================
+PROGRESS
+========================================= */
+
+function updateProgress(){
+
+document.getElementById(
+"progressBar"
+)
+.style.width=
+(
+currentMission/
+missions.length*
+100
+)+"%";
+}
+
+
+/* =========================================
+COMBO
+========================================= */
+
+function updateCombo(){
+
+document.getElementById(
+"comboFill"
+)
+.style.width=
+Math.min(
+streak*25,
+100
+)+"%";
+}
+
+
+/* =========================================
+XP
+========================================= */
+
+function addXP(amount){
+
+xp+=amount;
+
+const popup=
+document.getElementById(
+"xpPopup"
+);
+
+popup.textContent=
+"+"+amount+" XP";
+
+popup.style.left=
+(
+window.innerWidth/2-30
+)+"px";
+
+popup.style.top=
+(
+window.innerHeight/2
+)+"px";
+
+popup.classList.remove("show");
+
+void popup.offsetWidth;
+
+popup.classList.add("show");
+
+updateStats();
+}
+
+
+/* =========================================
+LEVEL
+========================================= */
+
+function getLevel(){
+
+if(score>=700)
+return"Super Friend";
+
+if(score>=450)
+return"Friend Hero";
+
+if(score>=250)
+return"Friend Explorer";
+
+return"Beginner";
+}
+
+
+/* =========================================
+GAME OVER
+========================================= */
+
+function gameOver(){
+
+gameActive=false;
+
+clearInterval(
+timerInterval
+);
+
+showResult(
+"💔",
+"Game Over",
+"Don't worry! Try again and become a Super Friend!"
+);
+}
+
+
+/* =========================================
+FINISH
+========================================= */
+
+async function finishGame(){
+
+gameActive=false;
+
+clearInterval(
+timerInterval
+);
+
+document.getElementById(
+"progressBar"
+)
+.style.width="100%";
+
+createConfetti();
+
+playSound("win");
+
+showResult(
+"🏆",
+"Amazing, "+playerName+"!",
+"You completed Unit 0 – Friends!"
+);
+
+await saveScoreToSupabase();
+}
+
+
+/* =========================================
+RESULT
+========================================= */
+
+function showResult(
+badge,
+title,
+text
+){
+
+document.getElementById(
+"gameScreen"
+)
+.style.display="none";
+
+document.getElementById(
+"resultScreen"
+)
+.style.display="flex";
+
+document.getElementById(
+"resultBadge"
+)
+.textContent=badge;
+
+document.getElementById(
+"resultTitle"
+)
+.textContent=title;
+
+document.getElementById(
+"finalScore"
+)
+.textContent=score;
+
+document.getElementById(
+"resultText"
+)
+.textContent=text;
+
+document.getElementById(
+"resultXP"
+)
+.textContent=xp;
+
+let hearts="";
+
+for(let i=0;i<3;i++){
+
+hearts+=
+i<lives
+?"❤️"
+:"🖤";
+
+}
+
+document.getElementById(
+"resultLives"
+)
+.textContent=hearts;
+
+document.getElementById(
+"resultLevel"
+)
+.textContent=getLevel();
+}
+
+
+/* =========================================
+SUPABASE SAVE SCORE
+========================================= */
+
+async function saveScoreToSupabase(){
+
+try{
+
+let userId=
+localStorage.getItem("user_id")||
+localStorage.getItem("userId")||
+null;
+
+
+/*
+TABLE:
+quiz_scores
+
+COLUMNS:
+id
+user_id
+created_at
+quiz_scores
+unit
+activity
+score
+
+NO total_questions
+*/
+
+const data={
+
+user_id:userId,
+
+created_at:
+new Date().toISOString(),
+
+quiz_scores:
+score,
+
+unit:
+"Unit 0",
+
+activity:
+"Friends Game",
+
+score:
+score
+
+};
+
+
+console.log(
+"Sending score to Supabase:",
+data
+);
+
+
+const response=
+await fetch(
+
+SUPABASE_URL+
+"/rest/v1/"+
+SUPABASE_TABLE,
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"application/json",
+
+"apikey":
+SUPABASE_ANON_KEY,
+
+"Authorization":
+"Bearer "+
+SUPABASE_ANON_KEY,
+
+"Prefer":
+"return=minimal"
+
+},
+
+body:
+JSON.stringify(data)
+
+}
+);
+
+
+if(!response.ok){
+
+const errorText=
+await response.text();
+
+console.error(
+"Supabase error:",
+errorText
+);
+
+return false;
+}
+
+
+console.log(
+"Score saved successfully."
+);
+
+return true;
+
+
+}catch(error){
+
+console.error(
+"Supabase connection error:",
+error
+);
+
+return false;
+
+}
+}
+
+
+/* =========================================
+RESTART
+========================================= */
+
+function restartGame(){
+
+document.getElementById(
+"resultScreen"
+)
+.style.display="none";
+
+document.getElementById(
+"gameScreen"
+)
+.style.display="block";
+
+currentMission=0;
+lives=3;
+score=0;
+xp=0;
+streak=0;
+selectedCount=0;
+gameActive=true;
+
+updateStats();
+
+loadMission();
+}
+
+
+/* =========================================
+CONFETTI
+========================================= */
+
+function createConfetti(){
+
+const symbols=[
+"⭐",
+"✨",
+"🎉",
+"💜",
+"💙",
+"💛"
+];
+
+for(
+let i=0;
+i<55;
+i++
+){
+
+const confetti=
+document.createElement(
+"div"
+);
+
+confetti.className=
+"confetti";
+
+confetti.textContent=
+symbols[
+Math.floor(
+Math.random()*
+symbols.length
+)
+];
+
+confetti.style.left=
+Math.random()*100+
+"vw";
+
+confetti.style.fontSize=
+(
+10+
+Math.random()*16
+)+"px";
+
+confetti.style.animationDuration=
+(
+2+
+Math.random()*3
+)+"s";
+
+document.body.appendChild(
+confetti
+);
+
+setTimeout(
+()=>confetti.remove(),
+5000
+);
+
+}
+}
+
+
+/* =========================================
+SOUND
+========================================= */
+
+function playSound(type){
+
+try{
+
+const AudioContext=
+window.AudioContext||
+window.webkitAudioContext;
+
+if(!AudioContext)
+return;
+
+const ctx=
+new AudioContext();
+
+const oscillator=
+ctx.createOscillator();
+
+const gain=
+ctx.createGain();
+
+oscillator.connect(gain);
+
+gain.connect(
+ctx.destination
+);
+
+if(type==="correct"){
+
+oscillator.frequency.value=700;
+gain.gain.value=.07;
+
+}else if(type==="wrong"){
+
+oscillator.frequency.value=180;
+gain.gain.value=.05;
+
+}else{
+
+oscillator.frequency.value=900;
+gain.gain.value=.06;
+
+}
+
+oscillator.start();
+
+gain.gain.exponentialRampToValueAtTime(
+.001,
+ctx.currentTime+.25
+);
+
+oscillator.stop(
+ctx.currentTime+.25
+);
+
+}catch(error){
+
+console.log(
+"Audio unavailable."
+);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
