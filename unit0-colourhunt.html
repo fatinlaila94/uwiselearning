@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Super Minds Year 1 | Unit 0 Friends Game</title>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 
@@ -819,21 +822,27 @@ id="xpPopup"
 <script>
 
 /* =========================================
-SUPABASE
+   SUPABASE
 ========================================= */
 
 const SUPABASE_URL =
 "https://exaohyhqllzylcfyqtge.supabase.co";
 
 const SUPABASE_ANON_KEY =
-"sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO8";
+"sb_publishable_35_gdLzcN8dsWsd8lChybg_WVZPonzO";
+
+const supabaseClient =
+supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
 
 const SUPABASE_TABLE =
 "quiz_scores";
 
 
 /* =========================================
-MISSIONS
+   MISSIONS
 ========================================= */
 
 const missions=[
@@ -912,7 +921,7 @@ objects:[
 
 
 /* =========================================
-VARIABLES
+   VARIABLES
 ========================================= */
 
 let currentMission=0;
@@ -927,9 +936,15 @@ let timeLeft=15;
 let playerName="";
 let selectedCount=0;
 
+/* NEW:
+   Bilangan mission yang berjaya diselesaikan.
+   Ini yang akan disimpan sebagai score dalam Supabase.
+*/
+let completedMissions=0;
+
 
 /* =========================================
-ELEMENTS
+   ELEMENTS
 ========================================= */
 
 const message=
@@ -937,7 +952,7 @@ document.getElementById("message");
 
 
 /* =========================================
-START
+   START
 ========================================= */
 
 function startGame(){
@@ -963,6 +978,7 @@ score=0;
 xp=0;
 streak=0;
 selectedCount=0;
+completedMissions=0;
 gameActive=true;
 
 document.getElementById("startScreen")
@@ -981,7 +997,7 @@ loadMission();
 
 
 /* =========================================
-LOAD MISSION
+   LOAD MISSION
 ========================================= */
 
 function loadMission(){
@@ -1040,7 +1056,7 @@ startTimer();
 
 
 /* =========================================
-OBJECTS
+   OBJECTS
 ========================================= */
 
 function createObjects(){
@@ -1101,7 +1117,7 @@ area.appendChild(object);
 
 
 /* =========================================
-SELECT
+   SELECT
 ========================================= */
 
 function selectObject(object){
@@ -1131,6 +1147,10 @@ object.classList.add("correct");
 
 streak++;
 
+/*
+   Original game score masih dikekalkan.
+   Jadi gameplay / paparan score tidak berubah.
+*/
 const bonus=
 Math.min(
 streak*10,
@@ -1138,6 +1158,12 @@ streak*10,
 );
 
 score+=100+bonus;
+
+/*
+   NEW:
+   Simpan bilangan mission yang berjaya.
+*/
+completedMissions++;
 
 addXP(30+bonus);
 
@@ -1166,7 +1192,7 @@ updateCombo();
 
 
 /* =========================================
-SUCCESS
+   SUCCESS
 ========================================= */
 
 function showSuccess(){
@@ -1187,7 +1213,7 @@ playSound("correct");
 
 
 /* =========================================
-LIFE
+   LIFE
 ========================================= */
 
 function loseLife(){
@@ -1248,7 +1274,7 @@ gameOver,
 
 
 /* =========================================
-TIMER
+   TIMER
 ========================================= */
 
 function startTimer(){
@@ -1339,7 +1365,7 @@ loadMission();
 
 
 /* =========================================
-AUTO NEXT MISSION
+   AUTO NEXT MISSION
 ========================================= */
 
 function nextMission(){
@@ -1368,7 +1394,7 @@ loadMission();
 
 
 /* =========================================
-STATS
+   STATS
 ========================================= */
 
 function updateStats(){
@@ -1418,7 +1444,7 @@ getLevel();
 
 
 /* =========================================
-PROGRESS
+   PROGRESS
 ========================================= */
 
 function updateProgress(){
@@ -1437,7 +1463,7 @@ missions.length*
 
 
 /* =========================================
-COMBO
+   COMBO
 ========================================= */
 
 function updateCombo(){
@@ -1455,7 +1481,7 @@ streak*25,
 
 
 /* =========================================
-XP
+   XP
 ========================================= */
 
 function addXP(amount){
@@ -1492,7 +1518,7 @@ updateStats();
 
 
 /* =========================================
-LEVEL
+   LEVEL
 ========================================= */
 
 function getLevel(){
@@ -1515,7 +1541,7 @@ return"Beginner";
 
 
 /* =========================================
-GAME OVER
+   GAME OVER
 ========================================= */
 
 function gameOver(){
@@ -1534,7 +1560,7 @@ showResult(
 
 
 /* =========================================
-FINISH
+   FINISH
 ========================================= */
 
 async function finishGame(){
@@ -1554,8 +1580,13 @@ createConfetti();
 
 playSound("win");
 
-console.log("=== ABOUT TO SAVE SCORE ===");
+console.log(
+"=== ABOUT TO SAVE SCORE ==="
+);
 
+/*
+   SAVE SCORE TO SUPABASE
+*/
 const saved=
 await saveScoreToSupabase();
 
@@ -1574,7 +1605,7 @@ showResult(
 
 
 /* =========================================
-RESULT
+   RESULT
 ========================================= */
 
 function showResult(
@@ -1643,7 +1674,7 @@ document.getElementById(
 
 
 /* =========================================
-SUPABASE SAVE SCORE
+   SUPABASE SAVE SCORE
 ========================================= */
 
 async function saveScoreToSupabase(){
@@ -1654,88 +1685,37 @@ console.log(
 
 try{
 
-let userId=
-localStorage.getItem("user_id")||
-localStorage.getItem("userId")||
-null;
+/*
+   IMPORTANT:
+   Ambil user yang sedang login melalui
+   Supabase Auth.
 
-const data={
-
-user_id:userId,
-
-created_at:
-new Date().toISOString(),
-
-quiz_scores:
-score,
-
-unit:
-"Unit 0",
-
-activity:
-"Friends Game",
-
-score:
-score
-
-};
-
-console.log(
-"Sending score to Supabase:",
-data
-);
+   Ini sama seperti game Detective
+   yang memang berjaya save markah.
+*/
+const {
+    data: userData,
+    error: userError
+} =
+await supabaseClient.auth.getUser();
 
 
-const response=
-await fetch(
-
-SUPABASE_URL+
-"/rest/v1/"+
-SUPABASE_TABLE,
-
-{
-
-method:"POST",
-
-headers:{
-
-"Content-Type":
-"application/json",
-
-"apikey":
-SUPABASE_ANON_KEY,
-
-"Authorization":
-"Bearer "+
-SUPABASE_ANON_KEY,
-
-"Prefer":
-"return=minimal"
-
-},
-
-body:
-JSON.stringify(data)
-
-}
-
-);
-
-
-console.log(
-"Supabase HTTP status:",
-response.status
-);
-
-
-if(!response.ok){
-
-const errorText=
-await response.text();
+/*
+   Kalau user belum login,
+   jangan cuba insert user_id null.
+*/
+if(
+    userError ||
+    !userData ||
+    !userData.user
+){
 
 console.error(
-"Supabase error:",
-errorText
+"❌ User belum login ke Supabase."
+);
+
+console.error(
+userError
 );
 
 return false;
@@ -1743,8 +1723,112 @@ return false;
 }
 
 
+const userId=
+userData.user.id;
+
+
+/*
+   Score yang disimpan ke Markah:
+   bilangan mission yang berjaya.
+
+   Contoh:
+   5/5 = score 5
+   4/5 = score 4
+   3/5 = score 3
+*/
+const correctAnswers=
+completedMissions;
+
+
+/*
+   Data yang dihantar ke table quiz_scores.
+*/
+const data={
+
+user_id:
+userId,
+
+score:
+correctAnswers,
+
+"total questions":
+missions.length,
+
+unit:
+"Unit 0",
+
+activity:
+"Friends Game"
+
+};
+
+
 console.log(
-"Score saved successfully."
+"Sending score to Supabase:",
+data
+);
+
+
+/*
+   INSERT terus menggunakan Supabase JS.
+   Tidak perlu fetch manual.
+*/
+const {
+    data: insertedData,
+    error
+} =
+await supabaseClient
+    .from(SUPABASE_TABLE)
+    .insert([
+        data
+    ])
+    .select();
+
+
+/*
+   Check error.
+*/
+if(error){
+
+console.error(
+"❌ Gagal simpan markah Friends."
+);
+
+console.error(
+"Code:",
+error.code
+);
+
+console.error(
+"Message:",
+error.message
+);
+
+console.error(
+"Details:",
+error.details
+);
+
+console.error(
+"Hint:",
+error.hint
+);
+
+return false;
+
+}
+
+
+/*
+   Berjaya.
+*/
+console.log(
+"✅ Markah Unit 0 Friends berjaya disimpan!"
+);
+
+console.log(
+"Inserted data:",
+insertedData
 );
 
 return true;
@@ -1753,7 +1837,7 @@ return true;
 }catch(error){
 
 console.error(
-"Supabase connection error:",
+"❌ Supabase connection error:",
 error
 );
 
@@ -1765,7 +1849,7 @@ return false;
 
 
 /* =========================================
-RESTART
+   RESTART
 ========================================= */
 
 function restartGame(){
@@ -1786,6 +1870,7 @@ score=0;
 xp=0;
 streak=0;
 selectedCount=0;
+completedMissions=0;
 gameActive=true;
 
 updateStats();
@@ -1796,7 +1881,7 @@ loadMission();
 
 
 /* =========================================
-CONFETTI
+   CONFETTI
 ========================================= */
 
 function createConfetti(){
@@ -1863,7 +1948,7 @@ setTimeout(
 
 
 /* =========================================
-SOUND
+   SOUND
 ========================================= */
 
 function playSound(type){
