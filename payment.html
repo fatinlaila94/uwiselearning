@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment - SmartLearn</title>
-
     <style>
+        * { box-sizing: border-box; }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -19,9 +21,7 @@
             padding: 30px 7%;
         }
 
-        header h1 {
-            margin: 0;
-        }
+        header h1 { margin: 0; }
 
         .container {
             max-width: 1000px;
@@ -29,15 +29,17 @@
             padding: 0 20px;
         }
 
-        .back-btn {
+        .back-btn, .choose-btn {
             background: #6c63ff;
             color: white;
             border: none;
-            padding: 10px 18px;
+            padding: 12px 22px;
             border-radius: 10px;
             cursor: pointer;
-            margin-bottom: 30px;
+            font-weight: bold;
         }
+
+        .back-btn { margin-bottom: 30px; }
 
         .plans {
             display: grid;
@@ -49,19 +51,20 @@
             background: white;
             padding: 30px 25px;
             border-radius: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+            box-shadow: 0 5px 20px #00000010;
             text-align: center;
-            transition: 0.25s;
+            transition: .25s;
+            border: 2px solid transparent;
         }
 
-        .plan:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        .plan:hover { transform: translateY(-5px); }
+
+        .plan.selected {
+            border-color: #6c63ff;
+            background: #f0efff;
         }
 
-        .plan h3 {
-            font-size: 22px;
-        }
+        .plan h3 { font-size: 22px; }
 
         .price {
             font-size: 32px;
@@ -70,99 +73,82 @@
             margin: 20px 0;
         }
 
-        .plan p {
-            color: #777;
-            line-height: 1.6;
-        }
+        .plan p { color: #777; line-height: 1.6; }
 
-        .choose-btn {
-            margin-top: 15px;
-            background: #6c63ff;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        .choose-btn { margin-top: 15px; }
 
-        .choose-btn:hover {
+        .choose-btn:hover, .back-btn:hover {
             background: #574fd6;
         }
 
+        #confirmation {
+            display: none;
+            background: white;
+            padding: 25px;
+            margin-top: 25px;
+            border-radius: 16px;
+            border: 1px solid #dedbff;
+        }
+
+        #confirmation button {
+            background: #16a34a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            cursor: pointer;
+        }
+
         @media (max-width: 800px) {
-            .plans {
-                grid-template-columns: 1fr;
-            }
+            .plans { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-
 <body>
-
 <header>
     <h1>💳 Subscription</h1>
     <p>Choose the plan that suits your learning</p>
 </header>
 
 <div class="container">
-
     <button class="back-btn" onclick="goBack()">← Back to Dashboard</button>
-
     <h2>Choose Your Plan</h2>
 
     <div class="plans">
-
-        <div class="plan">
+        <div class="plan" data-plan="Basic">
             <h3>🌱 Basic</h3>
-
-            <div class="price">
-                RM19
-            </div>
-
+            <div class="price">RM15</div>
             <p>✓ Access to selected lessons</p>
             <p>✓ Basic quizzes</p>
             <p>✓ Learning progress</p>
-
-            <button class="choose-btn" onclick="choosePlan('Basic')">
-                Choose Plan
-            </button>
+            <button class="choose-btn" onclick="choosePlan('Basic', 15)">Choose Plan</button>
         </div>
 
-        <div class="plan">
+        <div class="plan" data-plan="Standard">
             <h3>🚀 Standard</h3>
-
-            <div class="price">
-                RM39
-            </div>
-
+            <div class="price">RM35</div>
             <p>✓ All lessons</p>
             <p>✓ All quizzes & games</p>
             <p>✓ Track your marks</p>
-
-            <button class="choose-btn" onclick="choosePlan('Standard')">
-                Choose Plan
-            </button>
+            <button class="choose-btn" onclick="choosePlan('Standard', 35)">Choose Plan</button>
         </div>
 
-        <div class="plan">
+        <div class="plan" data-plan="Premium">
             <h3>👑 Premium</h3>
-
-            <div class="price">
-                RM59
-            </div>
-
+            <div class="price">RM55</div>
             <p>✓ All learning content</p>
             <p>✓ All games & quizzes</p>
             <p>✓ Premium learning materials</p>
-
-            <button class="choose-btn" onclick="choosePlan('Premium')">
-                Choose Plan
-            </button>
+            <button class="choose-btn" onclick="choosePlan('Premium', 55)">Choose Plan</button>
         </div>
-
     </div>
 
+    <div id="confirmation" aria-live="polite">
+        <h2 id="selectedTitle">Plan selected</h2>
+        <p id="selectedDescription"></p>
+        <p>Next step: contact the administrator to arrange payment.</p>
+        <button onclick="contactAdmin()">Contact Administrator</button>
+    </div>
 </div>
 
 <script>
@@ -170,10 +156,27 @@
         window.location.href = "dashboard.html";
     }
 
-    function choosePlan(plan) {
-        alert("You selected the " + plan + " plan.");
+    function choosePlan(plan, price) {
+        document.querySelectorAll(".plan").forEach(card => {
+            card.classList.toggle("selected", card.dataset.plan === plan);
+        });
+
+        document.getElementById("selectedTitle").textContent =
+            plan + " Plan Selected";
+
+        document.getElementById("selectedDescription").textContent =
+            "You selected " + plan + " at RM" + price + ".";
+
+        document.getElementById("confirmation").style.display = "block";
+        document.getElementById("confirmation").scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+    }
+
+    function contactAdmin() {
+        alert("Please contact the SmartLearn administrator to arrange payment. No payment has been made.");
     }
 </script>
-
 </body>
 </html>
